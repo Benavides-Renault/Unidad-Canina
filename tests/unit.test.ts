@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
+import { Prisma } from '@prisma/client';
+import { serializeDates } from '../apps/api/src/serialization';
 import {
   civilDate,
   csvCell,
@@ -15,6 +17,36 @@ import {
   pagination,
   usernameSchema,
 } from '../apps/api/src/security';
+
+test('date serialization preserves civil dates, instants, weights and decimal precision', () => {
+  const when = new Date('2026-10-16T14:30:00.000Z');
+  assert.deepEqual(
+    serializeDates({
+      expectedBirthDate: when,
+      expectedDeliveryDate: when,
+      createdAt: when,
+      amount: new Prisma.Decimal('12.50'),
+      weights: [{ date: when, kg: 20 }],
+    }),
+    {
+      expectedBirthDate: '2026-10-16',
+      expectedDeliveryDate: '2026-10-16',
+      createdAt: '2026-10-16T14:30:00.000Z',
+      amount: '12.5',
+      weights: [{ date: '2026-10-16', kg: 20 }],
+    },
+  );
+});
+
+test('date serialization leaves cyclic response objects and binary downloads untouched', () => {
+  class FileResponse {
+    self = this;
+  }
+  const response = new FileResponse(),
+    bytes = Buffer.from([0, 255, 12]);
+  assert.equal(serializeDates(response), response);
+  assert.equal(serializeDates(bytes), bytes);
+});
 
 test('usernames normalize case and reject emails, spaces and invalid names', () => {
   assert.equal(usernameSchema.parse('  Socio.Juan_1  '), 'socio.juan_1');

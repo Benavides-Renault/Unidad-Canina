@@ -20,6 +20,7 @@ import cookieParser from 'cookie-parser';
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import { map } from 'rxjs';
+import { serializeDates } from './serialization';
 import { AccessGuard, Public } from './access';
 import { AuthController } from './auth';
 import { Db } from './db';
@@ -95,48 +96,15 @@ class SafeErrors implements ExceptionFilter {
       .json({ message: 'No se pudo completar la operación. Contacta al administrador.' });
   }
 }
-function dates(value: unknown, key = ''): unknown {
-  if (value instanceof Prisma.Decimal) return value.toString();
-  if (value instanceof Date)
-    return [
-      'birthDate',
-      'intakeDate',
-      'appliedDate',
-      'nextDueDate',
-      'startDate',
-      'endDate',
-      'releasedOn',
-      'plannedDate',
-      'matingDate',
-      'expectedBirthDate',
-      'expectedDeliveryDate',
-      'windowStart',
-      'windowEnd',
-      'eventDate',
-      'reservedDate',
-      'expiresDate',
-      'closedDate',
-      'dueDate',
-      'issueDate',
-      'paidDate',
-      'exchangeDate',
-      'movementDate',
-    ].includes(key)
-      ? value.toISOString().slice(0, 10)
-      : value.toISOString();
-  if (Array.isArray(value)) return value.map((v) => dates(v));
-  if (value && typeof value === 'object' && !Buffer.isBuffer(value))
-    return Object.fromEntries(
-      Object.entries(value).map(([k, v]) => [
-        k,
-        k === 'date' && 'kg' in value && v instanceof Date ? v.toISOString().slice(0, 10) : dates(v, k),
-      ]),
-    );
-  return value;
-}
 class CivilDates implements NestInterceptor {
-  intercept(_context: ExecutionContext, next: CallHandler) {
-    return next.handle().pipe(map((value) => dates(value)));
+  intercept(context: ExecutionContext, next: CallHandler) {
+    return next
+      .handle()
+      .pipe(
+        map((value) =>
+          context.switchToHttp().getResponse<Response>().headersSent ? value : serializeDates(value),
+        ),
+      );
   }
 }
 @Controller('health')

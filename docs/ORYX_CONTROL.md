@@ -21,6 +21,8 @@ La migración complementaria `202610170002_oryx_scheduled_locations` actualiza e
 
 `tests/oryx.test.ts` cubre identificadores normalizados y concurrentes, catálogos, venta/cruza simultáneas, privacidad, fechas, nacimiento, recordatorios, PDF y permisos. `tests/e2e/oryx.spec.ts` comprueba identidad, controles, catálogos, descargas, ayuda, validación y ajuste móvil.
 
-Validación local del 16 de octubre de 2026 (Costa Rica): 9 comprobaciones unitarias y de acceso compartido, 70 comprobaciones de API y 17 escenarios de navegador aprobados. La instalación conserva 30 perros, 10 cuentas y 39 documentos; dispone de 369 razas y variedades y 18 plantillas. Las siete comprobaciones del control interno devolvieron cero incidencias. El respaldo previo y el cifrado posterior verificaron los 43 archivos referenciados.
+Validación local del 16 de octubre de 2026 (Costa Rica): 11 comprobaciones unitarias y de acceso compartido, 70 comprobaciones de API y 17 escenarios de navegador aprobados. La instalación conserva 30 perros, 10 cuentas y 39 documentos; dispone de 369 razas y variedades y 18 plantillas. Las siete comprobaciones del control interno devolvieron cero incidencias. El respaldo previo y el cifrado posterior verificaron los 43 archivos referenciados.
+
+La conversión de fechas procesa sólo registros JSON y deja intactas las respuestas de archivos, flujos y datos binarios; una regresión cubre objetos de respuesta con referencias circulares y fechas sin desplazamientos de zona horaria.
 
 La revisión interna identifica las reglas comprobadas; no sustituye la revisión de la información ingresada por los responsables. Correo y notificaciones del navegador requieren configurar sus respectivos servicios; los avisos internos funcionan de forma independiente.
