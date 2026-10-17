@@ -162,6 +162,8 @@ export type Dog = {
   custodianPartyId: string;
   assignedTrainerId?: string | null;
   commercialCategory?: string;
+  availableForSale?: boolean;
+  availableForBreeding?: boolean;
   salePublished?: boolean;
   salePrice?: string;
   saleCurrency?: string;
@@ -228,7 +230,7 @@ export const labels: Record<string, string> = {
   CLIENT: 'Cliente',
   ADMIN: 'Administración',
   TRAINER: 'Entrenador',
-  UNIT: 'VALKYR',
+  UNIT: 'ORYX K9',
   PERSON: 'Persona',
   MUNICIPALITY: 'Municipalidad',
   ORGANIZATION: 'Organización',

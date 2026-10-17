@@ -46,6 +46,7 @@ import { FollowUpController } from './follow-up';
 import { CalendarController } from './calendar';
 import { RecordsController } from './records';
 import { PreferencesController } from './preferences';
+import { BreedsController } from './breeds';
 import { TemplatesController } from './templates';
 import { FinanceControlController } from './finance-control';
 import { PushController } from './push';
@@ -63,10 +64,23 @@ class SafeErrors implements ExceptionFilter {
           typeof error.getResponse() === 'string' ? { message: error.getResponse() } : error.getResponse(),
         );
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002')
+      if (error.code === 'P2002') {
+        const target = JSON.stringify(error.meta || {});
+        const field = target.includes('pedigree')
+          ? 'número de pedigrí'
+          : target.includes('microchip')
+            ? 'microchip'
+            : target.includes('code')
+              ? 'código'
+              : target.includes('username')
+                ? 'usuario'
+                : target.includes('email')
+                  ? 'correo'
+                  : 'identificador';
         return response
           .status(409)
-          .json({ message: 'Ya existe un registro con ese usuario, correo, código o microchip.' });
+          .json({ message: `Ese ${field} ya está registrado. Utiliza uno distinto.` });
+      }
       if (error.code === 'P2025') return response.status(404).json({ message: 'Registro no encontrado.' });
       if (error.code === 'P2003')
         return response.status(400).json({ message: 'La referencia a otro registro no es válida.' });
@@ -94,6 +108,8 @@ function dates(value: unknown, key = ''): unknown {
       'releasedOn',
       'plannedDate',
       'matingDate',
+      'expectedBirthDate',
+      'expectedDeliveryDate',
       'windowStart',
       'windowEnd',
       'eventDate',
@@ -133,6 +149,7 @@ class HealthController {
 }
 @Module({
   controllers: [
+    BreedsController,
     PartiesController,
     CatalogAdminController,
     PortalController,
@@ -219,7 +236,7 @@ async function main() {
     SwaggerModule.createDocument(
       app,
       new DocumentBuilder()
-        .setTitle('VALKYR Manager')
+        .setTitle('ORYX K9 Manager')
         .setDescription(
           'API privada. Las escrituras requieren cookie de sesión y cabecera x-csrf-token. Contrato detallado en docs/API_CONTRACT.md.',
         )

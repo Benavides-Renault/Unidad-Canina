@@ -56,6 +56,7 @@ export function BusinessForm({
   onClose,
   onSaved,
   submitLabel = 'Guardar',
+  transform,
 }: {
   title: string;
   description?: string;
@@ -66,6 +67,7 @@ export function BusinessForm({
   onClose: () => void;
   onSaved: (value: Record<string, unknown>) => void;
   submitLabel?: string;
+  transform?: (values: Record<string, unknown>) => Record<string, unknown>;
 }) {
   return (
     <Modal title={title} description={description} onClose={onClose}>
@@ -75,7 +77,10 @@ export function BusinessForm({
         onCancel={onClose}
         submitLabel={submitLabel}
         onSubmit={async (values) => {
-          const result = await api<Record<string, unknown>>(path, method, { ...values, ...extra });
+          const result = await api<Record<string, unknown>>(path, method, {
+            ...(transform ? transform(values) : values),
+            ...extra,
+          });
           onSaved(result);
         }}
       />

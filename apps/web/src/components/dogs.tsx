@@ -1,4 +1,5 @@
 'use client';
+import { trainingDisciplines } from '@/lib/training-catalog';
 import { FollowUp } from './follow-up';
 import { RecordEvidence } from './records';
 import { useState, type FormEvent } from 'react';
@@ -55,17 +56,25 @@ import {
   type FieldDef,
 } from './ui';
 
-export const dogFields = (dog?: Dog): FieldDef[] => [
+export const dogFields = (dog?: Dog, breeds: string[] = []): FieldDef[] => [
   { name: 'name', label: 'Nombre de llamado', required: true, defaultValue: dog?.name },
   {
     name: 'code',
-    label: 'Código VALKYR',
+    label: 'Código ORYX K9',
     required: !!dog,
     defaultValue: dog?.code,
     hint: 'Se genera automáticamente si lo dejas vacío.',
   },
   { name: 'registeredName', label: 'Nombre registrado', defaultValue: dog?.registeredName },
-  { name: 'breed', label: 'Raza', required: true, defaultValue: dog?.breed },
+  {
+    name: 'breed',
+    label: 'Raza',
+    type: 'combobox',
+    options: breeds,
+    required: true,
+    defaultValue: dog?.breed,
+    hint: 'Busca una raza del catálogo o escribe una variedad o cruce. El catálogo se administra en Configuración.',
+  },
   {
     name: 'sex',
     label: 'Sexo',
@@ -109,8 +118,10 @@ export const dogFields = (dog?: Dog): FieldDef[] => [
   {
     name: 'specialties',
     label: 'Especialidades',
-    defaultValue: dog?.specialties?.join(', '),
-    hint: 'Separa las especialidades con comas.',
+    type: 'multiselect',
+    options: [...new Set([...trainingDisciplines, ...(dog?.specialties || [])])],
+    defaultValue: dog?.specialties || [],
+    hint: 'Puedes seleccionar varias especialidades. No cambia la disponibilidad para venta o cruza.',
     full: true,
   },
   {
@@ -156,6 +167,7 @@ export function DogEditor({
   onClose: () => void;
   onSaved: (dog: Dog) => void;
 }) {
+  const breeds = useResource<{ name: string }[]>('/breeds');
   const parties = useResource<{ id: string; name: string; kind: string }[]>('/parties');
   const trainers = useResource<{ id: string; name: string; role: string }[]>('/operations/handlers');
   const ownerFields: FieldDef[] = [
@@ -201,17 +213,29 @@ export function DogEditor({
       ) : (
         <DataForm
           clearOptional={!!dog}
-          fields={[...dogFields(dog), ...ownerFields]}
+          fields={[
+            ...dogFields(
+              dog,
+              breeds.data?.map((b) => b.name),
+            ),
+            ...ownerFields,
+          ].map((f) =>
+            ['code', 'microchip', 'pedigreeNumber'].includes(f.name)
+              ? {
+                  ...f,
+                  validate: async (value: string) => {
+                    if (!value.trim()) return;
+                    const result = await api<{ available: boolean }>(
+                      `/dogs/identifiers/check?${new URLSearchParams({ field: f.name, value, ...(dog ? { excludeId: dog.id } : {}) })}`,
+                    );
+                    return result.available ? undefined : `Este ${f.label.toLowerCase()} ya está registrado.`;
+                  },
+                }
+              : f,
+          )}
           onCancel={onClose}
           submitLabel={dog ? 'Guardar cambios' : 'Crear expediente'}
           onSubmit={async (values) => {
-            values.specialties =
-              typeof values.specialties === 'string'
-                ? values.specialties
-                    .split(',')
-                    .map((item) => item.trim())
-                    .filter(Boolean)
-                : [];
             const saved = await api<Dog>(dog ? `/dogs/${dog.id}` : '/dogs', dog ? 'PATCH' : 'POST', values);
             onSaved(saved);
           }}
@@ -253,7 +277,7 @@ export function Dogs({
   return (
     <>
       <PageHeading
-        eyebrow="EL CORAZÓN DE VALKYR"
+        eyebrow="EL CORAZÓN DE ORYX K9"
         title="Nuestra unidad"
         description="Identidad, bienestar y trayectoria de cada perro."
       >
@@ -446,7 +470,14 @@ export const vaccinationFields = (vaccine?: Vaccination): FieldDef[] => [
 ];
 export const trainingFields: FieldDef[] = [
   { name: 'occurredAt', label: 'Fecha y hora · Costa Rica', type: 'datetime-local', required: true },
-  { name: 'discipline', label: 'Disciplina', required: true },
+  {
+    name: 'discipline',
+    label: 'Disciplina',
+    type: 'combobox',
+    options: trainingDisciplines,
+    required: true,
+    hint: 'Elige un área o escribe una especialidad. La sesión quedará en el historial del perro seleccionado.',
+  },
   { name: 'objective', label: 'Objetivo de la sesión', required: true, full: true },
   { name: 'durationMinutes', label: 'Duración (minutos)', type: 'number', min: 1, max: 1440, required: true },
   { name: 'location', label: 'Lugar' },
@@ -1137,7 +1168,15 @@ export function DogDetail({
           wide
         >
           <DataForm
-            fields={trainingFields}
+            fields={trainingFields.map((f) =>
+              f.name === 'discipline'
+                ? {
+                    ...f,
+                    options: [...new Set([...(dog.specialties || []), ...trainingDisciplines])],
+                    hint: `Especialidades del perro: ${dog.specialties?.join(', ') || 'Sin clasificar'}. Puedes registrar otra disciplina.`,
+                  }
+                : f,
+            )}
             onCancel={done}
             onSubmit={async (values) => {
               values.occurredAt = localInstant(String(values.occurredAt));

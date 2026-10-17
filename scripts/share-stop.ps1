@@ -16,4 +16,4 @@ if ($gatewayProcess) {
 }
 $shareState | Add-Member -NotePropertyName stoppedAt -NotePropertyValue ([DateTime]::UtcNow.ToString('o')) -Force
 $shareState | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding utf8
-Write-Output 'Enlace detenido. VALKYR local sigue funcionando.'
+Write-Output 'Enlace detenido. ORYX K9 local sigue funcionando.'

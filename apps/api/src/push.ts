@@ -166,7 +166,7 @@ export async function processPush(db: PrismaClient, send: SendPush = webpush.sen
       await send(
         { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
         JSON.stringify({
-          title: 'VALKYR · Aviso pendiente',
+          title: 'ORYX K9 · Aviso pendiente',
           body: 'Abre la aplicación para consultar tus notificaciones.',
           tag: job.notificationId,
         }),

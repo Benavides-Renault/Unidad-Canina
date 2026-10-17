@@ -142,7 +142,7 @@ export async function scheduleBusiness(
     const data = {
       dueAt,
       title,
-      body: `Vencimiento: ${date.toISOString().slice(0, 10)}. Consulta el registro en VALKYR.`,
+      body: `Vencimiento: ${date.toISOString().slice(0, 10)}. Consulta el registro en ORYX K9.`,
     };
     await tx.reminder.upsert({
       where: { dedupeKey },
@@ -300,7 +300,7 @@ export class FinanceController {
     ];
     res.setHeader('Cache-Control', 'private, no-store');
     res.type('text/csv; charset=utf-8');
-    res.attachment('valkyr-cuentas.csv');
+    res.attachment('oryx-cuentas.csv');
     res.send('\uFEFF' + rows.map((r) => r.map(csvCell).join(',')).join('\r\n'));
   }
   @Get('accounts/:id') async account(@Param('id') id: string, @Req() req: AuthRequest) {

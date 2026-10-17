@@ -1,4 +1,4 @@
-# Uso de VALKYR Manager
+# Uso de ORYX K9 Manager
 
 Los datos de ejemplo y sus diez cuentas están en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Todas las contraseñas actuales son `1234`.
 
@@ -12,7 +12,7 @@ En el expediente del perro → Entrenamiento, o en Seguimiento médico, **Nuevo 
 
 ## Primer acceso
 
-En esta PC, abrir **INICIAR_VALKYR.cmd**, entrar en `http://localhost:3000` e iniciar sesión con **admin / 1234**. En una instalación nueva, bootstrap solicita el usuario y contraseña propios. El correo es opcional y no hay registro público. En Configuración, los administradores pueden activar TOTP y guardar los ocho códigos de recuperación mostrados una sola vez. Usar uno revoca las otras sesiones; renovar los códigos invalida los anteriores.
+En esta PC, abrir **INICIAR_ORYX_K9.cmd**, entrar en `http://localhost:3000` e iniciar sesión con **admin / 1234**. En una instalación nueva, bootstrap solicita el usuario y contraseña propios. El correo es opcional y no hay registro público. En Configuración, los administradores pueden activar TOTP y guardar los ocho códigos de recuperación mostrados una sola vez. Usar uno revoca las otras sesiones; renovar los códigos invalida los anteriores.
 
 Para añadir socios, abrir **Administración → Usuarios → Crear usuario**. Completar nombre, usuario, contraseña y rol. Esta instalación de prueba permite `1234`; fuera del modo de prueba se exigen doce caracteres. El correo es opcional. Elige **Administrador**, **Entrenador** o **Cliente**. Al crear un cliente, vincula su persona/municipalidad existente o crea una. Varias cuentas pueden compartir municipalidad. El buscador localiza cualquier cuenta; después del alta se muestra la cuenta creada.
 
@@ -20,7 +20,7 @@ En el lápiz **Editar usuario**, se pueden cambiar nombre, usuario, correo, rol 
 
 La recuperación automática pide el usuario y envía un enlace temporal si la cuenta tiene correo y SMTP está configurado; en desarrollo los mensajes se consultan en Mailpit. Sin correo asociado, solicitar una nueva contraseña al administrador.
 
-La migración conserva las cuentas anteriores y les asigna `usuario_` seguido de su UUID sin guiones. El superadministrador puede ver y modificar estos nombres desde Usuarios; no cambian las contraseñas ni las relaciones de los registros existentes.
+La migración conserva las cuentas anteriores y les asigna `usuario_` seguido de su UUID sin guiones. El administrador puede ver y modificar estos nombres desde Usuarios; no cambian las contraseñas ni las relaciones de los registros existentes.
 
 ## Expediente canino
 
@@ -90,7 +90,7 @@ Si una operación falla, leer el mensaje y conservar cambios antes de recargar. 
 
 ## Propietario, responsable y entrenador
 
-En **Personas y entidades** registra propietarios y responsables que aún no tengan cuenta. En **Nuestra unidad → Nuevo perro / Editar expediente**, selecciona **Propietario registrado**, **Quién tiene el perro** y, opcionalmente, **Entrenador asignado**. Son datos independientes: VALKYR puede entrenar un perro de un cliente mientras otro responsable lo custodia. **Ubicaciones → Registrar movimiento** cambia el responsable físico y conserva el historial, sin cambiar al propietario.
+En **Personas y entidades** registra propietarios y responsables que aún no tengan cuenta. En **Nuestra unidad → Nuevo perro / Editar expediente**, selecciona **Propietario registrado**, **Quién tiene el perro** y, opcionalmente, **Entrenador asignado**. Son datos independientes: ORYX K9 puede entrenar un perro de un cliente mientras otro responsable lo custodia. **Ubicaciones → Registrar movimiento** cambia el responsable físico y conserva el historial, sin cambiar al propietario.
 
 ## Espacios de cliente y entrenador
 
@@ -102,4 +102,4 @@ En **Venta y preventa → Configurar publicación**, el administrador elige **En
 
 Para una futura camada, clasifica primero a ambos progenitores como **Disponible para cruza**, conservando su disponibilidad. Después crea el plan desde **Crianza**, completa título público, precio por cachorro y contacto, y activa la publicación de preventa. Los clientes podrán abrir el cruce y consultar cada padre. Al cerrar el plan, retirar la publicación o dejar de estar disponibles sus padres, deja de mostrarse.
 
-Los apartados se administran en **Apartados**. Al entregar un cachorro pagado, selecciona el propietario cliente; la entrega lo registra como propietario y custodio, retira la asignación del entrenador y la publicación, y muestra el perro con su historial en el portal de ese cliente. El contacto de la galería permite consultar a VALKYR; no confirma reservas automáticamente.
+Los apartados se administran en **Apartados**. Al entregar un cachorro pagado, selecciona el propietario cliente; la entrega lo registra como propietario y custodio, retira la asignación del entrenador y la publicación, y muestra el perro con su historial en el portal de ese cliente. El contacto de la galería permite consultar a ORYX K9; no confirma reservas automáticamente.

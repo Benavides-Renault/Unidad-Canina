@@ -76,7 +76,7 @@ try {
     throw new Error('Falta la compilación. Ejecuta npm run db:generate y npm run build.');
   if (!(await databaseReady())) {
     if (process.env.DATABASE_URL && new URL(process.env.DATABASE_URL).port !== '55432')
-      throw new Error('Inicia tu servicio PostgreSQL configurado antes de abrir VALKYR.');
+      throw new Error('Inicia tu servicio PostgreSQL configurado antes de abrir ORYX K9.');
     databaseChild = run(['scripts/local-db.mjs'], {
       logName: 'postgres-launcher.log',
       databaseUrl: process.env.MIGRATION_DATABASE_URL || process.env.DATABASE_URL,
@@ -160,7 +160,7 @@ try {
   if (!ready)
     throw new Error('Revisa .local/api.log y .local/web.log; la aplicación no inició correctamente.');
   console.log(
-    '\nVALKYR Manager listo: http://localhost:3000\nMantén esta ventana abierta. Ctrl+C detiene la aplicación; los datos se conservan.\n',
+    '\nORYX K9 listo: http://localhost:3000\nMantén esta ventana abierta. Ctrl+C detiene la aplicación; los datos se conservan.\n',
   );
 } catch (error) {
   console.error(error.message);

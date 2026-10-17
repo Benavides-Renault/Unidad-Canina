@@ -17,6 +17,9 @@ type Animal = {
   microchip?: string;
   availability?: string;
   commercialCategory?: string;
+  availableForBreeding?: boolean;
+  administrativeStatus?: string;
+  reproductiveStatus?: string;
 };
 type Profile = {
   sireId?: string;
@@ -41,6 +44,9 @@ type Plan = {
   sire: Animal;
   plannedDate: string;
   matingDate?: string;
+  expectedBirthDate?: string;
+  expectedDeliveryDate?: string;
+  litter?: { id: string; code: string; birthDate: string };
   windowStart?: string;
   windowEnd?: string;
   estimationMethod?: string;
@@ -96,10 +102,21 @@ const parents = (dogs: Animal[]): FieldDef[] => [
 function planFields(dogs: Animal[], plan?: Plan): FieldDef[] {
   const fields: FieldDef[] = [
     ...(!plan
-      ? parents(dogs.filter((d) => d.commercialCategory === 'FOR_BREEDING' && d.availability === 'AVAILABLE'))
+      ? parents(
+          dogs.filter(
+            (d) =>
+              d.availableForBreeding &&
+              d.availability === 'AVAILABLE' &&
+              !['SOLD', 'DECEASED', 'RETIRED'].includes(d.administrativeStatus || '') &&
+              d.reproductiveStatus !== 'RETIRED',
+          ),
+        )
       : []),
-    dateField('plannedDate', 'Fecha prevista del cruce'),
-    dateField('matingDate', 'Fecha efectiva de monta', false),
+    {
+      ...dateField('crossDate', 'Fecha del cruce'),
+      defaultValue: plan?.matingDate || plan?.plannedDate,
+      hint: 'Si está programado, indica cuándo se hará. Si ya ocurrió, escribe la fecha real y elige Monta registrada.',
+    },
     {
       name: 'status',
       label: 'Estado del plan',
@@ -108,15 +125,14 @@ function planFields(dogs: Animal[], plan?: Plan): FieldDef[] {
       options: ['PLANNED', 'MATED', 'CONFIRMED', 'CANCELLED'],
       defaultValue: 'PLANNED',
     },
-    dateField('windowStart', 'Ventana de parto: desde', false),
-    dateField('windowEnd', 'Ventana de parto: hasta', false),
     {
-      name: 'estimationMethod',
-      label: 'Método y datos de la estimación',
-      full: true,
-      hint: 'Registra el criterio del profesional; no se calculan fechas clínicas automáticamente.',
+      ...dateField('expectedBirthDate', 'Nacimiento previsto', false),
+      hint: 'Fecha en que se espera el nacimiento. Podrás registrar la fecha real al nacer la camada.',
     },
-    { name: 'professional', label: 'Profesional responsable' },
+    {
+      ...dateField('expectedDeliveryDate', 'Entrega prevista', false),
+      hint: 'Fecha acordada para la entrega de los cachorros; debe ser posterior al nacimiento previsto.',
+    },
     { name: 'notes', label: 'Observaciones del plan', type: 'textarea' },
     { name: 'published', label: 'Publicar preventa en la galería de clientes', type: 'checkbox' },
     { name: 'publicTitle', label: 'Título de la preventa' },
@@ -138,8 +154,17 @@ function planFields(dogs: Animal[], plan?: Plan): FieldDef[] {
   ];
   return fields.map((f) => ({
     ...f,
-    defaultValue: plan ? (plan as unknown as Record<string, string>)[f.name] : f.defaultValue,
+    defaultValue:
+      plan && f.name !== 'crossDate' ? (plan as unknown as Record<string, string>)[f.name] : f.defaultValue,
   }));
+}
+function planPayload(values: Record<string, unknown>) {
+  const { crossDate, ...data } = values;
+  return {
+    ...data,
+    plannedDate: crossDate,
+    matingDate: ['MATED', 'CONFIRMED'].includes(String(data.status)) ? crossDate : null,
+  };
 }
 const litterFields: FieldDef[] = [
   { name: 'code', label: 'Código de camada', required: true },
@@ -255,7 +280,7 @@ export function BreedingPage({ user, openDog }: { user: User; openDog: (id: stri
         ) : (
           <>
             {tab === 'plans' && (
-              <SimpleTable headers={['Progenitores', 'Cruce', 'Ventana de parto', 'Estado', 'Detalle']}>
+              <SimpleTable headers={['Progenitores', 'Cruce', 'Nacimiento / entrega', 'Estado', 'Detalle']}>
                 {plans.data?.items.map((p) => (
                   <tr key={p.id}>
                     <td>
@@ -267,9 +292,10 @@ export function BreedingPage({ user, openDog }: { user: User; openDog: (id: stri
                       <small>Monta: {formatDate(p.matingDate)}</small>
                     </td>
                     <td>
-                      {p.windowStart
-                        ? `${formatDate(p.windowStart)} — ${formatDate(p.windowEnd)}`
-                        : 'Sin estimación registrada'}
+                      {p.litter
+                        ? `Nació: ${formatDate(p.litter.birthDate)}`
+                        : formatDate(p.expectedBirthDate)}
+                      <small>Entrega: {formatDate(p.expectedDeliveryDate)}</small>
                     </td>
                     <td>
                       <Badge value={p.status} />
@@ -343,6 +369,7 @@ export function BreedingPage({ user, openDog }: { user: User; openDog: (id: stri
               : [...parents(options.data || []), ...litterFields]
           }
           path={form === 'plans' ? '/breeding/plans' : '/breeding/litters'}
+          transform={form === 'plans' ? planPayload : undefined}
           onClose={() => setForm(null)}
           onSaved={() => {
             setForm(null);
@@ -407,24 +434,29 @@ function PlanDetail({
               <dd>{formatDate(p.matingDate)}</dd>
             </div>
             <div>
-              <dt>Ventana registrada</dt>
-              <dd>
-                {p.windowStart
-                  ? `${formatDate(p.windowStart)} — ${formatDate(p.windowEnd)}`
-                  : 'Sin registrar'}
-              </dd>
+              <dt>Nacimiento previsto</dt>
+              <dd>{formatDate(p.expectedBirthDate)}</dd>
             </div>
             <div>
-              <dt>Método</dt>
-              <dd>{p.estimationMethod || 'Sin registrar'}</dd>
+              <dt>Entrega prevista</dt>
+              <dd>{formatDate(p.expectedDeliveryDate)}</dd>
             </div>
-            <div>
-              <dt>Profesional</dt>
-              <dd>{p.professional || 'Sin registrar'}</dd>
-            </div>
+            {p.litter && (
+              <div>
+                <dt>Nacimiento real</dt>
+                <dd>
+                  {formatDate(p.litter.birthDate)}{' '}
+                  <Button variant="ghost" onClick={() => openLitter(p.litter!.id)}>
+                    Ver camada
+                  </Button>
+                </dd>
+              </div>
+            )}
           </dl>
           <p className="panel-text">{p.notes}</p>
-          <p className="panel-text muted">Ventana de cruce registrada por el profesional responsable.</p>
+          <p className="panel-text muted">
+            Las fechas previstas se actualizan según el seguimiento de la camada.
+          </p>
         </Panel>
         <Panel title="Revisión de ascendencia">
           {ancestry.error ? (
@@ -448,6 +480,7 @@ function PlanDetail({
       {form && (
         <BusinessForm
           title={form === 'edit' ? 'Seguimiento del cruce' : 'Registrar nacimiento'}
+          transform={form === 'edit' ? planPayload : undefined}
           fields={form === 'edit' ? planFields(dogs, p) : litterFields}
           method={form === 'edit' ? 'PATCH' : 'POST'}
           path={form === 'edit' ? `/breeding/plans/${p.id}` : '/breeding/litters'}
@@ -681,6 +714,7 @@ function LitterDetail({
   onBack: () => void;
   openDog: (id: string) => void;
 }) {
+  const breeds = useResource<{ name: string }[]>('/breeds');
   const resource = useResource<Litter>(`/breeding/litters/${id}`);
   const [form, setForm] = useState(false),
     [error, setError] = useState(''),
@@ -742,7 +776,7 @@ function LitterDetail({
                   <Button variant="secondary" onClick={() => openDog(d.id)}>
                     Expediente
                   </Button>
-                  {d.isPuppy && ['SUPERADMIN', 'ADMIN'].includes(user.role) && (
+                  {d.isPuppy && ['ADMIN'].includes(user.role) && (
                     <Button variant="ghost" disabled={busy} onClick={() => void promote(d.id)}>
                       Incorporar a la unidad
                     </Button>
@@ -774,7 +808,14 @@ function LitterDetail({
               required: true,
               options: ['FEMALE', 'MALE'],
             },
-            { name: 'breed', label: 'Raza del cachorro', required: true },
+            {
+              name: 'breed',
+              label: 'Raza del cachorro',
+              type: 'combobox',
+              options: breeds.data?.map((b) => b.name),
+              required: true,
+              hint: 'Selecciona del catálogo o escribe la variedad o cruce.',
+            },
             { name: 'coat', label: 'Color / capa' },
             { name: 'microchip', label: 'Microchip del cachorro' },
             {

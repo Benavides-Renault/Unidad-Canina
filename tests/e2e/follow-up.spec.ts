@@ -19,7 +19,7 @@ test('entrenador crea objetivos, registra progreso y certificación; cliente con
   await page.getByRole('button', { name: 'Nuevo plan', exact: true }).click();
   let modal = page.getByRole('dialog');
   await modal.getByLabel('Nombre del plan').fill('Plan funcional E2E');
-  await modal.getByRole('textbox', { name: 'Disciplina', exact: true }).fill('Obediencia');
+  await modal.getByRole('combobox', { name: 'Disciplina', exact: true }).fill('Obediencia');
   await modal.getByLabel('Fecha objetivo').fill(fixture.future);
   await modal.getByRole('textbox', { name: 'Objetivo 1', exact: true }).fill('Permanencia E2E');
   await modal

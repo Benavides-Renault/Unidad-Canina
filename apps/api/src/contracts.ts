@@ -132,7 +132,7 @@ async function scheduleContract(tx: Tx, contract: Contract) {
       const data = {
         dueAt: scheduled < new Date() ? new Date() : scheduled,
         title: `Vence contrato ${contract.number}`,
-        body: `Fecha de vencimiento: ${contract.endDate.toISOString().slice(0, 10)}. Revisa el contrato en VALKYR.`,
+        body: `Fecha de vencimiento: ${contract.endDate.toISOString().slice(0, 10)}. Revisa el contrato en ORYX K9.`,
       };
       await tx.reminder.upsert({
         where: { dedupeKey },

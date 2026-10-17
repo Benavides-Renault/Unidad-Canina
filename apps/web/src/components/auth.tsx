@@ -1,4 +1,5 @@
 'use client';
+import { BrandMark } from '@/components/brand';
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, Eye, EyeOff, LockKeyhole, ShieldCheck, LoaderCircle, PawPrint } from 'lucide-react';
 import { api, errorMessage, type User } from '@/lib/api';
@@ -62,14 +63,9 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
     <main className="auth-page">
       <section className="auth-brand">
         <div className="auth-brand-top">
-          <img
-            src="/valkyr-logo-original.png"
-            alt="VALKYR Unidad Canina, logotipo original"
-            width="84"
-            height="96"
-          />
+          <BrandMark />
           <span>
-            VALKYR<span>UNIDAD CANINA</span>
+            ORYX K9<span>UNIDAD CANINA</span>
           </span>
         </div>
         <div className="auth-story">
@@ -87,7 +83,7 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
           </div>
         </div>
         <div className="auth-brand-bottom">
-          <span>VALKYR MANAGER</span>
+          <span>ORYX K9</span>
           <span>COSTA RICA · UTC −6</span>
         </div>
         <div className="brand-lines" aria-hidden="true" />
@@ -234,10 +230,10 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
               <span>Tu actividad se registra para proteger la unidad.</span>
             </p>
           </div>
-          <p className="first-use">¿Necesitas una cuenta? Solicita tu usuario al administrador de VALKYR.</p>
+          <p className="first-use">¿Necesitas una cuenta? Solicita tu usuario al administrador de ORYX K9.</p>
         </div>
         <footer className="auth-footer">
-          <LockKeyhole size={13} /> Entorno privado · VALKYR Unidad Canina
+          <LockKeyhole size={13} /> Entorno privado · ORYX K9 Unidad Canina
         </footer>
       </section>
     </main>

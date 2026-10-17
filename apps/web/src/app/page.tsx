@@ -1,4 +1,5 @@
 'use client';
+import { BrandMark } from '@/components/brand';
 import { useEffect, useState, type FormEvent } from 'react';
 import {
   Bell,
@@ -19,9 +20,6 @@ import {
   ShieldCheck,
   Users,
   X,
-  Layers3,
-  CircleCheck,
-  ArrowUpRight,
   FileText,
   ClipboardList,
 } from 'lucide-react';
@@ -33,7 +31,7 @@ import { Dogs, DogDetail, DogEditor } from '@/components/dogs';
 import { Calendar, AppointmentEditor } from '@/components/calendar';
 import { HealthPage, NotificationsPage, TrainingPage } from '@/components/operations';
 import { SettingsPage, UsersPage } from '@/components/settings';
-import { ErrorBox, Loading, PageHeading, Panel } from '@/components/ui';
+import { ErrorBox, Loading } from '@/components/ui';
 import { ContractsPage, ServicesPage } from '@/components/contracts';
 import { BreedingPage } from '@/components/breeding';
 import { FinancePage, ReservationsPage } from '@/components/finance';
@@ -63,7 +61,6 @@ const pageNames: Record<string, string> = {
   notifications: 'Notificaciones',
   users: 'Usuarios',
   settings: 'Configuración',
-  roadmap: 'Guía de módulos',
   parties: 'Personas y entidades',
   catalog: 'Publicaciones y categorías',
   care: 'Seguimiento médico',
@@ -137,7 +134,7 @@ export default function Home() {
   if (checking)
     return (
       <div className="boot-screen">
-        <img src="/valkyr-logo-original.png" width="84" height="96" alt="VALKYR Unidad Canina" />
+        <BrandMark />
         <Loading />
       </div>
     );
@@ -179,9 +176,9 @@ export default function Home() {
       )}
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`} aria-label="Navegación principal">
         <div className="sidebar-brand">
-          <img src="/valkyr-logo-original.png" width="52" height="59" alt="VALKYR Unidad Canina" />
+          <BrandMark />
           <div>
-            <strong>VALKYR</strong>
+            <strong>ORYX K9</strong>
             <span>UNIDAD CANINA</span>
           </div>
           <button
@@ -244,19 +241,19 @@ export default function Home() {
               <span>Personas y entidades</span>
             </button>
             {[
-              { id: 'breeding', label: 'Crianza', icon: Heart, roles: ['SUPERADMIN', 'ADMIN', 'VET'] },
+              { id: 'breeding', label: 'Crianza', icon: Heart, roles: ['ADMIN'] },
               {
                 id: 'reservations',
                 label: 'Apartados',
                 icon: Heart,
-                roles: ['SUPERADMIN', 'ADMIN', 'FINANCE'],
+                roles: ['ADMIN'],
               },
-              { id: 'finance', label: 'Finanzas', icon: Banknote, roles: ['SUPERADMIN', 'ADMIN', 'FINANCE'] },
+              { id: 'finance', label: 'Finanzas', icon: Banknote, roles: ['ADMIN'] },
               {
                 id: 'inventory',
                 label: 'Inventario',
                 icon: Package,
-                roles: ['SUPERADMIN', 'ADMIN', 'FINANCE'],
+                roles: ['ADMIN'],
               },
             ]
               .filter((item) => item.roles.includes(user.role))
@@ -273,7 +270,7 @@ export default function Home() {
                   <span>{label}</span>
                 </button>
               ))}
-            {['SUPERADMIN', 'ADMIN', 'TRAINER'].includes(user.role) && (
+            {['ADMIN', 'TRAINER'].includes(user.role) && (
               <button
                 className={`nav-item ${page === 'services' ? 'active' : ''}`}
                 onClick={() => navigate('services')}
@@ -282,7 +279,7 @@ export default function Home() {
                 <span>Operaciones</span>
               </button>
             )}
-            {['SUPERADMIN', 'ADMIN', 'FINANCE'].includes(user.role) && (
+            {['ADMIN'].includes(user.role) && (
               <button
                 className={`nav-item ${page === 'contracts' ? 'active' : ''}`}
                 onClick={() => navigate('contracts')}
@@ -309,13 +306,6 @@ export default function Home() {
             >
               <Settings size={19} strokeWidth={1.7} />
               <span>Configuración</span>
-            </button>
-            <button
-              className={`nav-item ${page === 'roadmap' ? 'active' : ''}`}
-              onClick={() => navigate('roadmap')}
-            >
-              <Layers3 size={19} strokeWidth={1.7} />
-              <span>Guía de módulos</span>
             </button>
           </nav>
         </div>
@@ -395,15 +385,9 @@ export default function Home() {
           )}
           {connectionError && <ErrorBox message={connectionError} />}
           {financeOnly &&
-          ![
-            'notifications',
-            'settings',
-            'roadmap',
-            'contracts',
-            'reservations',
-            'finance',
-            'inventory',
-          ].includes(page) ? (
+          !['notifications', 'settings', 'contracts', 'reservations', 'finance', 'inventory'].includes(
+            page,
+          ) ? (
             <FinancePage />
           ) : (
             <>
@@ -448,16 +432,16 @@ export default function Home() {
               {page === 'parties' && <PartiesPage />}
               {page === 'catalog' && <CatalogManager />}
               {page === 'care' && <TrainerWorkspace user={user} />}
-              {page === 'contracts' && ['SUPERADMIN', 'ADMIN', 'FINANCE'].includes(user.role) && (
+              {page === 'contracts' && ['ADMIN'].includes(user.role) && (
                 <ContractsPage user={user} openDog={(id) => navigate('dogs', id)} />
               )}
-              {page === 'services' && ['SUPERADMIN', 'ADMIN', 'TRAINER'].includes(user.role) && (
+              {page === 'services' && ['ADMIN', 'TRAINER'].includes(user.role) && (
                 <ServicesPage />
               )}
-              {page === 'breeding' && ['SUPERADMIN', 'ADMIN', 'VET'].includes(user.role) && (
+              {page === 'breeding' && ['ADMIN'].includes(user.role) && (
                 <BreedingPage user={user} openDog={(id) => navigate('dogs', id)} />
               )}
-              {page === 'reservations' && ['SUPERADMIN', 'ADMIN', 'FINANCE'].includes(user.role) && (
+              {page === 'reservations' && ['ADMIN'].includes(user.role) && (
                 <ReservationsPage
                   user={user}
                   openAccount={(id) => {
@@ -466,25 +450,24 @@ export default function Home() {
                   }}
                 />
               )}
-              {page === 'finance' && ['SUPERADMIN', 'ADMIN', 'FINANCE'].includes(user.role) && (
+              {page === 'finance' && ['ADMIN'].includes(user.role) && (
                 <FinancePage
                   key={accountId || 'all'}
                   initialId={accountId}
                   onBackToList={() => setAccountId(undefined)}
                 />
               )}
-              {page === 'inventory' && ['SUPERADMIN', 'ADMIN', 'FINANCE'].includes(user.role) && (
+              {page === 'inventory' && ['ADMIN'].includes(user.role) && (
                 <InventoryPage />
               )}
               {page === 'settings' && (
                 <SettingsPage user={user} refreshUser={async () => setUser(await api<User>('/auth/me'))} />
               )}
-              {page === 'roadmap' && <Roadmap />}
             </>
           )}
           <footer className="app-footer">
             <span>
-              VALKYR MANAGER <span>·</span> Unidad Canina
+              ORYX K9 <span>·</span> Unidad Canina
             </span>
             <span>
               Operación privada <LockKeyhole size={12} />
@@ -514,67 +497,5 @@ export default function Home() {
         />
       )}
     </div>
-  );
-}
-
-function Roadmap() {
-  return (
-    <>
-      <PageHeading
-        eyebrow="VALKYR · UNIDAD CANINA"
-        title="Guía de módulos"
-        description="Organiza el trabajo del equipo y consulta toda la actividad de la unidad."
-      />
-      <div className="roadmap-grid">
-        <Panel>
-          <div className="roadmap-number active">
-            <CircleCheck size={27} />
-          </div>
-          <div className="eyebrow">ACCESO Y EXPEDIENTES</div>
-          <h2>La unidad, conectada</h2>
-          <p>
-            Acceso privado, expedientes, salud, archivos, citas, entrenamiento con objetivos y
-            certificaciones. Portales de entrenadores y clientes según sus perros.
-          </p>
-          <span className="roadmap-status">Disponible según permisos</span>
-        </Panel>
-        <Panel>
-          <div className="roadmap-number">02</div>
-          <div className="eyebrow">RELACIONES INSTITUCIONALES</div>
-          <h2>Contratos y servicios</h2>
-          <p>
-            Instituciones, contactos, contratos, renovaciones, asignación de perros y servicios realizados.
-          </p>
-          <span className="roadmap-status">Disponible según permisos</span>
-        </Panel>
-        <Panel>
-          <div className="roadmap-number">03</div>
-          <div className="eyebrow">CRIANZA Y FINANZAS</div>
-          <h2>Crianza y administración</h2>
-          <p>
-            Pedigrí, cruces, camadas, reservas y ventas. Proveedores, pagos, conciliación, cierres e
-            inventario.
-          </p>
-          <span className="roadmap-status">Disponible según permisos</span>
-        </Panel>
-        <Panel>
-          <div className="roadmap-number">04</div>
-          <div className="eyebrow">CONTINUIDAD DEL SERVICIO</div>
-          <h2>Control de la instalación</h2>
-          <p>
-            Calendario, preferencias de avisos, recuperación de acceso, respaldos cifrados y estado de los
-            servicios.
-          </p>
-          <span className="roadmap-status">Consulta el estado en Configuración</span>
-        </Panel>
-      </div>
-      <div className="inline-notice">
-        <ArrowUpRight size={19} />
-        <span>
-          Administración gestiona los módulos y los accesos. Entrenadores y clientes cuentan con un portal
-          según los perros vinculados a su cuenta.
-        </span>
-      </div>
-    </>
   );
 }

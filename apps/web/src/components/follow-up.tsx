@@ -1,4 +1,5 @@
 'use client';
+import { trainingDisciplines } from '@/lib/training-catalog';
 import { useState } from 'react';
 import { API, api, errorMessage, formatDate, today } from '@/lib/api';
 import type { CertificateTemplate } from './templates';
@@ -295,7 +296,13 @@ export function FollowUp({ dogId, role }: { dogId: string; role: string }) {
                   : form === 'plan'
                     ? [
                         { name: 'title', label: 'Nombre del plan', required: true },
-                        { name: 'discipline', label: 'Disciplina', required: true },
+                        {
+                          name: 'discipline',
+                          label: 'Disciplina',
+                          type: 'combobox',
+                          options: trainingDisciplines,
+                          required: true,
+                        },
                         {
                           name: 'startDate',
                           label: 'Fecha de inicio',

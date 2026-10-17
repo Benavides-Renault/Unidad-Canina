@@ -44,7 +44,7 @@ async function main() {
       throw new Error('Bootstrap deshabilitado: ya existen usuarios. Usa la administración privada.');
     const reader = createInterface({ input: process.stdin, output: process.stdout });
     const usernameInput =
-      process.env.BOOTSTRAP_USERNAME || (await reader.question('Usuario del primer superadministrador: '));
+      process.env.BOOTSTRAP_USERNAME || (await reader.question('Usuario del primer administrador: '));
     const nameInput = process.env.BOOTSTRAP_NAME || (await reader.question('Nombre: '));
     reader.close();
     const secret = process.env.BOOTSTRAP_PASSWORD || (await hiddenPassword());
@@ -69,11 +69,11 @@ async function main() {
           entity: 'User',
           entityId: user.id,
           action: 'BOOTSTRAP',
-          summary: 'Primer superadministrador creado desde instalación local.',
+          summary: 'Primer administrador creado desde instalación local.',
         },
       });
     });
-    console.log('Superadministrador creado. Inicia sesión y habilita MFA desde Usuarios/Configuración.');
+    console.log('Administrador creado. Inicia sesión y habilita MFA desde Usuarios/Configuración.');
   } finally {
     await db.$disconnect();
   }

@@ -52,7 +52,9 @@ export const partySchema = z
   .strict();
 export const publicationSchema = z
   .object({
-    commercialCategory: z.enum(['NOT_LISTED', 'FOR_SALE', 'FOR_BREEDING']),
+    commercialCategory: z.enum(['NOT_LISTED', 'FOR_SALE', 'FOR_BREEDING']).optional(),
+    availableForSale: z.boolean().optional(),
+    availableForBreeding: z.boolean().optional(),
     salePublished: z.boolean(),
     salePrice: positiveMoney.nullable().optional(),
     saleCurrency: currencySchema,
@@ -116,7 +118,7 @@ export class PartiesController {
     parse(idSchema, id);
     const data = parse(partySchema.partial(), body);
     if (id === UNIT_PARTY && data.kind)
-      throw new BadRequestException('La entidad de VALKYR conserva su categoría.');
+      throw new BadRequestException('La entidad de ORYX K9 conserva su categoría.');
     return this.db.$transaction(async (tx) => {
       const party = await tx.party.update({ where: { id }, data });
       await tx.dog.updateMany({ where: { ownerPartyId: id }, data: { owner: party.name } });
@@ -145,26 +147,42 @@ export class CatalogAdminController {
       await lock(tx, `dog:${id}`);
       const dog = await tx.dog.findFirst({ where: { id, archivedAt: null } });
       if (!dog) throw new NotFoundException('Perro no encontrado.');
+      const availableForSale =
+        data.availableForSale ??
+        (data.commercialCategory ? data.commercialCategory === 'FOR_SALE' : dog.availableForSale);
+      const availableForBreeding =
+        data.availableForBreeding ??
+        (data.commercialCategory ? data.commercialCategory === 'FOR_BREEDING' : dog.availableForBreeding);
       if (
         data.salePublished &&
-        (data.commercialCategory !== 'FOR_SALE' ||
+        (!availableForSale ||
           !data.salePrice ||
           !data.saleContact?.trim() ||
           dog.availability !== 'AVAILABLE' ||
           ['SOLD', 'DECEASED', 'RETIRED'].includes(dog.administrativeStatus))
       )
-        throw new BadRequestException(
-          'Para publicar requiere categoría En venta, disponibilidad, precio y contacto.',
-        );
+        throw new BadRequestException('Para publicar requiere disponibilidad para venta, precio y contacto.');
       if (
-        data.commercialCategory === 'FOR_BREEDING' &&
+        availableForBreeding &&
         (dog.isPuppy ||
           dog.availability !== 'AVAILABLE' ||
           dog.reproductiveStatus === 'RETIRED' ||
           ['SOLD', 'DECEASED', 'RETIRED'].includes(dog.administrativeStatus))
       )
         throw new BadRequestException('El perro no está disponible para cruza.');
-      const result = await tx.dog.update({ where: { id }, data });
+      const result = await tx.dog.update({
+        where: { id },
+        data: {
+          ...data,
+          availableForSale,
+          availableForBreeding,
+          commercialCategory: availableForSale
+            ? 'FOR_SALE'
+            : availableForBreeding
+              ? 'FOR_BREEDING'
+              : 'NOT_LISTED',
+        },
+      });
       await tx.auditLog.create({
         data: this.domain.audit(
           req,
@@ -194,6 +212,8 @@ const identity = {
   reproductiveStatus: true,
   availability: true,
   specialties: true,
+  availableForSale: true,
+  availableForBreeding: true,
   publicDescription: true,
   achievements: true,
   trainingSummary: true,
@@ -216,19 +236,23 @@ const history = {
   medicalEntries: { where: { archivedAt: null }, orderBy: { eventDate: 'desc' as const } },
   appointments: { orderBy: { startsAt: 'desc' as const } },
   movements: { orderBy: { date: 'desc' as const } },
-  documents: { where: { archivedAt: null, recordAttachment: null }, select: fileSelect, orderBy: { createdAt: 'desc' as const } },
+  documents: {
+    where: { archivedAt: null, recordAttachment: null },
+    select: fileSelect,
+    orderBy: { createdAt: 'desc' as const },
+  },
 };
 export const saleWhere: Prisma.DogWhereInput = {
   archivedAt: null,
   salePublished: true,
-  commercialCategory: 'FOR_SALE',
+  availableForSale: true,
   availability: 'AVAILABLE',
   administrativeStatus: { notIn: ['SOLD', 'DECEASED', 'RETIRED'] },
 };
 export const breedingParentWhere: Prisma.DogWhereInput = {
   archivedAt: null,
   isPuppy: false,
-  commercialCategory: 'FOR_BREEDING',
+  availableForBreeding: true,
   availability: 'AVAILABLE',
   reproductiveStatus: { not: 'RETIRED' },
   administrativeStatus: { notIn: ['SOLD', 'DECEASED', 'RETIRED'] },
@@ -341,7 +365,10 @@ export class PortalController {
     @Req() req: AuthRequest,
     @Res() res: Response,
   ) {
-    return sendPrivateFile(this.db, this.domain, this.storage, id, req, res, { dog: this.owned(req), recordAttachment: null });
+    return sendPrivateFile(this.db, this.domain, this.storage, id, req, res, {
+      dog: this.owned(req),
+      recordAttachment: null,
+    });
   }
   @Get('gallery/dogs') async gallery(@Query() query: Record<string, string>) {
     const { page, pageSize, skip } = pagination(query);
@@ -387,6 +414,8 @@ export class PortalController {
           publicTitle: true,
           publicDescription: true,
           plannedDate: true,
+          expectedBirthDate: true,
+          expectedDeliveryDate: true,
           windowStart: true,
           windowEnd: true,
           status: true,

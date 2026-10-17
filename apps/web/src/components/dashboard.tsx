@@ -1,4 +1,5 @@
 'use client';
+import { BrandMark } from '@/components/brand';
 import {
   Activity,
   ArrowUpRight,
@@ -92,10 +93,10 @@ export function Dashboard({
           </Button>
         </div>
         <div className="welcome-emblem">
-          <img src="/valkyr-logo-original.png" alt="VALKYR Unidad Canina" width="150" height="171" />
+          <BrandMark />
         </div>
         <span className="welcome-outline" aria-hidden="true">
-          V
+          O
         </span>
       </div>
       <div className="metrics-grid">
@@ -231,7 +232,7 @@ export function Dashboard({
       </Panel>
       <div className="dashboard-note">
         <ShieldCheck size={16} />
-        <span>Información interna de VALKYR · Actualizada desde los registros de tu unidad</span>
+        <span>Información interna de ORYX K9 · Actualizada desde los registros de tu unidad</span>
       </div>
     </>
   );

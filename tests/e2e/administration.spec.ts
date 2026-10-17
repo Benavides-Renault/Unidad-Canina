@@ -26,8 +26,7 @@ test('crianza: monta, nacimiento, cachorro, apartado y abono desde la interfaz',
   await modal
     .getByRole('combobox', { name: 'Padre', exact: true })
     .selectOption({ label: 'Padre CRIANZA PRUEBA' });
-  await modal.getByLabel('Fecha prevista del cruce').fill(before);
-  await modal.getByLabel('Fecha efectiva de monta').fill(before);
+  await modal.getByLabel('Fecha del cruce').fill(before);
   await modal.getByLabel('Estado del plan').selectOption('MATED');
   await modal.getByRole('button', { name: 'Guardar', exact: true }).click();
   await expect(modal).not.toBeVisible();

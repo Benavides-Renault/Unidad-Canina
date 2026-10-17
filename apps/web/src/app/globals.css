@@ -55,14 +55,14 @@
 }
 
 :root {
-  --ink: #202723;
-  --muted: #737a74;
-  --line: #e8e9e2;
-  --paper: #f6f6f2;
+  --ink: #252824;
+  --muted: #646a65;
+  --line: #e7e4dc;
+  --paper: #f6f5f1;
   --white: #fff;
-  --sidebar: #1c2420;
-  --copper: #a66d40;
-  --copper-light: #f5ede4;
+  --sidebar: #191e1c;
+  --copper: #8b672e;
+  --copper-light: #f5efdf;
   --green: #3f6c54;
   --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
 }

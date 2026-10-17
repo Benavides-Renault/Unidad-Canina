@@ -86,7 +86,7 @@ export function createShareGateway({
       );
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.end(
-        `<!doctype html><html lang="es"><meta name="viewport" content="width=device-width"><title>VALKYR · Acceso privado</title><style nonce="${nonce}">body{font:18px system-ui;background:#f4f3ee;color:#253229;max-width:650px;margin:15vh auto;padding:30px}h1{letter-spacing:.12em}p{line-height:1.7}</style><h1>VALKYR</h1><p id="status">Abre el enlace completo que te compartieron para acceder.</p><script nonce="${nonce}">const key=new URLSearchParams(location.hash.slice(1)).get('compartir');if(key){history.replaceState(null,'','/');document.getElementById('status').textContent='Abriendo VALKYR…';fetch('/__share/unlock',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:key})}).then(r=>{if(!r.ok)throw Error();location.replace('/')}).catch(()=>{document.getElementById('status').textContent='No se pudo abrir el enlace. Solicita uno nuevo.'})}</script></html>`,
+        `<!doctype html><html lang="es"><meta name="viewport" content="width=device-width"><title>ORYX K9 · Acceso privado</title><style nonce="${nonce}">body{font:18px system-ui;background:#f4f3ee;color:#253229;max-width:650px;margin:15vh auto;padding:30px}h1{letter-spacing:.12em}p{line-height:1.7}</style><h1>ORYX K9</h1><p id="status">Abre el enlace completo que te compartieron para acceder.</p><script nonce="${nonce}">const key=new URLSearchParams(location.hash.slice(1)).get('compartir');if(key){history.replaceState(null,'','/');document.getElementById('status').textContent='Abriendo ORYX K9…';fetch('/__share/unlock',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:key})}).then(r=>{if(!r.ok)throw Error();location.replace('/')}).catch(()=>{document.getElementById('status').textContent='No se pudo abrir el enlace. Solicita uno nuevo.'})}</script></html>`,
       );
     }
     if (pathname.startsWith('/__share/')) return fail(404, 'No encontrado.');
@@ -123,7 +123,7 @@ export function createShareGateway({
     );
     outgoing.setTimeout(120_000, () => outgoing.destroy());
     outgoing.on('error', () => {
-      if (!res.headersSent) fail(502, 'VALKYR no está disponible. Comprueba que siga abierto en la PC.');
+      if (!res.headersSent) fail(502, 'ORYX K9 no está disponible. Comprueba que siga abierto en la PC.');
       else res.destroy();
     });
     req.on('aborted', () => outgoing.destroy());

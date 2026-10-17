@@ -93,6 +93,7 @@ export function NotificationPreferences() {
   }
   return (
     <Panel
+      className="notification-settings"
       title="Preferencias de notificaciones"
       subtitle="Los avisos internos siguen disponibles según tus permisos"
     >
@@ -110,11 +111,11 @@ export function NotificationPreferences() {
               disabled={busy}
               onChange={(e) => email(e.target.checked)}
             />{' '}
-            Recibir avisos por correo cuando el servidor y mi cuenta tengan correo configurado
+            Recibir avisos por correo electrónico
           </label>
           <p className="panel-text">
-            El navegador pedirá permiso al activar los avisos. La entrega depende de su servicio push y de la
-            conexión del servidor.
+            Los avisos internos están disponibles en Notificaciones. El correo requiere una dirección en tu
+            cuenta y el servicio configurado.
           </p>
           <Button variant="secondary" disabled={busy || !config.data?.configured} onClick={togglePush}>
             {r.data?.pushEnabled && browserSubscribed
@@ -127,7 +128,7 @@ export function NotificationPreferences() {
             </p>
           )}
           <details>
-            <summary>Historial de entrega push</summary>
+            <summary>Historial de notificaciones del navegador</summary>
             {history.error ? (
               <ErrorBox message={history.error} />
             ) : history.data?.length ? (
@@ -144,7 +145,7 @@ export function NotificationPreferences() {
                 </p>
               ))
             ) : (
-              <p>Sin entregas push registradas.</p>
+              <p>Todavía no se han enviado notificaciones a este navegador.</p>
             )}
           </details>
         </>

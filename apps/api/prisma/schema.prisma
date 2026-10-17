@@ -400,6 +400,8 @@ model Dog {
   custodianParty       Party                @relation("DogCustodian", fields: [custodianPartyId], references: [id], onDelete: Restrict)
   assignedTrainerId    String?              @db.Uuid
   assignedTrainer      User?                @relation("AssignedTrainer", fields: [assignedTrainerId], references: [id], onDelete: Restrict)
+  availableForSale Boolean @default(false)
+  availableForBreeding Boolean @default(false)
   commercialCategory   CommercialCategory   @default(NOT_LISTED)
   salePublished        Boolean              @default(false)
   salePrice            Decimal?             @db.Decimal(18, 2)
@@ -842,6 +844,8 @@ model BreedingPlan {
   sire              Dog                @relation("PlanSire", fields: [sireId], references: [id], onDelete: Restrict)
   plannedDate       DateTime           @db.Date
   matingDate        DateTime?          @db.Date
+  expectedBirthDate DateTime? @db.Date
+  expectedDeliveryDate DateTime? @db.Date
   windowStart       DateTime?          @db.Date
   windowEnd         DateTime?          @db.Date
   estimationMethod  String?
@@ -1016,4 +1020,15 @@ model StockMovement {
   createdAt    DateTime  @default(now()) @db.Timestamptz(3)
 
   @@index([lotId, movementDate])
+}
+
+model Breed {
+  id             String    @id @default(uuid()) @db.Uuid
+  name           String    @unique
+  group          String?
+  standardNumber Int?
+  sourceUrl      String?
+  notes          String?
+  archivedAt     DateTime? @db.Timestamptz(3)
+  createdAt      DateTime  @default(now()) @db.Timestamptz(3)
 }

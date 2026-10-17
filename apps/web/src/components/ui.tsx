@@ -1,7 +1,16 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode, type FormEvent } from 'react';
-import { AlertCircle, Check, ChevronRight, LoaderCircle, Plus, X, type LucideIcon } from 'lucide-react';
+import { useEffect, useId, useRef, useState, type ReactNode, type FormEvent } from 'react';
+import {
+  AlertCircle,
+  CircleHelp,
+  Check,
+  ChevronRight,
+  LoaderCircle,
+  Plus,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
 import { errorMessage, labels } from '@/lib/api';
 
 export function Button({
@@ -152,10 +161,21 @@ export type FieldDef = {
   name: string;
   label: string;
   type?:
-    'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'textarea' | 'select' | 'checkbox';
+    | 'combobox'
+    | 'multiselect'
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'number'
+    | 'date'
+    | 'datetime-local'
+    | 'textarea'
+    | 'select'
+    | 'checkbox';
   required?: boolean;
   options?: string[] | { value: string; label: string }[];
-  defaultValue?: string | number | boolean | null;
+  defaultValue?: string | number | boolean | string[] | null;
+  validate?: (value: string) => Promise<string | undefined>;
   hint?: string;
   min?: number | string;
   max?: number | string;
@@ -178,8 +198,19 @@ export function DataForm({
   onCancel?: () => void;
   clearOptional?: boolean;
 }) {
+  const helpId = useId();
+  const [help, setHelp] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const validations = useRef<Record<string, number>>({});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const errorRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (error) {
+      errorRef.current?.scrollIntoView({ block: 'nearest' });
+      errorRef.current?.focus({ preventScroll: true });
+    }
+  }, [error]);
   const [dirty, setDirty] = useState(false);
   useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
@@ -199,7 +230,8 @@ export function DataForm({
     const data: Record<string, unknown> = {};
     fields.forEach((field) => {
       const value = form.get(field.name);
-      if (field.type === 'checkbox') data[field.name] = value === 'on';
+      if (field.type === 'multiselect') data[field.name] = form.getAll(field.name);
+      else if (field.type === 'checkbox') data[field.name] = value === 'on';
       else if (field.type === 'number' && value !== '' && value !== null) data[field.name] = Number(value);
       else if (typeof value === 'string' && value !== '')
         data[field.name] = field.type === 'password' ? value : value.trim();
@@ -213,6 +245,15 @@ export function DataForm({
         data[field.name] = null;
     });
     try {
+      const checks = await Promise.all(
+        fields
+          .filter((f) => f.validate)
+          .map(async (f) => [f.name, (await f.validate!(String(data[f.name] || ''))) || '']),
+      );
+      const invalid = Object.fromEntries(checks.filter(([, message]) => message));
+      setFieldErrors(invalid);
+      if (Object.keys(invalid).length)
+        throw new Error('Revisa los identificadores señalados antes de guardar.');
       await onSubmit(data);
       setDirty(false);
     } catch (err) {
@@ -223,14 +264,77 @@ export function DataForm({
   }
   return (
     <form onSubmit={submit} onChange={() => setDirty(true)} className="data-form">
-      {error && <ErrorBox message={error} />}
+      <div className="form-help-bar">
+        <button
+          type="button"
+          className="form-help-button"
+          aria-expanded={help}
+          aria-controls={helpId}
+          onClick={() => setHelp(!help)}
+        >
+          <CircleHelp size={18} /> Ayuda del formulario
+        </button>
+        <span>* Campos obligatorios</span>
+      </div>
+      {help && (
+        <div id={helpId} className="form-help">
+          <h3>Cómo completar este registro</h3>
+          <dl>
+            {fields.map((f) => (
+              <div key={f.name}>
+                <dt>{f.label}</dt>
+                <dd>
+                  {f.hint ||
+                    (f.type === 'checkbox'
+                      ? 'Activa esta opción si corresponde al registro.'
+                      : f.type === 'date' || f.type === 'datetime-local'
+                        ? 'Indica la fecha del evento; las horas se muestran en horario de Costa Rica.'
+                        : f.type === 'select' || f.type === 'multiselect'
+                          ? 'Selecciona la opción que describe este registro.'
+                          : f.type === 'password'
+                            ? 'Escribe la contraseña de la cuenta. No la compartas con otras personas.'
+                            : f.type === 'textarea'
+                              ? 'Añade los detalles relevantes para el seguimiento y la consulta del equipo.'
+                              : 'Completa este dato con la información del registro.')}{' '}
+                  {f.required ? 'Obligatorio.' : 'Opcional.'}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+      {error && (
+        <div ref={errorRef} tabIndex={-1}>
+          <ErrorBox message={error} />
+        </div>
+      )}
       <div className="form-grid">
         {fields.map((field) => (
           <div
             className={`field ${field.full || field.type === 'textarea' ? 'field-full' : ''}`}
             key={field.name}
           >
-            {field.type === 'checkbox' ? (
+            {field.type === 'multiselect' ? (
+              <fieldset className="choice-grid">
+                <legend>{field.label}</legend>
+                {field.options?.map((o) => {
+                  const value = typeof o === 'string' ? o : o.value;
+                  return (
+                    <label className="checkbox-label" key={value}>
+                      <input
+                        type="checkbox"
+                        name={field.name}
+                        value={value}
+                        defaultChecked={
+                          Array.isArray(field.defaultValue) && field.defaultValue.includes(value)
+                        }
+                      />
+                      {typeof o === 'string' ? o : o.label}
+                    </label>
+                  );
+                })}
+              </fieldset>
+            ) : field.type === 'checkbox' ? (
               <label className="checkbox-label">
                 <input type="checkbox" name={field.name} defaultChecked={!!field.defaultValue} />
                 {field.label}
@@ -277,7 +381,26 @@ export function DataForm({
                   <input
                     id={`field-${field.name}`}
                     name={field.name}
-                    type={field.type || 'text'}
+                    type={field.type === 'combobox' ? 'text' : field.type || 'text'}
+                    list={field.type === 'combobox' ? `${helpId}-${field.name}-options` : undefined}
+                    aria-invalid={!!fieldErrors[field.name]}
+                    aria-describedby={fieldErrors[field.name] ? `${helpId}-${field.name}-error` : undefined}
+                    onChange={() => {
+                      validations.current[field.name] = (validations.current[field.name] || 0) + 1;
+                      setFieldErrors((e) => ({ ...e, [field.name]: '' }));
+                    }}
+                    onBlur={async (event) => {
+                      if (!field.validate) return;
+                      const revision = (validations.current[field.name] || 0) + 1;
+                      validations.current[field.name] = revision;
+                      try {
+                        const message = await field.validate(event.target.value);
+                        if (validations.current[field.name] === revision)
+                          setFieldErrors((e) => ({ ...e, [field.name]: message || '' }));
+                      } catch {
+                        /* Submission validates again when connectivity returns. */
+                      }
+                    }}
                     inputMode={field.inputMode}
                     defaultValue={field.defaultValue == null ? '' : String(field.defaultValue)}
                     required={field.required}
@@ -291,6 +414,23 @@ export function DataForm({
                   />
                 )}
               </>
+            )}
+            {field.type === 'combobox' && (
+              <datalist id={`${helpId}-${field.name}-options`}>
+                {field.options?.map((o) => (
+                  <option
+                    key={typeof o === 'string' ? o : o.value}
+                    value={typeof o === 'string' ? o : o.value}
+                  >
+                    {typeof o === 'string' ? '' : o.label}
+                  </option>
+                ))}
+              </datalist>
+            )}
+            {fieldErrors[field.name] && (
+              <small className="field-error" id={`${helpId}-${field.name}-error`} role="alert">
+                {fieldErrors[field.name]}
+              </small>
             )}
             {field.hint && <small>{field.hint}</small>}
           </div>
@@ -383,7 +523,7 @@ export function Modal({
       >
         <div className="modal-heading">
           <div>
-            <div className="eyebrow">VALKYR MANAGER</div>
+            <div className="eyebrow">ORYX K9</div>
             <h2 id="modal-title">{title}</h2>
             {description && <p>{description}</p>}
           </div>

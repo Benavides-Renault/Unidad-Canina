@@ -741,7 +741,7 @@ export function ReservationsPage({ user, openAccount }: { user: User; openAccoun
                             Asignar cachorro
                           </Button>
                         )}
-                        {['SUPERADMIN', 'ADMIN'].includes(user.role) && (
+                        {['ADMIN'].includes(user.role) && (
                           <Button variant="ghost" onClick={() => setForm({ kind: 'close', item })}>
                             Entrega / cierre
                           </Button>

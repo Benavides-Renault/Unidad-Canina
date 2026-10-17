@@ -64,7 +64,7 @@ test('plantillas y preferencias de calendario se conservan al recargar', async (
   await modal.getByLabel('Nombre de la plantilla').fill('Convenio de seguimiento E2E');
   await modal.getByLabel('Uso', { exact: false }).selectOption('CONTRACT');
   await modal.getByLabel('Título del documento').fill('Seguimiento canino');
-  await modal.getByLabel('Entidad emisora').fill('VALKYR');
+  await modal.getByLabel('Entidad emisora').fill('ORYX K9');
   await modal
     .getByLabel('Contenido de la plantilla')
     .fill('Servicio para {{nombre}}, referencia {{referencia}}.');

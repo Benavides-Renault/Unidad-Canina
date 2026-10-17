@@ -15,6 +15,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
+import { rememberBreed } from './breed-registry';
+import { breedingReminders } from './breeding-reminders';
 import { z } from 'zod';
 import { Allowed, AuthRequest } from './access';
 import { Db } from './db';
@@ -56,6 +58,8 @@ export const planSchema = z
     sireId: idSchema,
     plannedDate: civilDate,
     matingDate: civilDate.nullable().optional(),
+    expectedBirthDate: civilDate.nullable().optional(),
+    expectedDeliveryDate: civilDate.nullable().optional(),
     windowStart: civilDate.nullable().optional(),
     windowEnd: civilDate.nullable().optional(),
     estimationMethod: optionalText,
@@ -88,7 +92,13 @@ export const puppySchema = z
     sex: z.enum(['MALE', 'FEMALE']),
     breed: requiredText,
     coat: optionalText,
-    microchip: z.string().trim().min(3).max(40).optional(),
+    microchip: z
+      .string()
+      .trim()
+      .min(3)
+      .max(60)
+      .optional()
+      .transform((v) => v?.replace(/[\s-]+/g, '').toUpperCase()),
     weightKg: z.number().positive().max(30).optional(),
   })
   .strict();
@@ -99,6 +109,9 @@ const dogSelect = {
   sex: true,
   birthDate: true,
   commercialCategory: true,
+  availableForBreeding: true,
+  administrativeStatus: true,
+  reproductiveStatus: true,
   availability: true,
 } as const;
 
@@ -287,7 +300,7 @@ export class BreedingController {
         include: {
           dam: { select: dogSelect },
           sire: { select: dogSelect },
-          litter: { select: { id: true, code: true } },
+          litter: { select: { id: true, code: true, birthDate: true } },
         },
         orderBy: { plannedDate: 'desc' },
         skip,
@@ -326,6 +339,14 @@ export class BreedingController {
     )
       throw new BadRequestException('La preventa requiere título, precio, contacto y un cruce abierto.');
     if (data.matingDate) notFuture(data.matingDate);
+    const crossDate = data.matingDate || data.plannedDate;
+    if (data.expectedBirthDate && data.expectedBirthDate <= crossDate)
+      throw new BadRequestException('El nacimiento previsto debe ser posterior al cruce.');
+    if (
+      data.expectedDeliveryDate &&
+      (!data.expectedBirthDate || data.expectedDeliveryDate <= data.expectedBirthDate)
+    )
+      throw new BadRequestException('La entrega prevista debe ser posterior al nacimiento previsto.');
     if (['MATED', 'CONFIRMED'].includes(data.status) && !data.matingDate)
       throw new BadRequestException('Registra la fecha efectiva de monta.');
     if (data.windowStart || data.windowEnd) {
@@ -356,13 +377,14 @@ export class BreedingController {
             d.archivedAt ||
             d.isPuppy ||
             ['DECEASED', 'SOLD', 'RETIRED'].includes(d.administrativeStatus) ||
-            d.commercialCategory !== 'FOR_BREEDING' ||
+            !d.availableForBreeding ||
             d.availability !== 'AVAILABLE' ||
             d.reproductiveStatus === 'RETIRED',
         )
       )
         throw new BadRequestException('Selecciona progenitores marcados como disponibles para cruza.');
       const item = await tx.breedingPlan.create({ data });
+      await breedingReminders(tx, item);
       await tx.auditLog.create({
         data: this.domain.audit(req, 'BreedingPlan', item.id, 'CREATE', 'Plan reproductivo registrado.'),
       });
@@ -404,7 +426,7 @@ export class BreedingController {
             d.archivedAt ||
             d.isPuppy ||
             d.reproductiveStatus === 'RETIRED' ||
-            d.commercialCategory !== 'FOR_BREEDING' ||
+            !d.availableForBreeding ||
             d.availability !== 'AVAILABLE' ||
             ['DECEASED', 'SOLD', 'RETIRED'].includes(d.administrativeStatus),
         )
@@ -416,13 +438,14 @@ export class BreedingController {
         where: { id },
         data: { ...data, revision: { increment: 1 } },
       });
+      await breedingReminders(tx, item);
       await tx.auditLog.create({
         data: this.domain.audit(
           req,
           'BreedingPlan',
           id,
           'UPDATE',
-          'Seguimiento de monta y ventana de gestación actualizado.',
+          'Fechas de cruce, nacimiento y entrega actualizadas.',
         ),
       });
       return item;
@@ -464,10 +487,11 @@ export class BreedingController {
           throw new BadRequestException(
             'La camada debe corresponder a un plan con monta registrada y padres coincidentes.',
           );
-        await tx.breedingPlan.update({
+        const completed = await tx.breedingPlan.update({
           where: { id: plan.id },
           data: { status: 'COMPLETED', published: false, revision: { increment: 1 } },
         });
+        await breedingReminders(tx, completed);
       }
       const item = await tx.litter.create({ data });
       await tx.auditLog.create({
@@ -518,10 +542,11 @@ export class BreedingController {
       if (!litter) throw new NotFoundException('Camada no encontrada.');
       if (litter._count.puppies >= litter.liveBorn)
         throw new ConflictException('Ya se identificaron todos los nacidos vivos registrados.');
+      await rememberBreed(tx, data.breed);
       const dog = await tx.dog.create({
         data: {
           ...data,
-          code: `VK-${randomUUID().slice(0, 8).toUpperCase()}`,
+          code: `ORYX-${randomUUID().slice(0, 8).toUpperCase()}`,
           litterId: id,
           isPuppy: true,
           birthDate: litter.birthDate,

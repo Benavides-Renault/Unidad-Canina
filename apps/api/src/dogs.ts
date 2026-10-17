@@ -13,12 +13,12 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
+import { rememberBreed } from './breed-registry';
 import { civilToday, lock } from './business-common';
 import { ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
-import { existsSync } from 'node:fs';
-import path from 'node:path';
+import { drawBrand } from './branding';
 import { Response } from 'express';
 import PDFDocument from 'pdfkit';
 import { z } from 'zod';
@@ -73,6 +73,33 @@ export class DogsController {
     ]);
     return { items, total, page, pageSize };
   }
+  @Allowed('ADMIN') @Get('identifiers/check') async checkIdentifiers(@Query() query: Record<string, string>) {
+    const input = parse(
+      z
+        .object({
+          field: z.enum(['code', 'microchip', 'pedigreeNumber']),
+          value: z.string().trim().min(1).max(100),
+          excludeId: idSchema.optional(),
+        })
+        .strict(),
+      query,
+    );
+    const value =
+      input.field === 'code' ? input.value.toUpperCase() : input.value.replace(/[\s-]+/g, '').toUpperCase();
+    const result =
+      input.field === 'code'
+        ? await this.db.$queryRaw<
+            { id: string }[]
+          >`SELECT id FROM "Dog" WHERE upper(btrim(code)) = ${value} AND (${input.excludeId || null}::uuid IS NULL OR id <> ${input.excludeId || null}::uuid) LIMIT 1`
+        : input.field === 'microchip'
+          ? await this.db.$queryRaw<
+              { id: string }[]
+            >`SELECT id FROM "Dog" WHERE upper(regexp_replace(microchip, '[[:space:]-]', '', 'g')) = ${value} AND (${input.excludeId || null}::uuid IS NULL OR id <> ${input.excludeId || null}::uuid) LIMIT 1`
+          : await this.db.$queryRaw<
+              { id: string }[]
+            >`SELECT id FROM "Dog" WHERE upper(regexp_replace("pedigreeNumber", '[[:space:]-]', '', 'g')) = ${value} AND (${input.excludeId || null}::uuid IS NULL OR id <> ${input.excludeId || null}::uuid) LIMIT 1`;
+    return { available: result.length === 0 };
+  }
   @Get('export.csv') async csv(@Req() req: AuthRequest, @Res() res: Response) {
     const dogs = await this.db.dog.findMany({ where: { archivedAt: null }, orderBy: { code: 'asc' } });
     await this.db.auditLog.create({
@@ -111,7 +138,7 @@ export class DogsController {
       ]);
     res
       .type('text/csv; charset=utf-8')
-      .attachment('valkyr-perros.csv')
+      .attachment('oryx-perros.csv')
       .send('\uFEFF' + rows.map((row) => row.map(csvCell).join(',')).join('\r\n'));
   }
   @Allowed(...MANAGE_DOGS) @Post() async create(@Body() body: unknown, @Req() req: AuthRequest) {
@@ -119,8 +146,9 @@ export class DogsController {
     this.domain.validateDog(data);
     return this.db.$transaction(async (tx) => {
       const ownership = await this.ownership(tx, data);
+      await rememberBreed(tx, data.breed);
       const dog = await tx.dog.create({
-        data: { ...data, ...ownership, code: data.code || `VK-${randomUUID().slice(0, 8).toUpperCase()}` },
+        data: { ...data, ...ownership, code: data.code || `ORYX-${randomUUID().slice(0, 8).toUpperCase()}` },
       });
       if (dog.location)
         await tx.movement.create({
@@ -186,6 +214,7 @@ export class DogsController {
       const current = await tx.dog.findUniqueOrThrow({ where: { id } });
       const ownership = await this.ownership(tx, { ...current, ...data });
       this.domain.validateDog({ ...current, ...data });
+      if (data.breed) await rememberBreed(tx, data.breed);
       if (
         (data.administrativeStatus && ['DECEASED', 'SOLD', 'RETIRED'].includes(data.administrativeStatus)) ||
         (data.availability && ['UNAVAILABLE', 'RESERVED'].includes(data.availability))
@@ -431,17 +460,11 @@ export class DogsController {
         id,
       ),
     });
-    const doc = new PDFDocument({ margin: 48, size: 'A4', info: { Title: `VALKYR ${dog.name}` } });
-    res.type('application/pdf').attachment(`valkyr-${dog.code}-${kind}.pdf`);
+    const doc = new PDFDocument({ margin: 48, size: 'A4', info: { Title: `ORYX K9 ${dog.name}` } });
+    res.type('application/pdf').attachment(`oryx-${dog.code}-${kind}.pdf`);
     doc.pipe(res);
-    const logoCandidates = [
-      process.env.BRANDING_LOGO_PATH,
-      path.resolve(process.cwd(), 'assets/branding/valkyr-logo-original.png'),
-      path.resolve(process.cwd(), '../../assets/branding/valkyr-logo-original.png'),
-    ].filter((v): v is string => Boolean(v));
-    const logo = logoCandidates.find(existsSync);
-    if (logo) doc.image(logo, 48, 40, { fit: [65, 75] });
-    doc.fontSize(19).fillColor('#141414').text('VALKYR UNIDAD CANINA', 128, 50);
+    drawBrand(doc, 48, 40, 68);
+    doc.fontSize(19).fillColor('#141414').text('ORYX K9 UNIDAD CANINA', 128, 50);
     doc
       .fontSize(11)
       .fillColor('#785437')
@@ -466,7 +489,7 @@ export class DogsController {
       .fontSize(9)
       .fillColor('#555555')
       .text(
-        'Registro interno de VALKYR. No constituye certificación veterinaria oficial ni sustituye el carné firmado por un profesional.',
+        'Registro interno de ORYX K9. No constituye certificación veterinaria oficial ni sustituye el carné firmado por un profesional.',
       )
       .fillColor('#141414');
     doc.moveDown().fontSize(13).text('Vacunaciones registradas');

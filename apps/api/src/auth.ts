@@ -170,7 +170,7 @@ export class AuthController {
       try {
         await sendMail(
           user.email,
-          'VALKYR: recuperación de acceso',
+          'ORYX K9: recuperación de acceso',
           `Solicitaste restablecer tu contraseña. Este enlace vence en 30 minutos y se utiliza una sola vez:\n${process.env.APP_ORIGIN}/reset-password?token=${raw}\nSi no lo solicitaste, ignora este correo.`,
         );
       } catch {
@@ -233,7 +233,7 @@ export class AuthController {
     });
     return {
       secret,
-      uri: `otpauth://totp/${encodeURIComponent(`VALKYR:${req.user.username}`)}?secret=${secret}&issuer=VALKYR&algorithm=SHA1&digits=6&period=30`,
+      uri: `otpauth://totp/${encodeURIComponent(`ORYX K9:${req.user.username}`)}?secret=${secret}&issuer=ORYX%20K9&algorithm=SHA1&digits=6&period=30`,
     };
   }
   @Allowed('ADMIN') @Post('mfa/enable') async enable(@Body() body: unknown, @Req() req: AuthRequest) {

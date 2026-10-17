@@ -158,7 +158,7 @@ export function ContractsPage({ user, openDog }: { user: User; openDog: (id: str
     [search, setSearch] = useState(''),
     [status, setStatus] = useState(''),
     [form, setForm] = useState<'institution' | 'contract' | null>(null);
-  const canEdit = ['SUPERADMIN', 'ADMIN'].includes(user.role);
+  const canEdit = ['ADMIN'].includes(user.role);
   const listing = useResource<PageData<Contract>>(
     `/contracts?page=${page}&pageSize=20&search=${encodeURIComponent(search)}&status=${status}`,
   );
@@ -454,7 +454,7 @@ function ContractDetail({
   const [form, setForm] = useState<'edit' | 'assign' | 'renew' | Assignment | null>(null),
     [uploadError, setUploadError] = useState(''),
     [busy, setBusy] = useState(false);
-  const canEdit = ['SUPERADMIN', 'ADMIN'].includes(user.role);
+  const canEdit = ['ADMIN'].includes(user.role);
   const dogs = useCatalog<Dog>(canEdit ? '/dogs' : null),
     handlers = useResource<{ id: string; name: string }[]>(canEdit ? '/operations/handlers' : null);
   async function upload(e: FormEvent<HTMLFormElement>) {

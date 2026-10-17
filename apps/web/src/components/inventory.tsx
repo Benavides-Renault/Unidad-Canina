@@ -45,7 +45,7 @@ const productFields: FieldDef[] = [
     label: 'Categoría del producto',
     type: 'select',
     required: true,
-    options: ['Alimento', 'Medicamento', 'Insumo', 'Equipo', 'Otro'],
+    options: ['Alimento', 'Medicamento', 'Insumo veterinario', 'Equipo de entrenamiento', 'Protección personal', 'Higiene y limpieza', 'Transporte', 'Documentación', 'Otro'],
   },
   {
     name: 'unit',

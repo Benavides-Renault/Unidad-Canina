@@ -2,8 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import PDFDocument from 'pdfkit';
-import { existsSync } from 'node:fs';
-import path from 'node:path';
+import { drawBrand } from './branding';
 import { Response } from 'express';
 import { Role } from './security';
 import { Tx } from './domain';
@@ -49,13 +48,8 @@ export function reportPdf(res: Response, title: string, lines: string[], filenam
   res.attachment(filename);
   res.setHeader('Cache-Control', 'private, no-store');
   doc.pipe(res);
-  const logo = [
-    process.env.BRANDING_LOGO_PATH,
-    path.resolve('assets/branding/valkyr-logo-original.png'),
-    path.resolve('../../assets/branding/valkyr-logo-original.png'),
-  ].find((p) => p && existsSync(p));
-  if (logo) doc.image(logo, 48, 35, { fit: [55, 65] });
-  doc.fontSize(19).fillColor('#141414').text('VALKYR UNIDAD CANINA', 120, 45);
+  drawBrand(doc,48,35,64);
+  doc.fontSize(19).fillColor('#141414').text('ORYX K9 UNIDAD CANINA', 120, 45);
   doc.fontSize(11).text(title, 120, 76, { width: 420 });
   doc.x = 48;
   doc.y = 125;

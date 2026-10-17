@@ -1,0 +1,16 @@
+export const trainingDisciplines = [
+  'Obediencia básica',
+  'Obediencia avanzada',
+  'Socialización',
+  'Detección de drogas',
+  'Detección de explosivos',
+  'Búsqueda y rescate',
+  'Rastreo',
+  'Localización de personas',
+  'Formación de embajador canino',
+  'Educación y convivencia',
+  'Servicio municipal',
+  'Agilidad',
+  'Acondicionamiento físico',
+  'Manejo y vínculo con el guía',
+];

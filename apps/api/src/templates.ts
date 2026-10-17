@@ -8,9 +8,12 @@ import {
   Delete,
   Param,
   Req,
+  Res,
   Inject,
   ConflictException,
 } from '@nestjs/common';
+import { Response } from 'express';
+import { reportPdf } from './business-common';
 import { z } from 'zod';
 import { Allowed, AuthRequest } from './access';
 import { Db } from './db';
@@ -19,7 +22,16 @@ import { idSchema, parse, requiredText } from './security';
 const schema = z
   .object({
     name: requiredText,
-    kind: z.enum(['TRAINING', 'BREEDING', 'CONTRACT']),
+    kind: z.enum([
+      'TRAINING',
+      'BREEDING',
+      'CONTRACT',
+      'MEDICAL',
+      'TALK',
+      'MUNICIPAL',
+      'EXTRAORDINARY',
+      'SERVICE',
+    ]),
     title: requiredText,
     issuer: requiredText,
     body: z.string().trim().min(1).max(12000),
@@ -42,6 +54,35 @@ export class TemplatesController {
       where: { archivedAt: null, ...(req.user.role === 'TRAINER' ? { kind: 'TRAINING' } : {}) },
       orderBy: { name: 'asc' },
     });
+  }
+  @Allowed('ADMIN') @Get(':id/pdf') async printable(
+    @Param('id') id: string,
+    @Req() req: AuthRequest,
+    @Res() res: Response,
+  ) {
+    parse(idSchema, id);
+    const row = await this.db.certificateTemplate.findFirst({ where: { id, archivedAt: null } });
+    if (!row) throw new BadRequestException('Plantilla no disponible.');
+    await this.db.auditLog.create({
+      data: this.domain.audit(
+        req,
+        'CertificateTemplate',
+        id,
+        'EXPORT_PDF',
+        'Planilla de registro descargada.',
+      ),
+    });
+    return reportPdf(
+      res,
+      row.title,
+      [
+        row.issuer,
+        ...row.body
+          .replace(/\{\{(.*?)\}\}/g, (_, key) => (key === 'emisor' ? row.issuer : '________________________'))
+          .split('\n'),
+      ],
+      'oryx-planilla.pdf',
+    );
   }
   @Allowed('ADMIN') @Post() async create(@Body() body: unknown, @Req() req: AuthRequest) {
     const data = parse(schema, body);

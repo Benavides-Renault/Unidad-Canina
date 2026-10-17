@@ -1,8 +1,10 @@
-# VALKYR Manager
+# ORYX K9 · Unidad Canina
 
-Gestión privada de VALKYR UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. Los alcances probados de [fase 2](docs/PHASE_2.md) y [fase 3](docs/PHASE_3.md), y los pendientes de despliegue/endurecimiento, están registrados en [ROADMAP](docs/ROADMAP.md).
+Identidad renovada, catálogo de razas, disponibilidad independiente para venta y cruza, fechas de crianza simplificadas y control interno. Consulta [la actualización y su verificación](docs/ORYX_CONTROL.md).
 
-El logo maestro en `assets/branding/valkyr-logo-original.png` conserva el archivo entregado. No hay registro público, integración fiscal ni datos reales precargados. El acceso utiliza nombres de usuario; el correo es opcional para recuperación y avisos.
+Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. Los alcances probados de [fase 2](docs/PHASE_2.md) y [fase 3](docs/PHASE_3.md), y los pendientes de despliegue/endurecimiento, están registrados en [ROADMAP](docs/ROADMAP.md).
+
+El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. No hay registro público, integración fiscal ni datos reales precargados. El acceso utiliza nombres de usuario; el correo es opcional para recuperación y avisos.
 
 Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada entrenador trabaja sólo con los perros asignados; cada cliente consulta sus perros y la galería de venta/preventa autorizada. Administración define propietario, custodio, entrenador y publicaciones. Consulta la [guía de uso](docs/USER_GUIDE.md).
 
@@ -10,13 +12,13 @@ Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada e
 
 La instalación activa contiene 10 cuentas, 30 perros con fotos, camadas, entrenamiento, salud, contratos, cuentas e inventario. Acceso principal: **admin / 1234**; todas las cuentas de prueba usan **1234**. Consulta [los usuarios y el recorrido](docs/DEMO_ACCESOS.md). La entrega incorpora clínica versionada, comprobantes, plantillas, renovaciones, proveedores, conciliación/cierres, preferencias de avisos y [respaldo cifrado y controles locales](docs/PHASE_4_LOCAL.md). Los datos anteriores permanecen conservados aparte.
 
-La instalación local ya está preparada, con el usuario **admin** creado para las pruebas solicitadas por el propietario. Abre **INICIAR_VALKYR.cmd** y después [VALKYR local](http://localhost:3000). Dentro de **Administración → Usuarios → Crear usuario**, crea los accesos de los socios con nombre, usuario, contraseña y rol; no requieren correo. **Editar usuario** permite cambiar contraseñas, roles y estado. Mantén la consola abierta mientras uses la aplicación; Ctrl+C detiene los servicios iniciados por ella conservando los datos. El iniciador utiliza el Node compatible incluido en esta PC cuando está disponible, sin cambiar la instalación global.
+La instalación local ya está preparada, con el usuario **admin** creado para las pruebas solicitadas por el propietario. Abre **INICIAR_ORYX_K9.cmd** y después [ORYX K9 local](http://localhost:3000). Dentro de **Administración → Usuarios → Crear usuario**, crea los accesos de los socios con nombre, usuario, contraseña y rol; no requieren correo. **Editar usuario** permite cambiar contraseñas, roles y estado. Mantén la consola abierta mientras uses la aplicación; Ctrl+C detiene los servicios iniciados por ella conservando los datos. El iniciador utiliza el Node compatible incluido en esta PC cuando está disponible, sin cambiar la instalación global.
 
 También puedes usar `npm run local` con Node 24 LTS. El iniciador aplica migraciones y usa la compilación de producción; requiere dependencias y compilación previamente preparadas. La base local conserva la cuenta de prueba y está separada de las bases sintéticas de verificación. La clave de prueba se configuró solo en esta PC: no se crea automáticamente al instalar, iniciar o migrar. Antes de uso real, cambia esa clave desde Usuarios. En una instalación nueva sin cuentas, el asistente solicita nombre, usuario y contraseña propia del administrador. Consulta [los resultados y límites verificados](docs/TEST_REPORT.md).
 
 ## Compartir una visita desde esta PC
 
-`COMPARTIR_VALKYR.cmd` genera un enlace HTTPS privado que funciona mientras esta PC y VALKYR estén encendidos. `DETENER_ENLACE_VALKYR.cmd` revoca el acceso sin detener la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); la invitación y los archivos locales no forman parte del repositorio.
+`COMPARTIR_ORYX_K9.cmd` genera un enlace HTTPS privado que funciona mientras esta PC y ORYX K9 estén encendidos. `DETENER_ENLACE_ORYX_K9.cmd` revoca el acceso sin detener la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); la invitación y los archivos locales no forman parte del repositorio.
 
 ## Inicio con Docker
 
@@ -31,7 +33,7 @@ docker compose up -d --build
 docker compose exec api npm run bootstrap
 ```
 
-El asistente solicita nombre, usuario y contraseña del primer superadministrador. No crea cuentas de demostración. Abrir [VALKYR local](http://localhost:3000); [Mailpit](http://localhost:8025) muestra los correos de prueba. La interfaz y los correos de prueba están ligados a loopback. PostgreSQL se liga a `127.0.0.1:5433` para desarrollo; no se publica a la LAN.
+El asistente solicita nombre, usuario y contraseña del primer administrador. No crea cuentas de demostración. Abrir [ORYX K9 local](http://localhost:3000); [Mailpit](http://localhost:8025) muestra los correos de prueba. La interfaz y los correos de prueba están ligados a loopback. PostgreSQL se liga a `127.0.0.1:5433` para desarrollo; no se publica a la LAN.
 
 ```sh
 docker compose logs --tail=100 api worker

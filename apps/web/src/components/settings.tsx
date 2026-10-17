@@ -1,4 +1,6 @@
 'use client';
+import { BreedsPanel } from './breeds';
+import { InternalAudit } from './internal-audit';
 import { TemplatesPanel } from './templates';
 import { NotificationPreferences } from './notification-preferences';
 import { useState } from 'react';
@@ -299,7 +301,7 @@ export function SettingsPage({ user, refreshUser }: { user: User; refreshUser: (
           <dl className="details-list">
             <div>
               <dt>Organización</dt>
-              <dd>VALKYR Unidad Canina</dd>
+              <dd>ORYX K9 Unidad Canina</dd>
             </div>
             <div>
               <dt>Zona horaria</dt>
@@ -366,19 +368,25 @@ export function SettingsPage({ user, refreshUser }: { user: User; refreshUser: (
               </p>
             </div>
             <p className="panel-text muted">
-              La aplicación requiere conexión al servidor de VALKYR. No admite edición sin conexión. La
+              La aplicación requiere conexión al servidor de ORYX K9. No admite edición sin conexión. La
               instalación como PWA depende del navegador y de un contexto seguro.
             </p>
           </Panel>
           {(!user.mfaRequired || user.mfaEnabled) && <NotificationPreferences />}
           {user.role === 'ADMIN' && (!user.mfaRequired || user.mfaEnabled) && (
             <>
-              <TemplatesPanel />
               <SystemStatus />
             </>
           )}
         </div>
       </div>
+      {user.role === 'ADMIN' && (!user.mfaRequired || user.mfaEnabled) && (
+        <div className="settings-catalogs">
+          <InternalAudit />
+          <TemplatesPanel />
+          <BreedsPanel />
+        </div>
+      )}
       {setup && (
         <Modal
           title="Vincula tu autenticador"
@@ -516,6 +524,7 @@ function SystemStatus() {
   }>('/system/status');
   return (
     <Panel
+      className="system-status"
       title="Estado de la instalación"
       action={
         <Button variant="secondary" onClick={r.reload}>
@@ -551,7 +560,7 @@ function SystemStatus() {
               <div>
                 <dt>Recordatorios</dt>
                 <dd>
-                  {r.data.workerHealthy ? 'Trabajador activo' : 'Revisar trabajador'}
+                  {r.data.workerHealthy ? 'Servicio activo' : 'Revisar servicio'}
                   <small>{formatDate(r.data.workerLastSeen, true)}</small>
                 </dd>
               </div>
@@ -603,8 +612,7 @@ function SystemStatus() {
               </div>
             </dl>
             <p className="panel-text muted">
-              Si el trabajador deja de responder o hay avisos fallidos, revisa los servicios. Los respaldos se
-              verifican con restauraciones aisladas.
+              Consulta aquí la última copia verificada y el funcionamiento de los recordatorios.
             </p>
           </>
         )

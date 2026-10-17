@@ -1,4 +1,5 @@
 'use client';
+import { BrandMark } from '@/components/brand';
 import { RecordEvidence } from './records';
 import { NotificationPreferences } from './notification-preferences';
 import { useState, type FormEvent } from 'react';
@@ -59,6 +60,8 @@ type Cross = {
   publicTitle: string;
   publicDescription?: string;
   plannedDate: string;
+  expectedBirthDate?: string;
+  expectedDeliveryDate?: string;
   windowStart?: string;
   windowEnd?: string;
   status: string;
@@ -78,9 +81,9 @@ export function RestrictedWorkspace({ user, logout }: { user: User; logout: () =
       </a>
       <header className="portal-header">
         <div className="portal-brand">
-          <img src="/valkyr-logo-original.png" alt="VALKYR Unidad Canina" width="48" height="55" />
+          <BrandMark />
           <div>
-            <strong>VALKYR</strong>
+            <strong>ORYX K9</strong>
             <small>{user.role === 'CLIENT' ? 'MI ESPACIO' : 'ENTRENAMIENTO Y SALUD'}</small>
           </div>
         </div>
@@ -124,7 +127,7 @@ export function RestrictedWorkspace({ user, logout }: { user: User; logout: () =
           <summary>Mis preferencias de avisos</summary>
           <NotificationPreferences />
         </details>
-        VALKYR · Unidad Canina ·{' '}
+        ORYX K9 · Unidad Canina ·{' '}
         {user.role === 'CLIENT' ? 'Tu equipo, siempre cerca.' : 'Seguimiento de los perros asignados.'}
       </footer>
     </div>
@@ -226,7 +229,7 @@ function Contact({ value }: { value?: string }) {
           Contactar para apartar
         </a>
       )}
-      <small>La disponibilidad y las condiciones se confirman con VALKYR.</small>
+      <small>La disponibilidad y las condiciones se confirman con ORYX K9.</small>
     </div>
   );
 }
@@ -308,12 +311,8 @@ export function Gallery() {
               description={selected.publicDescription || 'Conoce a los padres de esta futura camada.'}
             />
             <p>Fecha prevista del cruce: {formatDate(selected.plannedDate)}</p>
-            {selected.windowStart && (
-              <p>
-                Ventana estimada registrada: {formatDate(selected.windowStart)} –{' '}
-                {formatDate(selected.windowEnd)}
-              </p>
-            )}
+            <p>Nacimiento previsto: {formatDate(selected.expectedBirthDate)}</p>
+            <p>Entrega prevista: {formatDate(selected.expectedDeliveryDate)}</p>
             <p className="portal-price">{money(selected.puppyPrice, selected.currency)} por cachorro</p>
             <div className="portal-parents">
               <div>
@@ -338,7 +337,7 @@ export function Gallery() {
       <PageHeading
         eyebrow="EL PRÓXIMO CAPÍTULO"
         title="Encuentra a tu próximo compañero"
-        description="Perros disponibles y futuras camadas publicadas por VALKYR."
+        description="Perros disponibles y futuras camadas publicadas por ORYX K9."
       />
       <div className="tabs" role="tablist" aria-label="Tipo de publicación">
         {[
@@ -901,7 +900,7 @@ export function PartiesPage() {
       <PageHeading
         eyebrow="PROPIEDAD Y CUSTODIA"
         title="Personas y entidades"
-        description="Propietarios y responsables: VALKYR, particulares, municipalidades y otras organizaciones."
+        description="Propietarios y responsables: ORYX K9, particulares, municipalidades y otras organizaciones."
       >
         <Button icon={Plus} onClick={() => setEditing('new')}>
           Registrar persona o entidad
@@ -971,11 +970,16 @@ export function CatalogManager() {
   const r = useResource<PageData<Dog>>(`/dogs?includePuppies=true&page=${page}&pageSize=20`);
   const baseFields: FieldDef[] = [
     {
-      name: 'commercialCategory',
-      label: 'Categoría comercial',
-      type: 'select',
-      required: true,
-      options: ['NOT_LISTED', 'FOR_SALE', 'FOR_BREEDING'],
+      name: 'availableForSale',
+      label: 'Disponible para venta',
+      type: 'checkbox',
+      hint: 'Se puede combinar con cruza y entrenamiento.',
+    },
+    {
+      name: 'availableForBreeding',
+      label: 'Disponible para cruza',
+      type: 'checkbox',
+      hint: 'Permite seleccionarlo como progenitor en Crianza, aunque también esté en venta o entrenamiento.',
     },
     {
       name: 'salePublished',
@@ -985,7 +989,11 @@ export function CatalogManager() {
     },
     { name: 'salePrice', label: 'Precio de venta', inputMode: 'decimal' },
     { name: 'saleCurrency', label: 'Moneda', type: 'select', required: true, options: ['CRC', 'USD'] },
-    { name: 'saleContact', label: 'Contacto para apartar' },
+    {
+      name: 'saleContact',
+      label: 'Contacto para apartar',
+      hint: 'Nombre de la persona responsable y teléfono o correo, por ejemplo María Vargas · +123456789.',
+    },
     ...(
       [
         ['publicDescription', 'Información general'],
@@ -1033,7 +1041,12 @@ export function CatalogManager() {
                       <small>{d.code}</small>
                     </td>
                     <td>
-                      <Badge value={d.commercialCategory || 'NOT_LISTED'} />
+                      <div className="badge-group">
+                        {d.availableForSale && <Badge value="FOR_SALE" />}
+                        {d.availableForBreeding && <Badge value="FOR_BREEDING" />}
+                        {!d.availableForSale && !d.availableForBreeding && <Badge value="NOT_LISTED" />}
+                        <Badge value={d.workStatus} />
+                      </div>
                     </td>
                     <td>
                       {d.salePublished && d.availability === 'AVAILABLE' ? 'En galería' : 'No publicada'}

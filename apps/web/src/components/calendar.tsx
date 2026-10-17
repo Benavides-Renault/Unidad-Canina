@@ -230,8 +230,8 @@ function CalendarBoard({
         {canAppointments(user.role) && <AddButton onClick={createAppointment}>Programar cita</AddButton>}
       </PageHeading>
       {actionError && <ErrorBox message={actionError} />}
-      <Panel>
-        <div className="field field-spacing">
+      <Panel className="calendar-panel">
+        <div className="field calendar-filter">
           <label htmlFor="calendar-type">Tipo de evento</label>
           <select
             id="calendar-type"
@@ -344,12 +344,17 @@ function CalendarBoard({
                     </div>
                     <div className="agenda-info">
                       <h3>{appointment.title}</h3>
-                      <small>{eventLabels[appointment.type]}</small>
-                      {appointment.dogId && (
-                        <button className="inline-link" onClick={() => openDog(appointment.dogId!)}>
-                          {appointment.dog?.name || 'Ver expediente'}
-                        </button>
-                      )}
+                      <div className="agenda-meta">
+                        <small>{eventLabels[appointment.type]}</small>
+                        {appointment.dogId && (
+                          <>
+                            <span aria-hidden="true">·</span>
+                            <button className="inline-link" onClick={() => openDog(appointment.dogId!)}>
+                              {appointment.dog?.name || 'Ver expediente'}
+                            </button>
+                          </>
+                        )}
+                      </div>
                       {appointment.location && (
                         <p>
                           <MapPin size={13} />

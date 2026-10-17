@@ -49,6 +49,8 @@ try {
     'TrainingGoal',
     'GoalEvaluation',
     'Certification',
+    'CertificateTemplate',
+    'Breed',
     'Dog',
     'Vaccination',
     'TrainingSession',

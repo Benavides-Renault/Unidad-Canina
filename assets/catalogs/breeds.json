@@ -1,0 +1,2587 @@
+{
+  "source": "https://www.fci.be/es/Nomenclature/",
+  "retrievedAt": "2026-10-17T00:42:44.439Z",
+  "breeds": [
+    {
+      "name": "Affenpinscher",
+      "standardNumber": 186,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AFFENPINSCHER-186.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Airedale terrier",
+      "standardNumber": 7,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AIREDALE-TERRIER-7.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Akita",
+      "standardNumber": 255,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AKITA-255.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Akita americano",
+      "standardNumber": 344,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AKITA-AMERICANO-344.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "American foxhound",
+      "standardNumber": 303,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AMERICAN-FOXHOUND-303.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "American staffordshire terrier",
+      "standardNumber": 286,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AMERICAN-STAFFORDSHIRE-TERRIER-286.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Antiguo perro de muestra danés",
+      "standardNumber": 281,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/ANTIGUO-PERRO-DE-MUESTRA-DANES-281.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Antiguo perro de pastor inglés",
+      "standardNumber": 16,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/ANTIGUO-PERRO-DE-PASTOR-INGLES-16.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Australian kelpie",
+      "standardNumber": 293,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AUSTRALIAN-KELPIE-293.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Australian terrier",
+      "standardNumber": 8,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AUSTRALIAN-TERRIER-8.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Azawakh",
+      "standardNumber": 307,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/AZAWAKH-307.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Basenji",
+      "standardNumber": 43,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BASENJI-43.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Basset artesiano de normandía",
+      "standardNumber": 34,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BASSET-ARTESIANO-DE-NORMANDIA-34.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Basset azul de gascuña",
+      "standardNumber": 35,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BASSET-AZUL-DE-GASCUNA-35.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Basset hound",
+      "standardNumber": 163,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BASSET-HOUND-163.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Basset leonado de bretaña",
+      "standardNumber": 36,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BASSET-LEONADO-DE-BRETANA-36.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Beagle",
+      "standardNumber": 161,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BEAGLE-161.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Beagle-harrier",
+      "standardNumber": 290,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BEAGLE-HARRIER-290.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bedlington terrier",
+      "standardNumber": 9,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BEDLINGTON-TERRIER-9.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bichon de pelo rizado",
+      "standardNumber": 215,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BICHON-DE-PELO-RIZADO-215.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bichon habanero",
+      "standardNumber": 250,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BICHON-HABANERO-250.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Billy",
+      "standardNumber": 25,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BILLY-25.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bolognese",
+      "standardNumber": 196,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOLOGNESE-196.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Border collie",
+      "standardNumber": 297,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BORDER-COLLIE-297.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Border terrier",
+      "standardNumber": 10,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BORDER-TERRIER-10.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Borzoi - lebrel ruso para la caza",
+      "standardNumber": 193,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BORZOI-LEBREL-RUSO-PARA-LA-CAZA-193.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Boston terrier",
+      "standardNumber": 140,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOSTON-TERRIER-140.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Boxer",
+      "standardNumber": 144,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOXER-144.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Boyero australiano",
+      "standardNumber": 287,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOYERO-AUSTRALIANO-287.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Boyero de flandes",
+      "standardNumber": 191,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOYERO-DE-FLANDES-191.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Boyero de las ardenas",
+      "standardNumber": 171,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOYERO-DE-LAS-ARDENAS-171.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Boyero de montana bernes",
+      "standardNumber": 45,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BOYERO-DE-MONTANA-BERNES-45.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco alemán de pelo corto",
+      "standardNumber": 119,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-ALEMAN-DE-PELO-CORTO-119.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco de auvernia",
+      "standardNumber": 180,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-DE-AUVERNIA-180.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco del ariege",
+      "standardNumber": 177,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-DEL-ARIEGE-177.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco del borbonesado",
+      "standardNumber": 179,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-DEL-BORBONESADO-179.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco eslovaco de pelo duro",
+      "standardNumber": 320,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-ESLOVACO-DE-PELO-DURO-320.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco francés - tipo gascuña",
+      "standardNumber": 133,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-FRANCES-TIPO-GASCUNA-133.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco francés - tipo pirineos",
+      "standardNumber": 134,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-FRANCES-TIPO-PIRINEOS-134.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco húngaro de pelo corto",
+      "standardNumber": 57,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-HUNGARO-DE-PELO-CORTO-57.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco húngaro de pelo duro",
+      "standardNumber": 239,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-HUNGARO-DE-PELO-DURO-239.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco italiano",
+      "standardNumber": 202,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-ITALIANO-202.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Braco saint-germain",
+      "standardNumber": 115,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRACO-SAINT-GERMAIN-115.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Briquet grifon vendeano",
+      "standardNumber": 19,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BRIQUET-GRIFON-VENDEANO-19.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Broholmer",
+      "standardNumber": 315,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BROHOLMER-315.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Buhund noruego",
+      "standardNumber": 237,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BUHUND-NORUEGO-237.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bull terrier",
+      "standardNumber": 11,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULL-TERRIER-11.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bull terrier miniatura",
+      "standardNumber": 359,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULL-TERRIER-MINIATURA-359.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bulldog",
+      "standardNumber": 149,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULLDOG-149.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bulldog campero brasileño",
+      "standardNumber": 374,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULLDOG-CAMPERO-BRASILENO-374.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Bulldog continental",
+      "standardNumber": 369,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULLDOG-CONTINENTAL-369.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Bulldog francés",
+      "standardNumber": 101,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULLDOG-FRANCES-101.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Bullmastiff",
+      "standardNumber": 157,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/BULLMASTIFF-157.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Ca de bou",
+      "standardNumber": 249,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CA-DE-BOU-249.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cairn terrier",
+      "standardNumber": 4,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CAIRN-TERRIER-4.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Canaan dog",
+      "standardNumber": 273,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CANAAN-DOG-273.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cane corso",
+      "standardNumber": 343,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CANE-CORSO-343.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Caniche",
+      "standardNumber": 172,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CANICHE-172.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cavalier king charles spaniel",
+      "standardNumber": 136,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CAVALIER-KING-CHARLES-SPANIEL-136.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cazador de alces noruego gris",
+      "standardNumber": 242,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CAZADOR-DE-ALCES-NORUEGO-GRIS-242.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cazador de alces noruego negro",
+      "standardNumber": 268,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CAZADOR-DE-ALCES-NORUEGO-NEGRO-268.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Chesapeake bay retriever",
+      "standardNumber": 263,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CHESAPEAKE-BAY-RETRIEVER-263.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Chien de saint hubert",
+      "standardNumber": 84,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CHIEN-DE-SAINT-HUBERT-84.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Chihuahueño",
+      "standardNumber": 218,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CHIHUAHUENO-218.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Chow chow",
+      "standardNumber": 205,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CHOW-CHOW-205.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cimarrón uruguayo",
+      "standardNumber": 353,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CIMARRON-URUGUAYO-353.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cirneco del etna",
+      "standardNumber": 199,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CIRNECO-DEL-ETNA-199.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Clumber spaniel",
+      "standardNumber": 109,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/CLUMBER-SPANIEL-109.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cobrador de pelo liso",
+      "standardNumber": 121,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COBRADOR-DE-PELO-LISO-121.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cobrador de pelo rizado",
+      "standardNumber": 110,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COBRADOR-DE-PELO-RIZADO-110.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cobrador dorado",
+      "standardNumber": 111,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COBRADOR-DORADO-111.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cocker spaniel americano",
+      "standardNumber": 167,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COCKER-SPANIEL-AMERICANO-167.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Cocker spaniel inglés",
+      "standardNumber": 5,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COCKER-SPANIEL-INGLES-5.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Collie barbudo",
+      "standardNumber": 271,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COLLIE-BARBUDO-271.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Collie de pelo corto",
+      "standardNumber": 296,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COLLIE-DE-PELO-CORTO-296.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Collie de pelo largo",
+      "standardNumber": 156,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COLLIE-DE-PELO-LARGO-156.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Coton de tulear",
+      "standardNumber": 283,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/COTON-DE-TULEAR-283.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dachsbracke de los alpes",
+      "standardNumber": 254,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DACHSBRACKE-DE-LOS-ALPES-254.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dálmata",
+      "standardNumber": 153,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DALMATA-153.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dandie dinmont terrier",
+      "standardNumber": 168,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DANDIE-DINMONT-TERRIER-168.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Deutsch langhaar",
+      "standardNumber": 117,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DEUTSCH-LANGHAAR-117.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dobermann",
+      "standardNumber": 143,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DOBERMANN-143.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dogo argentino",
+      "standardNumber": 292,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DOGO-ARGENTINO-292.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dogo de burdeos",
+      "standardNumber": 116,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DOGO-DE-BURDEOS-116.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Dogo del tibet",
+      "standardNumber": 230,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/DOGO-DEL-TIBET-230.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Espinone",
+      "standardNumber": 165,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/ESPINONE-165.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Eurásico",
+      "standardNumber": 291,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/EURASICO-291.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Field spaniel",
+      "standardNumber": 123,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/FIELD-SPANIEL-123.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Fila brasileño",
+      "standardNumber": 225,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/FILA-BRASILENO-225.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Fila de san miguel",
+      "standardNumber": 340,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/FILA-DE-SAN-MIGUEL-340.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Fox terrier de pelo alambre",
+      "standardNumber": 169,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/FOX-TERRIER-DE-PELO-ALAMBRE-169.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Fox terrier de pelo liso",
+      "standardNumber": 12,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/FOX-TERRIER-DE-PELO-LISO-12.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Foxhound inglés",
+      "standardNumber": 159,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/FOXHOUND-INGLES-159.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Galgo español",
+      "standardNumber": 285,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GALGO-ESPANOL-285.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gascon saintongeois",
+      "standardNumber": 21,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GASCON-SAINTONGEOIS-21.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gonczy polski",
+      "standardNumber": 354,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GONCZY-POLSKI-354.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gordon setter ",
+      "standardNumber": 6,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GORDON-SETTER-6.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran basset grifón vendeano",
+      "standardNumber": 33,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-BASSET-GRIFON-VENDEANO-33.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran boyero suizo",
+      "standardNumber": 58,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-BOYERO-SUIZO-58.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran danés",
+      "standardNumber": 235,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-DANES-235.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran grifon vendeano",
+      "standardNumber": 282,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-GRIFON-VENDEANO-282.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran munsterlander",
+      "standardNumber": 118,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-MUNSTERLANDER-118.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran sabueso anglo-francés blanco y naranja",
+      "standardNumber": 324,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-SABUESO-ANGLO-FRANCES-BLANCO-Y-NARANJA-324.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran sabueso anglo-francés blanco y negro",
+      "standardNumber": 323,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-SABUESO-ANGLO-FRANCES-BLANCO-Y-NEGRO-323.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran sabueso anglo-francés tricolor",
+      "standardNumber": 322,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-SABUESO-ANGLO-FRANCES-TRICOLOR-322.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Gran sabueso azul de gascuña",
+      "standardNumber": 22,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRAN-SABUESO-AZUL-DE-GASCUNA-22.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Greyhound",
+      "standardNumber": 158,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GREYHOUND-158.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Griffon belge",
+      "standardNumber": 81,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFFON-BELGE-81.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Griffon bruxellois",
+      "standardNumber": 80,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFFON-BRUXELLOIS-80.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Grifón azul de gascuña",
+      "standardNumber": 32,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFON-AZUL-DE-GASCUNA-32.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Grifón de muestra bohemio de pelo duro",
+      "standardNumber": 245,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFON-DE-MUESTRA-BOHEMIO-DE-PELO-DURO-245.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Grifón de muestra de pelo duro",
+      "standardNumber": 107,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFON-DE-MUESTRA-DE-PELO-DURO-107.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Grifón del nivernais",
+      "standardNumber": 17,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFON-DEL-NIVERNAIS-17.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Grifón leonado de bretaña",
+      "standardNumber": 66,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/GRIFON-LEONADO-DE-BRETANA-66.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Harrier",
+      "standardNumber": 295,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/HARRIER-295.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Hokkaido",
+      "standardNumber": 261,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/HOKKAIDO-261.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Hovawart",
+      "standardNumber": 190,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/HOVAWART-190.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Husky siberiano",
+      "standardNumber": 270,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/HUSKY-SIBERIANO-270.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Kai",
+      "standardNumber": 317,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KAI-317.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Kazakh tazy",
+      "standardNumber": 372,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KAZAKH-TAZY-372.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Kerry blue terrier",
+      "standardNumber": 3,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KERRY-BLUE-TERRIER-3.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "King charles spaniel",
+      "standardNumber": 128,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KING-CHARLES-SPANIEL-128.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Kishu",
+      "standardNumber": 318,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KISHU-318.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Komondor",
+      "standardNumber": 53,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KOMONDOR-53.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Korea jindo dog",
+      "standardNumber": 334,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KOREA-JINDO-DOG-334.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Kromfohrländer",
+      "standardNumber": 192,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KROMFOHRLANDER-192.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Kuvasz",
+      "standardNumber": 54,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/KUVASZ-54.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Labrador retriever",
+      "standardNumber": 122,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LABRADOR-RETRIEVER-122.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Laika de siberia occidental",
+      "standardNumber": 306,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LAIKA-DE-SIBERIA-OCCIDENTAL-306.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Laika de siberia oriental",
+      "standardNumber": 305,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LAIKA-DE-SIBERIA-ORIENTAL-305.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Laika de yakutia",
+      "standardNumber": 365,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LAIKA-DE-YAKUTIA-365.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Laika ruso-europeo",
+      "standardNumber": 304,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LAIKA-RUSO-EUROPEO-304.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lakeland terrier",
+      "standardNumber": 70,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LAKELAND-TERRIER-70.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lancashire heeler",
+      "standardNumber": 360,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LANCASHIRE-HEELER-360.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Landseer (tipo europeo continental)",
+      "standardNumber": 226,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LANDSEER-TIPO-EUROPEO-CONTINENTAL-226.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lebrel afgano",
+      "standardNumber": 228,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LEBREL-AFGANO-228.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lebrel escocés",
+      "standardNumber": 164,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LEBREL-ESCOCES-164.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lebrel húngaro",
+      "standardNumber": 240,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LEBREL-HUNGARO-240.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lebrel irlandés",
+      "standardNumber": 160,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LEBREL-IRLANDES-160.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lebrel polaco",
+      "standardNumber": 333,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LEBREL-POLACO-333.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Leonberger",
+      "standardNumber": 145,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LEONBERGER-145.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lhasa apso",
+      "standardNumber": 227,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LHASA-APSO-227.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Lundehund noruego",
+      "standardNumber": 265,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/LUNDEHUND-NORUEGO-265.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Malamute de alaska",
+      "standardNumber": 243,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MALAMUTE-DE-ALASKA-243.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Maltese",
+      "standardNumber": 65,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MALTESE-65.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Manchester terrier",
+      "standardNumber": 71,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MANCHESTER-TERRIER-71.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Mastiff",
+      "standardNumber": 264,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MASTIFF-264.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Mastín del pirineo",
+      "standardNumber": 92,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MASTIN-DEL-PIRINEO-92.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Mastín español",
+      "standardNumber": 91,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MASTIN-ESPANOL-91.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Mastín napolitano",
+      "standardNumber": 197,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MASTIN-NAPOLITANO-197.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Mastín transmontano",
+      "standardNumber": 368,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MASTIN-TRANSMONTANO-368.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Mudi",
+      "standardNumber": 238,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/MUDI-238.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Nederlandse kooikerhondje",
+      "standardNumber": 314,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/NEDERLANDSE-KOOIKERHONDJE-314.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Norfolk terrier",
+      "standardNumber": 272,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/NORFOLK-TERRIER-272.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Norwich terrier",
+      "standardNumber": 72,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/NORWICH-TERRIER-72.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Parson russell terrier ",
+      "standardNumber": 339,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PARSON-RUSSELL-TERRIER-339.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor alemán",
+      "standardNumber": 166,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-ALEMAN-166.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor australiano stumpy tail",
+      "standardNumber": 351,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-AUSTRALIANO-STUMPY-TAIL-351.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Pastor blanco suizo",
+      "standardNumber": 347,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-BLANCO-SUIZO-347.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor de beauce",
+      "standardNumber": 44,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-BEAUCE-44.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor de bosnia y herzegovina - croacia",
+      "standardNumber": 355,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-BOSNIA-Y-HERZEGOVINA-CROACIA-355.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor de brie",
+      "standardNumber": 113,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-BRIE-113.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor de karst",
+      "standardNumber": 278,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-KARST-278.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor de los pirineos de cara rasa",
+      "standardNumber": 138,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-LOS-PIRINEOS-DE-CARA-RASA-138.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor de macedonia karaman ",
+      "standardNumber": 378,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-MACEDONIA-KARAMAN-378.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Pastor de picardía",
+      "standardNumber": 176,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-DE-PICARDIA-176.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor finlandés de laponia",
+      "standardNumber": 284,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-FINLANDES-DE-LAPONIA-284.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor holandés",
+      "standardNumber": 223,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-HOLANDES-223.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor miniatura americano",
+      "standardNumber": 367,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-MINIATURA-AMERICANO-367.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Pastor polaco de tatra",
+      "standardNumber": 252,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PASTOR-POLACO-DE-TATRA-252.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pekinés",
+      "standardNumber": 207,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEKINES-207.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pequeño basset grifón vendeano",
+      "standardNumber": 67,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEQUENO-BASSET-GRIFON-VENDEANO-67.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pequeño lebrel italiano",
+      "standardNumber": 200,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEQUENO-LEBREL-ITALIANO-200.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pequeño münsterländer ",
+      "standardNumber": 102,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEQUENO-MUNSTERLANDER-102.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pequeño perro león",
+      "standardNumber": 233,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEQUENO-PERRO-LEON-233.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pequeño perro ruso",
+      "standardNumber": 352,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEQUENO-PERRO-RUSO-352.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pequeño sabueso azul de gascuña",
+      "standardNumber": 31,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PEQUENO-SABUESO-AZUL-DE-GASCUNA-31.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perdiguero alemán",
+      "standardNumber": 104,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERDIGUERO-ALEMAN-104.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perdiguero de burgos",
+      "standardNumber": 90,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERDIGUERO-DE-BURGOS-90.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perdiguero de drente",
+      "standardNumber": 224,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERDIGUERO-DE-DRENTE-224.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perdiguero frisón",
+      "standardNumber": 222,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERDIGUERO-FRISON-222.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perdiguero portugués",
+      "standardNumber": 187,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERDIGUERO-PORTUGUES-187.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro boyero de appenzell",
+      "standardNumber": 46,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-BOYERO-DE-APPENZELL-46.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro boyero de entlebuch",
+      "standardNumber": 47,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-BOYERO-DE-ENTLEBUCH-47.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro cazador de alces sueco",
+      "standardNumber": 42,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-CAZADOR-DE-ALCES-SUECO-42.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro cobrador de nueva escocia",
+      "standardNumber": 312,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-COBRADOR-DE-NUEVA-ESCOCIA-312.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro crestado chino",
+      "standardNumber": 288,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-CRESTADO-CHINO-288.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro crestado rodesiano",
+      "standardNumber": 146,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-CRESTADO-RODESIANO-146.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua americano",
+      "standardNumber": 301,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-AMERICANO-301.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua de romagna",
+      "standardNumber": 298,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-DE-ROMAGNA-298.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua español",
+      "standardNumber": 336,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-ESPANOL-336.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua francés",
+      "standardNumber": 105,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-FRANCES-105.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua frison",
+      "standardNumber": 221,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-FRISON-221.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua irlandés",
+      "standardNumber": 124,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-IRLANDES-124.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de agua portugués",
+      "standardNumber": 37,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-AGUA-PORTUGUES-37.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de castro laboreiro",
+      "standardNumber": 170,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-CASTRO-LABOREIRO-170.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de granja danés y sueco",
+      "standardNumber": 356,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-GRANJA-DANES-Y-SUECO-356.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de groenlandia",
+      "standardNumber": 274,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-GROENLANDIA-274.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de la sierra de la estrela",
+      "standardNumber": 173,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-LA-SIERRA-DE-LA-ESTRELA-173.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de montaña de los pirineos",
+      "standardNumber": 137,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-MONTANA-DE-LOS-PIRINEOS-137.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de montaña del atlas (aïdi)",
+      "standardNumber": 247,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-MONTANA-DEL-ATLAS-AIDI-247.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de muestra alemán de pelo cerdoso",
+      "standardNumber": 232,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-MUESTRA-ALEMAN-DE-PELO-CERDOSO-232.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de muestra alemán de pelo duro",
+      "standardNumber": 98,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-MUESTRA-ALEMAN-DE-PELO-DURO-98.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de nutria",
+      "standardNumber": 294,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-NUTRIA-294.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de osos de carelia",
+      "standardNumber": 48,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-OSOS-DE-CARELIA-48.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor belga",
+      "standardNumber": 15,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-BELGA-15.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor bergamasco",
+      "standardNumber": 194,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-BERGAMASCO-194.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor catalán",
+      "standardNumber": 87,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-CATALAN-87.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor de los abruzos y de la maremma",
+      "standardNumber": 201,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-DE-LOS-ABRUZOS-Y-DE-LA-MAREMMA-201.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor de rusia meridional",
+      "standardNumber": 326,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-DE-RUSIA-MERIDIONAL-326.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor islandés",
+      "standardNumber": 289,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-ISLANDES-289.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor mallorqu&#314;n",
+      "standardNumber": 321,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-MALLORQU-314-N-321.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor polaco de las llanuras",
+      "standardNumber": 251,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-POLACO-DE-LAS-LLANURAS-251.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor portugués",
+      "standardNumber": 93,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-PORTUGUES-93.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor rumano de bucovina",
+      "standardNumber": 357,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-RUMANO-DE-BUCOVINA-357.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor rumano de los cárpatos \"carpatin\"",
+      "standardNumber": 350,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-RUMANO-DE-LOS-CARPATOS-CARPATIN-350.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de pastor yugoslavo de charplanina",
+      "standardNumber": 41,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-YUGOSLAVO-DE-CHARPLANINA-41.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro de taiwan",
+      "standardNumber": 348,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-TAIWAN-348.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro del faraón",
+      "standardNumber": 248,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DEL-FARAON-248.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro esquimal canadiense",
+      "standardNumber": 211,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-ESQUIMAL-CANADIENSE-211.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro finlandés de laponia",
+      "standardNumber": 189,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-FINLANDES-DE-LAPONIA-189.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro kintamani-bali",
+      "standardNumber": 362,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-KINTAMANI-BALI-362.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Perro lobo checoslovaco",
+      "standardNumber": 332,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-LOBO-CHECOSLOVACO-332.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro lobo de saarloos",
+      "standardNumber": 311,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-LOBO-DE-SAARLOOS-311.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro negro y fuego para la caza del mapache",
+      "standardNumber": 300,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-NEGRO-Y-FUEGO-PARA-LA-CAZA-DEL-MAPACHE-300.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor australiano",
+      "standardNumber": 342,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-AUSTRALIANO-342.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor bohemio",
+      "standardNumber": 364,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-BOHEMIO-364.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Perro pastor croata",
+      "standardNumber": 277,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-CROATA-277.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor cuervo rumano",
+      "standardNumber": 373,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-CUERVO-RUMANO-373.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Perro pastor de asia central",
+      "standardNumber": 335,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-DE-ASIA-CENTRAL-335.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor de los pirineos de pelo largo",
+      "standardNumber": 141,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-DE-LOS-PIRINEOS-DE-PELO-LARGO-141.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor de shetland",
+      "standardNumber": 88,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-DE-SHETLAND-88.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor del cáucaso",
+      "standardNumber": 328,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-DEL-CAUCASO-328.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor kangal",
+      "standardNumber": 331,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-KANGAL-331.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro pastor rumano de mioritza",
+      "standardNumber": 349,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-PASTOR-RUMANO-DE-MIORITZA-349.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro sin pelo del perú",
+      "standardNumber": 310,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-SIN-PELO-DEL-PERU-310.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro smous holandés",
+      "standardNumber": 308,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-SMOUS-HOLANDES-308.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro sueco de laponia",
+      "standardNumber": 135,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-SUECO-DE-LAPONIA-135.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro tejonero de westfalia",
+      "standardNumber": 100,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-TEJONERO-DE-WESTFALIA-100.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Perro tejonero sueco",
+      "standardNumber": 130,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-TEJONERO-SUECO-130.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Petit brabançon",
+      "standardNumber": 82,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PETIT-BRABANCON-82.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pinscher alemán",
+      "standardNumber": 184,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PINSCHER-ALEMAN-184.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pinscher austriaco",
+      "standardNumber": 64,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PINSCHER-AUSTRIACO-64.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pinscher miniatura",
+      "standardNumber": 185,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PINSCHER-MINIATURA-185.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Podenco canario",
+      "standardNumber": 329,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PODENCO-CANARIO-329.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Podenco ibicenco",
+      "standardNumber": 89,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PODENCO-IBICENCO-89.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Podenco portugués",
+      "standardNumber": 94,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PODENCO-PORTUGUES-94.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pointer inglés",
+      "standardNumber": 1,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/POINTER-INGLES-1.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Porcelaine",
+      "standardNumber": 30,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PORCELAINE-30.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Presa canario",
+      "standardNumber": 346,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PRESA-CANARIO-346.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pudelpointer",
+      "standardNumber": 216,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PUDELPOINTER-216.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pug",
+      "standardNumber": 253,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PUG-253.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Puli",
+      "standardNumber": 55,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PULI-55.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pumi",
+      "standardNumber": 56,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PUMI-56.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Rafeiro del alentejo",
+      "standardNumber": 96,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RAFEIRO-DEL-ALENTEJO-96.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Rastreador brasileño",
+      "standardNumber": 275,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RASTREADOR-BRASILENO-275.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Rastreador de hannover",
+      "standardNumber": 213,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RASTREADOR-DE-HANNOVER-213.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Rastreador montañes de baviera",
+      "standardNumber": 217,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RASTREADOR-MONTANES-DE-BAVIERA-217.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Ratonero bodeguero andaluz",
+      "standardNumber": 371,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RATONERO-BODEGUERO-ANDALUZ-371.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Ratonero de praga",
+      "standardNumber": 363,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RATONERO-DE-PRAGA-363.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Ratonero valenciano",
+      "standardNumber": 370,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/RATONERO-VALENCIANO-370.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Rottweiler",
+      "standardNumber": 147,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/ROTTWEILER-147.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso alemán",
+      "standardNumber": 299,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ALEMAN-299.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso anglo-francés de tamaño mediano",
+      "standardNumber": 325,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ANGLO-FRANCES-DE-TAMANO-MEDIANO-325.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso artesiano",
+      "standardNumber": 28,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ARTESIANO-28.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso austriaco negro y fuego",
+      "standardNumber": 63,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-AUSTRIACO-NEGRO-Y-FUEGO-63.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso bosnio de pelo cerdoso - llamado barak",
+      "standardNumber": 155,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-BOSNIO-DE-PELO-CERDOSO-LLAMADO-BARAK-155.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso de estonia",
+      "standardNumber": 366,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-ESTONIA-366.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Sabueso de hygen",
+      "standardNumber": 266,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-HYGEN-266.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso de istria de pelo corto",
+      "standardNumber": 151,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-ISTRIA-DE-PELO-CORTO-151.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso de istria de pelo duro",
+      "standardNumber": 152,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-ISTRIA-DE-PELO-DURO-152.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso de los apeninos",
+      "standardNumber": 375,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-LOS-APENINOS-375.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Sabueso de montaña del montenegro",
+      "standardNumber": 279,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-MONTANA-DEL-MONTENEGRO-279.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso de småland",
+      "standardNumber": 129,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DE-SMALAND-129.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso del ariege",
+      "standardNumber": 20,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DEL-ARIEGE-20.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso del tatra",
+      "standardNumber": 377,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DEL-TATRA-377.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Sabueso del tirol",
+      "standardNumber": 68,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DEL-TIROL-68.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso del valle de save",
+      "standardNumber": 154,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-DEL-VALLE-DE-SAVE-154.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso eslovaco",
+      "standardNumber": 244,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ESLOVACO-244.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso español",
+      "standardNumber": 204,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ESPANOL-204.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso estirio de pelo áspero",
+      "standardNumber": 62,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ESTIRIO-DE-PELO-ASPERO-62.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso finlandés",
+      "standardNumber": 51,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-FINLANDES-51.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso fino colombiano",
+      "standardNumber": 376,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-FINO-COLOMBIANO-376.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Sabueso francés blanco y naranja",
+      "standardNumber": 316,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-FRANCES-BLANCO-Y-NARANJA-316.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso francés blanco y negro",
+      "standardNumber": 220,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-FRANCES-BLANCO-Y-NEGRO-220.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso francés tricolor",
+      "standardNumber": 219,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-FRANCES-TRICOLOR-219.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso halden",
+      "standardNumber": 267,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-HALDEN-267.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso hamilton",
+      "standardNumber": 132,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-HAMILTON-132.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso helénico",
+      "standardNumber": 214,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-HELENICO-214.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso húngaro - sabueso de transilvania",
+      "standardNumber": 241,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-HUNGARO-SABUESO-DE-TRANSILVANIA-241.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso italiano de pelo duro",
+      "standardNumber": 198,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ITALIANO-DE-PELO-DURO-198.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso italiano de pelo raso",
+      "standardNumber": 337,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-ITALIANO-DE-PELO-RASO-337.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso noruego",
+      "standardNumber": 203,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-NORUEGO-203.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso poitevin",
+      "standardNumber": 24,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-POITEVIN-24.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso polaco",
+      "standardNumber": 52,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-POLACO-52.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso schiller",
+      "standardNumber": 131,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-SCHILLER-131.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso serbio",
+      "standardNumber": 150,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-SERBIO-150.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso suizo",
+      "standardNumber": 59,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-SUIZO-59.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso suizo pequeño",
+      "standardNumber": 60,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-SUIZO-PEQUENO-60.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sabueso tricolor serbio",
+      "standardNumber": 229,
+      "group": "Grupo 6 · Perros Tipo sabueso, perros de rastro y razas semejantes",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SABUESO-TRICOLOR-SERBIO-229.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Saluki",
+      "standardNumber": 269,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SALUKI-269.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Samoyedo",
+      "standardNumber": 212,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SAMOYEDO-212.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "San bernardo",
+      "standardNumber": 61,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SAN-BERNARDO-61.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Schapendoes neerlandés",
+      "standardNumber": 313,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SCHAPENDOES-NEERLANDES-313.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Schipperke",
+      "standardNumber": 83,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SCHIPPERKE-83.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Schnauzer",
+      "standardNumber": 182,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SCHNAUZER-182.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Schnauzer gigante",
+      "standardNumber": 181,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SCHNAUZER-GIGANTE-181.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Schnauzer miniatura",
+      "standardNumber": 183,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SCHNAUZER-MINIATURA-183.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Scottish terrier",
+      "standardNumber": 73,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SCOTTISH-TERRIER-73.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sealyham terrier",
+      "standardNumber": 74,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SEALYHAM-TERRIER-74.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Segugio maremmano",
+      "standardNumber": 361,
+      "group": "Reconocimiento provisional",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SEGUGIO-MAREMMANO-361.html",
+      "notes": "Reconocida provisionalmente por la FCI. Consulta su referencia oficial."
+    },
+    {
+      "name": "Setter inglés",
+      "standardNumber": 2,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SETTER-INGLES-2.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Setter irlandés rojo",
+      "standardNumber": 120,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SETTER-IRLANDES-ROJO-120.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Setter irlandés rojo y blanco",
+      "standardNumber": 330,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SETTER-IRLANDES-ROJO-Y-BLANCO-330.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Shar pei",
+      "standardNumber": 309,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SHAR-PEI-309.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Shiba",
+      "standardNumber": 257,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SHIBA-257.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Shih tzu",
+      "standardNumber": 208,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SHIH-TZU-208.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Shikoku",
+      "standardNumber": 319,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SHIKOKU-319.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Skye terrier",
+      "standardNumber": 75,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SKYE-TERRIER-75.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sloughi",
+      "standardNumber": 188,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SLOUGHI-188.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Soft coated wheaten terrier irlandés",
+      "standardNumber": 40,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SOFT-COATED-WHEATEN-TERRIER-IRLANDES-40.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel azul de picardia",
+      "standardNumber": 106,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-AZUL-DE-PICARDIA-106.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel bretón",
+      "standardNumber": 95,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-BRETON-95.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel continental enano de compañía",
+      "standardNumber": 77,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-CONTINENTAL-ENANO-DE-COMPANIA-77.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel de pont-audemer",
+      "standardNumber": 114,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-DE-PONT-AUDEMER-114.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel francés",
+      "standardNumber": 175,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-FRANCES-175.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel japonés",
+      "standardNumber": 206,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-JAPONES-206.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel picardo",
+      "standardNumber": 108,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-PICARDO-108.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spaniel tibetano",
+      "standardNumber": 231,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPANIEL-TIBETANO-231.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spitz alemán",
+      "standardNumber": 97,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPITZ-ALEMAN-97.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spitz de los visigodos - vallhund sueco",
+      "standardNumber": 14,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPITZ-DE-LOS-VISIGODOS-VALLHUND-SUECO-14.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spitz de norrbotten",
+      "standardNumber": 276,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPITZ-DE-NORRBOTTEN-276.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spitz finlandés",
+      "standardNumber": 49,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPITZ-FINLANDES-49.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Spitz japonés",
+      "standardNumber": 262,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPITZ-JAPONES-262.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Springer spaniel galés",
+      "standardNumber": 126,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPRINGER-SPANIEL-GALES-126.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Springer spaniel inglés",
+      "standardNumber": 125,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SPRINGER-SPANIEL-INGLES-125.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Staffordshire bull terrier",
+      "standardNumber": 76,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/STAFFORDSHIRE-BULL-TERRIER-76.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Sussex spaniel",
+      "standardNumber": 127,
+      "group": "Grupo 8 · Perros cobradores de caza - Perros levantadores de caza - Perros de agua",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/SUSSEX-SPANIEL-127.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Tchuvatch eslovaco",
+      "standardNumber": 142,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TCHUVATCH-ESLOVACO-142.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Teckel",
+      "standardNumber": 148,
+      "group": "Grupo 4 · Teckels",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TECKEL-148.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terranova",
+      "standardNumber": 50,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRANOVA-50.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier brasileño",
+      "standardNumber": 341,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-BRASILENO-341.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier cazador alemán",
+      "standardNumber": 103,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-CAZADOR-ALEMAN-103.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier checo",
+      "standardNumber": 246,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-CHECO-246.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier de juguete inglés (negro y fuego)",
+      "standardNumber": 13,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-DE-JUGUETE-INGLES-NEGRO-Y-FUEGO-13.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier glen de imaal irlandés ",
+      "standardNumber": 302,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-GLEN-DE-IMAAL-IRLANDES-302.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier irlandés",
+      "standardNumber": 139,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-IRLANDES-139.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier jack russell ",
+      "standardNumber": 345,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-JACK-RUSSELL-345.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier japonés",
+      "standardNumber": 259,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-JAPONES-259.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier ruso negro",
+      "standardNumber": 327,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-RUSO-NEGRO-327.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier sedoso australiano",
+      "standardNumber": 236,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-SEDOSO-AUSTRALIANO-236.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Terrier tibetano",
+      "standardNumber": 209,
+      "group": "Grupo 9 · Perros de compañía",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TERRIER-TIBETANO-209.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Thai bangkaew dog",
+      "standardNumber": 358,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/THAI-BANGKAEW-DOG-358.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Thai ridgeback dog",
+      "standardNumber": 338,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/THAI-RIDGEBACK-DOG-338.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Tosa",
+      "standardNumber": 260,
+      "group": "Grupo 2 · Perros tipo pinscher y schnauzer - Molosoides - Perros tipo montaña y boyeros suizos",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/TOSA-260.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Volpino italiano",
+      "standardNumber": 195,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/VOLPINO-ITALIANO-195.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Weimaraner",
+      "standardNumber": 99,
+      "group": "Grupo 7 · Perros de muestra",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/WEIMARANER-99.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Welsh corgi (cardigan)",
+      "standardNumber": 38,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/WELSH-CORGI-CARDIGAN-38.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Welsh corgi (pembroke)",
+      "standardNumber": 39,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/WELSH-CORGI-PEMBROKE-39.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Welsh terrier",
+      "standardNumber": 78,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/WELSH-TERRIER-78.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "West highland white terrier",
+      "standardNumber": 85,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/WEST-HIGHLAND-WHITE-TERRIER-85.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Whippet",
+      "standardNumber": 162,
+      "group": "Grupo 10 · Lebreles",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/WHIPPET-162.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Xoloitzcuintle",
+      "standardNumber": 234,
+      "group": "Grupo 5 · Perros tipo spitz y tipo primitivo",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/XOLOITZCUINTLE-234.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Yorkshire terrier",
+      "standardNumber": 86,
+      "group": "Grupo 3 · Terriers",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/YORKSHIRE-TERRIER-86.html",
+      "notes": "Nombre y grupo del catálogo FCI. Consulta la referencia oficial para su estándar."
+    },
+    {
+      "name": "Pastor belga malinois",
+      "standardNumber": 15,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-BELGA-15.html",
+      "notes": "Variedad del perro de pastor belga. Referencia: estándar FCI 15."
+    },
+    {
+      "name": "Pastor belga tervueren",
+      "standardNumber": 15,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-BELGA-15.html",
+      "notes": "Variedad del perro de pastor belga. Referencia: estándar FCI 15."
+    },
+    {
+      "name": "Pastor belga groenendael",
+      "standardNumber": 15,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-BELGA-15.html",
+      "notes": "Variedad del perro de pastor belga. Referencia: estándar FCI 15."
+    },
+    {
+      "name": "Pastor belga laekenois",
+      "standardNumber": 15,
+      "group": "Grupo 1 · Perros de pastor y perros boyeros (excepto perros boyeros suizos)",
+      "sourceUrl": "https://www.fci.be/es/nomenclature/PERRO-DE-PASTOR-BELGA-15.html",
+      "notes": "Variedad del perro de pastor belga. Referencia: estándar FCI 15."
+    },
+    {
+      "name": "Mestizo",
+      "group": "Cruces y origen mixto",
+      "notes": "Cruce de razas o ascendencia mixta. Registra los progenitores conocidos en Crianza."
+    }
+  ]
+}

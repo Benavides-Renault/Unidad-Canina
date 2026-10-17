@@ -1,0 +1,56 @@
+import { test, expect, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
+const fixture = JSON.parse(readFileSync('.local/oryx-fixtures.json', 'utf8'));
+async function login(page: Page) {
+  await page.goto('/');
+  await expect(page.getByAltText('ORYX K9 · Unidad Canina')).toBeVisible();
+  await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
+  await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Configuración', exact: true })).toBeVisible();
+}
+test('ORYX: identidad, controles internos, planillas y catálogo responsive', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await login(page);
+  await expect(page.getByRole('button', { name: 'Guía de módulos', exact: true })).not.toBeAttached();
+  await expect(page.locator('body')).not.toContainText('VALKYR');
+  await page.getByRole('button', { name: 'Configuración', exact: true }).click();
+  await page.getByRole('button', { name: 'Ejecutar revisión', exact: true }).click();
+  await expect(page.locator('.audit-check')).toHaveCount(7);
+  await page.getByLabel('Filtrar por uso').selectOption('MEDICAL');
+  await expect(page.locator('.template-card')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Ver contenido', exact: true }).count();
+  const download = page.waitForEvent('download');
+  await page.getByRole('link', { name: 'Descargar planilla', exact: true }).click();
+  expect((await download).suggestedFilename()).toBe('oryx-planilla.pdf');
+  await page.getByLabel('Buscar raza en el catálogo').fill('malinois');
+  await expect(page.locator('.breed-row').first()).toContainText('Pastor belga malinois');
+  await page.screenshot({ path: 'test-results/oryx-settings-desktop.png', fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await page.screenshot({ path: 'test-results/oryx-settings-mobile.png', fullPage: true });
+  expect(errors).toEqual([]);
+});
+test('ORYX: formulario explica campos, busca razas y bloquea un identificador repetido', async ({ page }) => {
+  await login(page);
+  await page.getByRole('button', { name: 'Nuestra unidad', exact: true }).click();
+  await page.getByRole('button', { name: 'Nuevo perro', exact: true }).click();
+  const modal = page.getByRole('dialog');
+  await modal.getByRole('button', { name: 'Ayuda del formulario', exact: true }).click();
+  await expect(modal.getByRole('heading', { name: 'Cómo completar este registro' })).toBeVisible();
+  await modal.getByRole('button', { name: 'Ayuda del formulario', exact: true }).click();
+  await modal.getByLabel('Nombre de llamado', { exact: false }).fill('Identidad revisada E2E');
+  await modal.getByLabel('Código ORYX K9', { exact: false }).fill(fixture.code.toLowerCase());
+  await modal.getByRole('combobox', { name: 'Raza', exact: true }).fill('Pastor belga malinois');
+  await expect(modal.locator('.field-error')).toContainText('ya está registrado');
+  await modal.getByRole('checkbox', { name: 'Obediencia básica', exact: true }).check();
+  await modal.getByRole('checkbox', { name: 'Búsqueda y rescate', exact: true }).check();
+  await modal.getByRole('button', { name: 'Crear expediente', exact: true }).click();
+  await expect(modal.getByRole('alert').filter({ hasText: 'Revisa los identificadores' })).toBeVisible();
+  await expect(modal.getByRole('alert').filter({ hasText: 'Revisa los identificadores' })).toBeInViewport();
+  await page.screenshot({ path: 'test-results/oryx-identity-validation.png', fullPage: true });
+  page.once('dialog', (d) => d.accept());
+  await modal.getByRole('button', { name: 'Cancelar', exact: true }).click();
+});

@@ -116,8 +116,8 @@ export class CalendarController {
         this.db.breedingPlan
           .findMany({
             where: {
-              plannedDate: range,
-              status: { in: ['PLANNED', 'MATED', 'CONFIRMED'] },
+              OR: [{ plannedDate: range }, { expectedBirthDate: range }, { expectedDeliveryDate: range }],
+              status: { in: ['PLANNED', 'MATED', 'CONFIRMED', 'COMPLETED'] },
               dam: dog,
               sire: dog,
             },
@@ -125,12 +125,25 @@ export class CalendarController {
             take,
           })
           .then((rows) =>
-            rows.forEach((r) =>
-              add('BREEDING', r.id, `Cruza: ${r.dam.name} × ${r.sire.name}`, r.plannedDate, {
-                dogId: r.damId,
-                dog: r.dam,
-              }),
-            ),
+            rows.forEach((r) => {
+              const inRange = (date: Date | null) => date && date >= from && date < to;
+              const rest = { sourceId: r.id, dogId: r.damId, dog: r.dam };
+              if (r.status === 'PLANNED' && inRange(r.plannedDate))
+                add('BREEDING', r.id, `Cruce: ${r.dam.name} × ${r.sire.name}`, r.plannedDate, rest);
+              if (r.status !== 'COMPLETED' && inRange(r.expectedBirthDate))
+                add('BREEDING', r.id + ':birth', `Nacimiento previsto: ${r.dam.name}`, r.expectedBirthDate!, {
+                  ...rest,
+                  notes: 'Confirma la fecha real en Crianza → Registrar nacimiento.',
+                });
+              if (inRange(r.expectedDeliveryDate))
+                add(
+                  'BREEDING',
+                  r.id + ':delivery',
+                  `Entrega prevista: ${r.dam.name}`,
+                  r.expectedDeliveryDate!,
+                  rest,
+                );
+            }),
           ),
       wanted('CONTRACT') &&
         this.db.contract

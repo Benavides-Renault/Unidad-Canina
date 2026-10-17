@@ -371,7 +371,7 @@ export class FollowUpController {
         `Emisión: ${item.issueDate.toISOString().slice(0, 10)}`,
         `Vigencia: ${item.expiresDate?.toISOString().slice(0, 10) || 'Sin vencimiento registrado'}`,
         saved?.body || item.notes || '',
-        'VALKYR · Unidad Canina · Registro de formación y seguimiento',
+        'ORYX K9 · Unidad Canina · Registro de formación y seguimiento',
       ],
       `certificado-${id}.pdf`,
     );

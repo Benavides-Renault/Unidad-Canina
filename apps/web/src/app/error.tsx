@@ -4,7 +4,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
   return (
     <main className="boot-screen">
       <div className="empty">
-        <div className="eyebrow">VALKYR MANAGER</div>
+        <div className="eyebrow">ORYX K9</div>
         <h1>No pudimos cargar esta página</h1>
         <p>Intenta nuevamente. Si el problema continúa, contacta al administrador de la instalación.</p>
         <button className="button button-primary" onClick={reset}>

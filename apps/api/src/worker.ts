@@ -28,32 +28,44 @@ export async function processReminders(
     try {
       const user = await db.user.findUnique({ where: { id: job.userId }, include: { preferences: true } });
       const source =
-        job.sourceType === 'VACCINATION'
-          ? await db.vaccination.findFirst({ where: { id: job.sourceId, dog: { archivedAt: null } } })
-          : job.sourceType === 'CONTRACT'
-            ? await db.contract.findFirst({ where: { id: job.sourceId, status: 'ACTIVE' } })
-            : job.sourceType === 'ACCOUNT'
-              ? await db.account
-                  .findFirst({ where: { id: job.sourceId, cancelledAt: null }, include: { payments: true } })
-                  .then((a) => (a && accountBalance(a).balance.gt(0) ? a : null))
-              : job.sourceType === 'RESERVATION'
-                ? await db.reservation.findFirst({ where: { id: job.sourceId, status: 'ACTIVE' } })
-                : job.sourceType === 'APPOINTMENT'
-                  ? await db.appointment.findFirst({
-                      where: { id: job.sourceId, status: 'SCHEDULED', dog: { archivedAt: null } },
+        job.sourceType === 'BREEDING'
+          ? await db.breedingPlan.findFirst({
+              where: {
+                id: job.sourceId,
+                status: { not: 'CANCELLED' },
+                dam: { archivedAt: null },
+                sire: { archivedAt: null },
+              },
+            })
+          : job.sourceType === 'VACCINATION'
+            ? await db.vaccination.findFirst({ where: { id: job.sourceId, dog: { archivedAt: null } } })
+            : job.sourceType === 'CONTRACT'
+              ? await db.contract.findFirst({ where: { id: job.sourceId, status: 'ACTIVE' } })
+              : job.sourceType === 'ACCOUNT'
+                ? await db.account
+                    .findFirst({
+                      where: { id: job.sourceId, cancelledAt: null },
+                      include: { payments: true },
                     })
-                  : job.sourceType === 'CERTIFICATION'
-                    ? await db.certification.findFirst({
-                        where: { id: job.sourceId, archivedAt: null, dog: { archivedAt: null } },
+                    .then((a) => (a && accountBalance(a).balance.gt(0) ? a : null))
+                : job.sourceType === 'RESERVATION'
+                  ? await db.reservation.findFirst({ where: { id: job.sourceId, status: 'ACTIVE' } })
+                  : job.sourceType === 'APPOINTMENT'
+                    ? await db.appointment.findFirst({
+                        where: { id: job.sourceId, status: 'SCHEDULED', dog: { archivedAt: null } },
                       })
-                    : null;
+                    : job.sourceType === 'CERTIFICATION'
+                      ? await db.certification.findFirst({
+                          where: { id: job.sourceId, archivedAt: null, dog: { archivedAt: null } },
+                        })
+                      : null;
       if (
         !user?.active ||
         !source ||
         !(
           job.sourceType === 'VACCINATION'
             ? CLINICAL
-            : ['CONTRACT', 'ACCOUNT', 'RESERVATION'].includes(job.sourceType)
+            : ['CONTRACT', 'ACCOUNT', 'RESERVATION', 'BREEDING'].includes(job.sourceType)
               ? BUSINESS
               : READ_DOGS
         ).includes(user.role)
@@ -82,7 +94,7 @@ export async function processReminders(
         });
       }
       if (user.email && user.preferences?.emailEnabled !== false && mailConfigured() && !job.emailSentAt) {
-        await sendMail(user.email, `VALKYR · ${job.title}`, job.body, job.id);
+        await sendMail(user.email, `ORYX K9 · ${job.title}`, job.body, job.id);
         await db.reminder.update({ where: { id: job.id }, data: { emailSentAt: new Date() } });
       }
       await db.reminder.updateMany({

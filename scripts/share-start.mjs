@@ -10,7 +10,7 @@ import { createShareGateway } from './share-gateway.mjs';
 process.chdir(root);
 const health = await fetch('http://127.0.0.1:4000/api/v1/health').then((r) => r.json());
 if (health.status !== 'ok' || health.demoMode !== true)
-  throw new Error('Inicia primero la instalación de prueba de VALKYR.');
+  throw new Error('Inicia primero la instalación de prueba de ORYX K9.');
 if (!(await fetch('http://localhost:3000/')).ok) throw new Error('La web local no está disponible.');
 await mkdir('.local/tools', { recursive: true });
 const binary = path.join(root, '.local/tools/cloudflared.exe');

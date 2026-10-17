@@ -1,12 +1,12 @@
-# Compartir VALKYR desde esta PC
+# Compartir ORYX K9 desde esta PC
 
-La aplicación sigue alojada en esta PC. Cloudflare Quick Tunnel ofrece una dirección HTTPS temporal sin abrir puertos entrantes del router. El enlace cambia al iniciar una sesión nueva y funciona mientras la PC, VALKYR y el túnel estén activos. Caduca como máximo a las 24 horas. [Documentación de Cloudflare](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
+La aplicación sigue alojada en esta PC. Cloudflare Quick Tunnel ofrece una dirección HTTPS temporal sin abrir puertos entrantes del router. El enlace cambia al iniciar una sesión nueva y funciona mientras la PC, ORYX K9 y el túnel estén activos. Caduca como máximo a las 24 horas. [Documentación de Cloudflare](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
 
-1. Abrir `INICIAR_VALKYR.cmd` si la aplicación está detenida.
-2. Abrir `COMPARTIR_VALKYR.cmd` y mantener su ventana abierta.
+1. Abrir `INICIAR_ORYX_K9.cmd` si la aplicación está detenida.
+2. Abrir `COMPARTIR_ORYX_K9.cmd` y mantener su ventana abierta.
 3. Copiar el campo `shareUrl` de `.local/share-runtime.json`, incluido `#compartir=…`, y enviarlo únicamente a la persona invitada.
 4. La persona abre el enlace y usa una cuenta de la aplicación. Las cuentas de ejemplo están en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Para mostrar toda la administración: usuario `admin`, contraseña `1234`; para mostrar la vista de cliente: `sofia.cliente`, contraseña `1234`.
-5. Al terminar, abrir `DETENER_ENLACE_VALKYR.cmd`. La aplicación local continúa funcionando.
+5. Al terminar, abrir `DETENER_ENLACE_ORYX_K9.cmd`. La aplicación local continúa funcionando.
 
 El enlace actúa como invitación: cualquiera que lo reciba completo puede abrir el inicio de sesión. Su clave aleatoria tiene 256 bits, se intercambia por una cookie segura y se retira de la barra de dirección. El dominio sin esa clave no permite consultar la API. No guardar la invitación en GitHub. Para revocarla, detener el enlace y generar otro.
 

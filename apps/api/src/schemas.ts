@@ -9,6 +9,7 @@ export const dogSchema = z
       .min(2)
       .max(40)
       .regex(/^[A-Za-z0-9_-]+$/)
+      .transform((v) => v.toUpperCase())
       .optional(),
     name: requiredText,
     registeredName: optionalText,
@@ -24,8 +25,14 @@ export const dogSchema = z
       .max(60)
       .nullable()
       .optional()
-      .transform((v) => v || null),
-    pedigreeNumber: optionalText,
+      .transform((v) => v?.replace(/[\s-]+/g, '').toUpperCase() || null),
+    pedigreeNumber: z
+      .string()
+      .trim()
+      .max(100)
+      .nullable()
+      .optional()
+      .transform((v) => v?.toUpperCase() || null),
     registry: optionalText,
     owner: optionalText,
     ownerPartyId: idSchema,
