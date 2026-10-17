@@ -24,7 +24,7 @@ class Api {
               cookie: Object.entries(this.cookies)
                 .map(([k, v]) => `${k}=${v}`)
                 .join('; '),
-              'x-csrf-token': this.cookies.valkyr_csrf,
+              'x-csrf-token': this.cookies.oryx_csrf,
             }
           : {}),
         ...headers,
@@ -332,7 +332,7 @@ test('API privada: integridad, permisos y persistencia', async (t) => {
       invalid.append('file', new Blob(['<script>evil</script>'], { type: 'image/png' }), 'false.png');
       invalid.append('category', 'PHOTO');
       assert.equal((await admin.call(`/dogs/${dogId}/documents`, 'POST', invalid)).status, 400);
-      const bytes = await readFile(new URL('../assets/branding/valkyr-logo-original.png', import.meta.url));
+      const bytes = await readFile(new URL('../assets/branding/oryx-logo.png', import.meta.url));
       const form = new FormData();
       form.append('file', new Blob([bytes], { type: 'image/png' }), 'fixture-logo.png');
       form.append('category', 'PHOTO');

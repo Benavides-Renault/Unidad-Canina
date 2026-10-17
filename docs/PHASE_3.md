@@ -1,11 +1,11 @@
 # Fase 3 — Crianza y administración
 
-Verificación inicial el 15 de octubre de 2026: 25 escenarios API (28 nodos TAP), 7 recorridos Playwright y controles TypeScript/lint aprobados. La última repetición API incluye coordinación entre apartados y asignaciones. Datos sintéticos sólo en bases `valkyr_test_*`.
+Verificación inicial el 15 de octubre de 2026: 25 escenarios API (28 nodos TAP), 7 recorridos Playwright y controles TypeScript/lint aprobados. La última repetición API incluye coordinación entre apartados y asignaciones. Datos sintéticos sólo en bases `oryx_test_*`.
 
 ## Flujos disponibles
 
 - Perfiles reproductivos con procedencia/calidad del pedigrí, controles y celos; genealogía consultable a tres generaciones, detección de ciclos y aviso de incertidumbre. No calcula coeficientes genéticos ni recomienda cruces.
-- Plan de cruce, fecha efectiva de monta, seguimiento y ventana de parto ingresada por un profesional. Registrar nacimiento cierra el plan y crea una camada con padres y recuentos.
+- Plan de cruce con fecha de monta, nacimiento y entrega previstos; posibilidad de registrar controles reproductivos adicionales. Registrar el nacimiento real cierra el plan y crea una camada con padres y recuentos.
 - Cada cachorro es un expediente Dog desde el nacimiento: conserva UUID, código, microchip, peso, vacunas, fotos y documentos al incorporarse al directorio de la unidad. Los nacidos vivos limitan el número de cachorros identificados.
 - Apartados por camada o cachorro, cupo validado, asignación posterior y prevención de reservas/entregas duplicadas. Cuenta por cobrar vinculada, anticipos como abonos, cierre con saldo cero, cancelación tras devolución; historial conservado.
 - Cuentas por pagar/cobrar con categoría, centro de costo, referencias a perro/camada/contrato, CRC/USD y cambio fechado opcional. Resumen y CSV filtrados por emisión, dirección, contrato o perro; estado de cuenta PDF y comprobantes privados.

@@ -52,9 +52,11 @@ export async function sha256(filename) {
   return hash.digest('hex');
 }
 
+import { supportsBackupFormat } from './formats.mjs';
+
 export function readManifest(directory) {
   const manifest = JSON.parse(readFileSync(path.join(directory, 'manifest.json'), 'utf8'));
-  if (manifest.format !== 'valkyr-backup-v1' || manifest.storageDriver !== 'local')
+  if (!supportsBackupFormat(manifest.format) || manifest.storageDriver !== 'local')
     throw new Error('Formato de respaldo no compatible.');
   for (const filename of ['database.dump', 'files.tar']) {
     if (!/^[a-f0-9]{64}$/.test(manifest.sha256?.[filename] || ''))

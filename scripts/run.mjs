@@ -10,7 +10,7 @@ const env = { ...process.env };
 if (task === 'db:deploy') env.DATABASE_URL = process.env.MIGRATION_DATABASE_URL || process.env.DATABASE_URL;
 delete env.MIGRATION_DATABASE_URL;
 delete env.BACKUP_DATABASE_URL;
-const child = spawn(process.execPath, [npmCli, 'run', task, '--workspace', '@valkyr/api', '--', ...args], {
+const child = spawn(process.execPath, [npmCli, 'run', task, '--workspace', '@oryx/api', '--', ...args], {
   cwd: root,
   env,
   stdio: 'inherit',

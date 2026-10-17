@@ -7,12 +7,12 @@ async function main() {
   if (!['native', 'docker'].includes(mode)) throw new Error('--mode debe ser native o docker.');
   if (!args.source || !args.database || !args.files)
     throw new Error(
-      'Usar --source=carpeta --database=valkyr_restore_nombre --files=directorio_nuevo [--mode=native|docker].',
+      'Usar --source=carpeta --database=oryx_restore_nombre --files=directorio_nuevo [--mode=native|docker].',
     );
   const database = String(args.database);
-  if (!/^valkyr_restore_[a-z0-9_]{1,40}$/.test(database))
+  if (!/^oryx_restore_[a-z0-9_]{1,40}$/.test(database))
     throw new Error(
-      'Sólo se permiten bases aisladas con prefijo valkyr_restore_ y letras minúsculas/números/guion bajo.',
+      'Sólo se permiten bases aisladas con prefijo oryx_restore_ y letras minúsculas/números/guion bajo.',
     );
   const source = path.resolve(String(args.source));
   const files = path.resolve(String(args.files));
@@ -61,7 +61,7 @@ async function main() {
       { env },
     );
   } else {
-    const username = process.env.POSTGRES_USER || 'valkyr';
+    const username = process.env.POSTGRES_USER || 'oryx';
     docker(['exec', '-T', 'postgres', 'createdb', '-U', username, '--', database]);
     const descriptor = openSync(dump, 'r');
     try {

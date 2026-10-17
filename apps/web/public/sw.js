@@ -3,9 +3,9 @@ self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
 // Push never contains dog names, medical details, client data or session credentials.
 self.addEventListener('push', (event) => {
-  let tag = 'valkyr-notification';
+  let tag = 'oryx-notification';
   try { const data = event.data?.json(); if(typeof data?.tag === 'string') tag = data.tag.slice(0,100); } catch {}
-  event.waitUntil(self.registration.showNotification('ORYX K9 · Aviso pendiente', { body: 'Abre la aplicación para consultar tus notificaciones.', icon: '/icon-192.png', tag }));
+  event.waitUntil(self.registration.showNotification('ORYX K9 · Aviso pendiente', { body: 'Abre la aplicación para consultar tus notificaciones.', icon: '/oryx-logo.png', tag }));
 });
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();

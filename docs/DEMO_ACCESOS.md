@@ -1,6 +1,6 @@
 # Accesos y recorrido de prueba
 
-Abrir [VALKYR local](http://localhost:3000). **Todas las contraseñas son `1234`.**
+Abrir [ORYX K9 local](http://localhost:3000). **Todas las contraseñas son `1234`.**
 
 | Usuario             | Acceso                                   |
 | ------------------- | ---------------------------------------- |
@@ -36,6 +36,6 @@ La ampliación incorpora tres plantillas, tres proveedores, controles clínicos 
 
 ## Conservación
 
-La base anterior `valkyr` se conserva con su respaldo `.local/backups/pre-demo-1792125498914`. La normalización del conjunto sintético genera otra copia previa y registra el mantenimiento; las APIs mantienen sus restricciones de historial inmutable y la auditoría previa se conserva. Los archivos reemplazados reciben claves nuevas.
+La instalación anterior y sus respaldos se conservan fuera del repositorio. La normalización inicial de los datos sintéticos ya se completó; no es una operación necesaria para iniciar ni actualizar la aplicación.
 
-`INICIAR_VALKYR.cmd` inicia la versión activa. Los respaldos diarios funcionan mientras VALKYR permanece abierto. Las restauraciones de comprobación se hacen en otra base.
+`INICIAR_ORYX_K9.cmd` inicia la versión activa. Los respaldos diarios funcionan mientras ORYX K9 permanece abierto. Las restauraciones de comprobación se hacen en otra base.

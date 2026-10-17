@@ -26,13 +26,13 @@ En desarrollo `localhost:3000` entra directamente a Next. El proxy de Next reenv
 
 **Almacenamiento privado local por defecto.** Un directorio o volumen persistente guarda los bytes; PostgreSQL guarda nombre, MIME, tamaño, SHA-256, categoría y vínculo al perro. La API valida sesión y rol en cada descarga y no sirve el directorio como estático. Esta primera instalación usa volumen local para permitir puesta en marcha nativa y restauración verificable sin otro servicio. Existe adaptación S3 configurable en el backend; su despliegue/restore requieren validación adicional antes de adoptar MinIO. No hay MinIO obligatorio en Compose y los scripts entregados sólo cubren archivos locales. Es una desviación documentada del almacenamiento S3 preferido en el prompt, no una afirmación de equivalencia operacional completa.
 
-**Ámbito único.** Todos los usuarios pertenecen a VALKYR. No hay empresas múltiples ni registro público. Los roles separan acciones; el entrenador sólo registra servicios contractuales de sus asignaciones. No hay aislamiento completo del expediente canino por municipalidad o custodio.
+**Ámbito único.** La unidad se administra como ORYX K9, sin registro público ni plataforma para múltiples empresas. Administración accede a todos los módulos. Los entrenadores sólo agregan entrenamiento y salud a los perros asignados. Los clientes, incluidas municipalidades, consultan únicamente los perros de su entidad propietaria y el contenido publicado en la galería. La custodia no concede acceso.
 
 **Fechas.** Nacimiento y vacunas usan fechas civiles PostgreSQL `date`. Citas, auditoría y entrenamientos son instantes `timestamptz`; presentación `es-CR` / `America/Costa_Rica`. No sumar/restar horas a fechas civiles para representarlas.
 
 ## Persistencia e integridad
 
-Identificadores UUID y código canino único. Microchip único cuando existe. Los expedientes/documentos se archivan lógicamente; las relaciones críticas restringen borrado. Los cuatro ejes de estado canino son independientes. Las reglas aplicadas al cambiar estado deben revisarse con los casos de negocio: no confundir retiro administrativo con disponibilidad o estado reproductivo.
+Identificadores UUID y código canino único. Microchip y pedigrí únicos cuando existen, con normalización y verificación de duplicados. Los expedientes/documentos se archivan lógicamente; las relaciones críticas restringen borrado. Los cuatro ejes de estado canino son independientes. Las reglas aplicadas al cambiar estado deben revisarse con los casos de negocio: no confundir retiro administrativo con disponibilidad o estado reproductivo.
 
 Los volúmenes `postgres` y `files` sobreviven al reemplazo de contenedores. `compose.production.yaml` es independiente del archivo de desarrollo, para no heredar la publicación de PostgreSQL o Mailpit. El servicio `migrate` debe completar antes de iniciar API/worker. La aplicación no ejecuta automáticamente un bootstrap ni inserta ejemplos.
 

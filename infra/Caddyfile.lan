@@ -1,7 +1,7 @@
 {
     local_certs
 }
-{$VALKYR_HOST} {
+{$ORYX_HOST} {
     tls internal
     encode zstd gzip
     header {

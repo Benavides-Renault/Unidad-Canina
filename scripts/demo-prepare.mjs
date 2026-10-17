@@ -19,7 +19,7 @@ if (!process.argv.includes('--create-demo'))
 const url = new URL(process.env.MIGRATION_DATABASE_URL || process.env.DATABASE_URL);
 if (!['localhost', '127.0.0.1'].includes(url.hostname))
   throw new Error('La demostración sólo se prepara en PostgreSQL local.');
-const database = `valkyr_demo_${Date.now()}`,
+const database = `oryx_demo_${Date.now()}`,
   storage = path.join(root, '.local', database, 'files');
 const connection = new pg.Client({ connectionString: url.toString() });
 await connection.connect();
@@ -71,7 +71,7 @@ async function api(route, method = 'GET', body) {
       cookie: Object.entries(cookies)
         .map(([k, v]) => `${k}=${v}`)
         .join('; '),
-      'x-csrf-token': cookies.valkyr_csrf || '',
+      'x-csrf-token': cookies.oryx_csrf || '',
     },
     body: body ? (multipart ? body : JSON.stringify(cleanValue(body))) : undefined,
   });
@@ -91,7 +91,7 @@ async function pdf(title) {
     doc.on('data', (c) => chunks.push(c));
     doc.on('end', () => resolve(Buffer.concat(chunks)));
   });
-  doc.fontSize(24).text('VALKYR · Unidad Canina');
+  doc.fontSize(24).text('ORYX K9 · Unidad Canina');
   doc.moveDown().fontSize(15).text(cleanValue(title));
   doc
     .moveDown()
@@ -102,7 +102,7 @@ async function pdf(title) {
 }
 async function attachment(route, title, category) {
   const form = new FormData();
-  form.set('file', new Blob([await pdf(title)], { type: 'application/pdf' }), 'registro-valkyr.pdf');
+  form.set('file', new Blob([await pdf(title)], { type: 'application/pdf' }), 'registro-oryx.pdf');
   if (category) form.set('category', category);
   return api(route, 'POST', form);
 }
@@ -125,7 +125,7 @@ try {
     'INSERT INTO "User"(id,name,username,"passwordHash",role,"updatedAt") VALUES($1,$2,$3,$4,$5,NOW())',
     [
       adminId,
-      'Administración VALKYR',
+      'Administración ORYX',
       'admin',
       await argon2.hash(password, { type: argon2.argon2id }),
       'ADMIN',
@@ -159,7 +159,7 @@ try {
     username: 'admin',
     role: 'ADMIN',
     password,
-    name: 'Administración VALKYR',
+    name: 'Administración ORYX',
   });
   for (const [username, name, role, partyName, partyKind] of [
     ['coordinacion', 'Coordinación DEMO', 'ADMIN'],
@@ -247,7 +247,7 @@ try {
       assignedTrainerId: coach.id,
       workStatus: i < 12 ? 'OPERATIONAL' : 'TRAINING',
       reproductiveStatus: i < 6 ? 'AVAILABLE' : 'NONE',
-      location: external && i % 2 ? 'Con su propietario · DEMO' : 'Centro VALKYR · DEMO',
+      location: external && i % 2 ? 'Con su propietario · DEMO' : 'Centro ORYX · DEMO',
       specialties: [i % 2 ? 'Obediencia' : 'Búsqueda deportiva'],
       notes: 'Expediente ficticio de demostración. No corresponde a un animal real.',
     });
@@ -303,7 +303,7 @@ try {
       dogId: d.id,
       title: i % 2 ? 'Seguimiento de entrenamiento DEMO' : 'Revisión de bienestar DEMO',
       startsAt: instant((i % 10) + 1, 9 + (i % 5)),
-      location: 'Centro VALKYR DEMO',
+      location: 'Centro ORYX DEMO',
       professional: coach.name,
       remindBeforeHours: 24,
     });
@@ -342,7 +342,7 @@ try {
     if (i < 8)
       await api(`/follow-up/dogs/${d.id}/certificates`, 'POST', {
         title: 'Evaluación interna de obediencia DEMO',
-        issuer: 'Centro de demostración VALKYR',
+        issuer: 'Centro de demostración ORYX',
         reference: `DEMO-CERT-${i + 1}`,
         issueDate: date(-120),
         expiresDate: date(i === 0 ? -3 : i * 10 + 1),
@@ -593,7 +593,7 @@ try {
   for (let i = 6; i < 10; i++)
     await api(`/dogs/${dogs[i].id}/movements`, 'POST', {
       date: instant(-1),
-      location: i % 2 ? 'Con propietario DEMO' : 'Centro VALKYR DEMO',
+      location: i % 2 ? 'Con propietario DEMO' : 'Centro ORYX DEMO',
       custodianPartyId: i % 2 ? dogs[i].ownerPartyId : coaches[i % 3].partyId,
       notes: 'Movimiento ficticio; conserva propietario.',
     });

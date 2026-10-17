@@ -1,6 +1,6 @@
 # Operación en esta PC
 
-`INICIAR_VALKYR.cmd` inicia PostgreSQL portátil, API, web y trabajadores. Los datos persisten entre reinicios. Los trabajadores funcionan mientras el lanzador permanece abierto.
+`INICIAR_ORYX_K9.cmd` inicia PostgreSQL portátil, API, web y trabajadores. Los datos persisten entre reinicios. Los trabajadores funcionan mientras el lanzador permanece abierto.
 
 ## Permisos y recuperación de acceso
 

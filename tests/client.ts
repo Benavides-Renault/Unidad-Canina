@@ -21,7 +21,7 @@ export class Api {
               cookie: Object.entries(this.cookies)
                 .map(([k, v]) => `${k}=${v}`)
                 .join('; '),
-              'x-csrf-token': this.cookies.valkyr_csrf,
+              'x-csrf-token': this.cookies.oryx_csrf,
             }
           : {}),
       },

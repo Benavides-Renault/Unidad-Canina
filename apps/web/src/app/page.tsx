@@ -177,8 +177,8 @@ export default function Home() {
         .catch(() => undefined);
       await api('/auth/logout', 'POST');
       setUser(null);
-      sessionStorage.removeItem('valkyr-search');
-      sessionStorage.removeItem('valkyr-status');
+      sessionStorage.removeItem('oryx-search');
+      sessionStorage.removeItem('oryx-status');
       setPage('home');
       setDogId(undefined);
     } catch (err) {
@@ -187,7 +187,7 @@ export default function Home() {
   };
   const searchDogs = (event: FormEvent) => {
     event.preventDefault();
-    sessionStorage.setItem('valkyr-search', search);
+    sessionStorage.setItem('oryx-search', search);
     setRevision((value) => value + 1);
     navigate('dogs');
   };

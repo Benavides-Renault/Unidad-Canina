@@ -1,3 +1,4 @@
+import { isDemoDatabase } from './database-names.mjs';
 import { readFile, writeFile, copyFile, access } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
@@ -10,7 +11,7 @@ loadEnv();
 process.chdir(root);
 process.env.PG_BIN ||= path.join(root, '.local/pg-tools/pgsql/bin');
 const runtime = JSON.parse(await readFile('.local/demo-runtime.json', 'utf8'));
-assert.match(runtime.database, /^valkyr_demo_\d+$/);
+assert.ok(isDemoDatabase(`/${runtime.database}`));
 assert.equal(new URL(runtime.env.DATABASE_URL).pathname, `/${runtime.database}`);
 assert.ok(['localhost', '127.0.0.1'].includes(new URL(runtime.env.DATABASE_URL).hostname));
 if (existsSync('.env'))
@@ -61,8 +62,8 @@ if (process.argv.includes('--backup-current')) {
         `Datos preparados: ${table}`,
       );
     const stamp = Date.now(),
-      appRole = `valkyr_app_${stamp}`,
-      backupRole = `valkyr_backup_${stamp}`;
+      appRole = `oryx_app_${stamp}`,
+      backupRole = `oryx_backup_${stamp}`;
     const appPassword = randomBytes(32).toString('base64url'),
       backupPassword = randomBytes(32).toString('base64url');
     for (const [name, password] of [

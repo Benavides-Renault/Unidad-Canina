@@ -28,7 +28,7 @@ export class AccessGuard implements CanActivate {
       throw new ForbiddenException('Origen no permitido.');
     if (this.reflector.getAllAndOverride<boolean>('public', [context.getHandler(), context.getClass()]))
       return true;
-    const raw = req.cookies?.valkyr_session;
+    const raw = req.cookies?.oryx_session;
     if (typeof raw !== 'string' || raw.length > 100)
       throw new UnauthorizedException('Inicia sesión para continuar.');
     const session = await this.db.session.findUnique({
@@ -53,7 +53,7 @@ export class AccessGuard implements CanActivate {
       throw new ForbiddenException('Configura MFA antes de acceder a la instalación.');
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
       const csrf = req.get('x-csrf-token');
-      const cookie = req.cookies?.valkyr_csrf;
+      const cookie = req.cookies?.oryx_csrf;
       if (!csrf || typeof cookie !== 'string' || !equal(csrf, cookie) || !equal(hash(csrf), session.csrfHash))
         throw new ForbiddenException('Verificación CSRF fallida. Actualiza la página.');
     }

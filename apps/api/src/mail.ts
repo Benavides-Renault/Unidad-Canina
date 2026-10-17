@@ -18,7 +18,7 @@ export async function sendMail(to: string, subject: string, text: string, messag
       to,
       subject,
       text,
-      ...(messageId ? { messageId: `<${messageId}@valkyr.internal>` } : {}),
+      ...(messageId ? { messageId: `<${messageId}@oryx.internal>` } : {}),
     });
     return true;
   } finally {

@@ -18,7 +18,7 @@ Instalar Docker Engine y el plugin Compose v2 mediante los paquetes adecuados pa
 
 Si Docker no está disponible, Node y el runtime PostgreSQL portátil permiten probar en la PC:
 
-En la PC de entrega, `INICIAR_VALKYR.cmd` ya reúne el arranque y usa la cuenta `admin` de pruebas solicitada por el propietario. En una base nueva sin cuentas, abre el asistente inicial para elegir nombre de usuario y contraseña. Para una instalación desde el código, seguir los pasos siguientes. No copiar `.env.example` a `.env` para la modalidad portátil: ese archivo corresponde a configuración manual/Docker y tiene prioridad sobre `.local/local.env`.
+En la PC de entrega, `INICIAR_ORYX_K9.cmd` ya reúne el arranque y usa la cuenta `admin` de pruebas solicitada por el propietario. En una base nueva sin cuentas, abre el asistente inicial para elegir nombre de usuario y contraseña. Para una instalación desde el código, seguir los pasos siguientes. No copiar `.env.example` a `.env` para la modalidad portátil: ese archivo corresponde a configuración manual/Docker y tiene prioridad sobre `.local/local.env`.
 
 ```sh
 npm ci
@@ -45,7 +45,7 @@ Para PostgreSQL ya instalado: crear base/usuario privados, definir `DATABASE_URL
 
 ## Socios en LAN mediante HTTPS privado
 
-La configuración inicial sólo admite acceso desde la PC. Para LAN, usar `compose.production.yaml` con `CADDY_CONFIG=./infra/Caddyfile.lan`, `VALKYR_HOST=valkyr.lan` (o nombre DNS privado real) y `HTTPS_BIND_ADDRESS` igual a la IP LAN específica de la PC. Configurar resolución del nombre en DNS local o archivo hosts de cada cliente y permitir 443 únicamente desde la subred privada elegida en el firewall. El origen de aplicación será `https://valkyr.lan`; Compose activa cookies seguras.
+La configuración inicial sólo admite acceso desde la PC. Para LAN, usar `compose.production.yaml` con `CADDY_CONFIG=./infra/Caddyfile.lan`, `ORYX_HOST=oryx.lan` (o nombre DNS privado real) y `HTTPS_BIND_ADDRESS` igual a la IP LAN específica de la PC. Configurar resolución del nombre en DNS local o archivo hosts de cada cliente y permitir 443 únicamente desde la subred privada elegida en el firewall. El origen de aplicación será `https://oryx.lan`; Compose activa cookies seguras.
 
 ```sh
 docker compose -f compose.production.yaml up -d --build
@@ -60,12 +60,18 @@ No publicar 5432/5433, 4000, almacenamiento o Mailpit a la LAN. Verificar desde 
 
 ## Actualizar la instalación nativa sin reemplazar el build activo
 
-Con Node compatible, ejecutar `node scripts/local-build.mjs`. Compila API y web; la web queda en `.next-release-<marca>` y se registra en `.local/pending-release.json`. El iniciador usa `.local/active-release.json` si existe; en una instalación anterior usa `.next`. `VALKYR_NEXT_DIR` permite una selección explícita. No cambiar el archivo activo antes de que la compilación termine.
+Con Node compatible, ejecutar `node scripts/local-build.mjs`. Compila API y web; la web queda en `.next-release-<marca>` y se registra en `.local/pending-release.json`. El iniciador usa `.local/active-release.json` si existe; en una instalación anterior usa `.next`. `ORYX_NEXT_DIR` permite una selección explícita. No cambiar el archivo activo antes de que la compilación termine.
 
-Para activar: detener únicamente web/API/worker de VALKYR, mantener PostgreSQL, crear snapshot coherente según BACKUP_RESTORE, aplicar `npm run db:migrate` y copiar pending-release.json a active-release.json. Iniciar con **INICIAR_VALKYR.cmd**, verificar `/api/v1/health`, iniciar sesión y revisar los módulos. Conservar el respaldo y el build anterior. El directorio API `dist` se recompila al preparar la versión; una reversión de código exige reconstruir esa versión compatible con su esquema, no sólo cambiar el puntero web.
+Para activar: detener únicamente web/API/worker de ORYX, mantener PostgreSQL, crear snapshot coherente según BACKUP_RESTORE, aplicar `npm run db:migrate` y copiar pending-release.json a active-release.json. Iniciar con **INICIAR_ORYX_K9.cmd**, verificar `/api/v1/health`, iniciar sesión y revisar los módulos. Conservar el respaldo y el build anterior. El directorio API `dist` se recompila al preparar la versión; una reversión de código exige reconstruir esa versión compatible con su esquema, no sólo cambiar el puntero web.
 
-La prueba `test:system` usa puertos 3100/4001, base `valkyr_test_*` y build `.next-test`; no reemplaza `.next` ni la base de uso. No ejecutar dos compilaciones web a la vez: Next genera archivos de tipos en el proyecto.
+La prueba `test:system` usa puertos 3100/4001, base `oryx_test_*` y build `.next-test`; no reemplaza `.next` ni la base de uso. No ejecutar dos compilaciones web a la vez: Next genera archivos de tipos en el proyecto.
 
 ## Acceso remoto privado
 
-Preferir VPN privada administrada (WireGuard o Tailscale, si el propietario elige ese proveedor) y permitir tráfico sólo desde la VPN. No instalar ni contratar servicios de terceros automáticamente. Mantener HTTPS, cuentas individuales y MFA administrativo incluso dentro de VPN. Las notificaciones push no están implementadas; HTTPS por sí solo no las habilita. La PWA no tiene edición offline.
+Preferir VPN privada administrada (WireGuard o Tailscale, si el propietario elige ese proveedor) y permitir tráfico sólo desde la VPN. No instalar ni contratar servicios de terceros automáticamente. Mantener HTTPS, cuentas individuales y MFA administrativo incluso dentro de VPN. Las notificaciones push requieren configurar VAPID, un contexto seguro y el consentimiento de cada usuario. La PWA no tiene edición offline.
+
+## Actualización de nombres internos
+
+Los paquetes son `@oryx/api` y `@oryx/web`. La configuración del dominio usa `ORYX_HOST` y la selección del build utiliza `ORYX_NEXT_DIR`. Al actualizar desde una versión anterior, reiniciar API, web y trabajadores con la configuración vigente. El cambio a las cookies `oryx_session` y `oryx_csrf` requiere volver a iniciar sesión; conserva usuarios, contraseñas e historiales.
+
+Si se actualiza una instalación Docker existente, consultar `docker compose ls` y conservar su nombre de proyecto mediante `--project-name NOMBRE_EXISTENTE` para reutilizar sus volúmenes. Cambiar la identidad del código no traslada ni renombra automáticamente los datos. En instalaciones nuevas, los nombres por defecto son ORYX.

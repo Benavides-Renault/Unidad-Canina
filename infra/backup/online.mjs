@@ -6,6 +6,7 @@ import { spawn } from 'node:child_process';
 import pg from 'pg';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { args, pgEnvironment, pgBinary, sha256 } from './common.mjs';
+import { BACKUP_FORMAT, ONLINE_BACKUP_LOCK } from './formats.mjs';
 
 function run(binary, parameters, env = process.env) {
   return new Promise((resolve, reject) => {
@@ -61,7 +62,7 @@ export async function onlineBackup(destination, objectClient) {
   let committed = false;
   try {
     const { locked } = (
-      await db.query("SELECT pg_try_advisory_lock(hashtextextended('valkyr-online-backup',0)) AS locked")
+      await db.query('SELECT pg_try_advisory_lock(hashtextextended($1,0)) AS locked', [ONLINE_BACKUP_LOCK])
     ).rows[0];
     if (!locked) throw new Error('Ya hay un respaldo en curso.');
     await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
@@ -110,7 +111,7 @@ export async function onlineBackup(destination, objectClient) {
       throw new Error('Directorio temporal fuera del respaldo.');
     await rm(stage, { recursive: true });
     const manifest = {
-      format: 'valkyr-backup-v1',
+      format: BACKUP_FORMAT,
       mode: 'native-online',
       storageDriver: 'local',
       sourceStorageDriver: sourceDriver,
@@ -131,7 +132,7 @@ export async function onlineBackup(destination, objectClient) {
   }
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  onlineBackup(String(args.output || `backups/valkyr-online-${Date.now()}`))
+  onlineBackup(String(args.output || `backups/oryx-online-${Date.now()}`))
     .then((result) =>
       console.log(`Respaldo en línea verificado: ${result.destination} (${result.verifiedFiles} archivos).`),
     )

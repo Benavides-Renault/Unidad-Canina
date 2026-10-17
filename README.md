@@ -2,7 +2,7 @@
 
 Identidad renovada, catálogo de razas, disponibilidad independiente para venta y cruza, fechas de crianza simplificadas y control interno. Consulta [la actualización y su verificación](docs/ORYX_CONTROL.md).
 
-Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. Los alcances probados de [fase 2](docs/PHASE_2.md) y [fase 3](docs/PHASE_3.md), y los pendientes de despliegue/endurecimiento, están registrados en [ROADMAP](docs/ROADMAP.md).
+Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. El [alcance del producto](docs/PRODUCT_SPEC.md), la [hoja de ruta](docs/ROADMAP.md) y los [resultados de verificación](docs/TEST_REPORT.md) describen la instalación vigente.
 
 El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. No hay registro público, integración fiscal ni datos reales precargados. El acceso utiliza nombres de usuario; el correo es opcional para recuperación y avisos.
 
@@ -82,6 +82,6 @@ Las pruebas que requieran servicios usan una base de datos de prueba aislada; nu
 - [Arquitectura y decisiones](docs/ARCHITECTURE.md), [ERD](docs/ERD.md), [contrato API](docs/API_CONTRACT.md).
 - [Seguridad y amenazas](docs/SECURITY.md), [roles](docs/ROLES.md), [variables](docs/ENVIRONMENT.md).
 - [Windows/Linux local y LAN](docs/DEPLOY_LOCAL.md), [servidor HTTPS](docs/DEPLOY_SERVER.md), [respaldos y recuperación](docs/BACKUP_RESTORE.md).
-- [Manual de uso](docs/USER_GUIDE.md), [hoja de ruta](docs/ROADMAP.md), [GitHub privado](docs/GITHUB_PRIVATE.md).
+- [Manual de uso](docs/USER_GUIDE.md), [hoja de ruta](docs/ROADMAP.md), [Repositorio y publicación](docs/GITHUB.md).
 
-Los documentos clínicos son registros internos, no certificaciones oficiales. La PWA requiere contexto seguro para su instalación en dispositivos remotos y no ofrece edición ni sincronización offline. No se ha realizado despliegue externo ni publicación del repositorio.
+Los documentos clínicos son registros internos, no certificaciones oficiales. La PWA requiere contexto seguro para su instalación en dispositivos remotos y no ofrece edición ni sincronización offline. El código está publicado en [GitHub](https://github.com/Benavides-Renault/Unidad-Canina) y la visita remota utiliza un enlace temporal desde esta PC. No hay un alojamiento permanente contratado.

@@ -9,11 +9,11 @@ import { root } from './env.mjs';
 
 const runtime = JSON.parse(await readFile(path.join(root, '.local/test-runtime.json'), 'utf8'));
 const sourceUrl = new URL(runtime.env.DATABASE_URL);
-assert.match(sourceUrl.pathname, /^\/valkyr_test_\d+$/, 'Sólo bases de prueba aisladas.');
+assert.match(sourceUrl.pathname, /^\/oryx_test_\d+$/, 'Sólo bases de prueba aisladas.');
 const stamp = Date.now();
 const backup = path.join(root, `.local/backup-${stamp}`);
 const files = path.join(root, `.local/restored-${stamp}`);
-const database = `valkyr_restore_${stamp}`;
+const database = `oryx_restore_${stamp}`;
 const localBin = path.join(root, '.local/pg-tools/pgsql/bin');
 const env = {
   ...process.env,
@@ -125,7 +125,7 @@ try {
     [
       'infra/backup/restore.mjs',
       `--source=${tampered}`,
-      `--database=valkyr_restore_rejected_${stamp}`,
+      `--database=oryx_restore_rejected_${stamp}`,
       `--files=${files}-rejected`,
     ],
     { cwd: root, env, encoding: 'utf8' },
@@ -133,7 +133,7 @@ try {
   assert.equal(blocked.status, 1);
   assert.match(blocked.stderr, /Checksum incorrecto/);
   const absent = await source.query('SELECT 1 FROM pg_database WHERE datname=$1', [
-    `valkyr_restore_rejected_${stamp}`,
+    `oryx_restore_rejected_${stamp}`,
   ]);
   assert.equal(absent.rowCount, 0);
   const result = {

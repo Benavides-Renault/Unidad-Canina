@@ -8,11 +8,11 @@ import path from 'node:path';
 import { root } from './env.mjs';
 import { onlineBackup } from '../infra/backup/online.mjs';
 const runtime = JSON.parse(await readFile(path.join(root, '.local/test-runtime.json'), 'utf8'));
-assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/valkyr_test_\d+$/);
+assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/oryx_test_\d+$/);
 const stamp = Date.now(),
   backup = path.join(root, `.local/online-backup-${stamp}`),
   files = path.join(root, `.local/online-restored-${stamp}`),
-  database = `valkyr_restore_online_${stamp}`;
+  database = `oryx_restore_online_${stamp}`;
 const env = {
   ...process.env,
   ...runtime.env,

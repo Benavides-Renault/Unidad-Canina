@@ -126,7 +126,7 @@ export function describeApi(document: OpenAPIObject) {
     type: 'apiKey',
     in: 'header',
     name: 'x-csrf-token',
-    description: 'Valor de la cookie legible valkyr_csrf; obligatorio en escrituras autenticadas.',
+    description: 'Valor de la cookie legible oryx_csrf; obligatorio en escrituras autenticadas.',
   };
   for (const [route, item] of Object.entries(document.paths)) {
     for (const method of ['get', 'post', 'patch', 'delete'] as const) {

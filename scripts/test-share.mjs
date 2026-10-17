@@ -19,11 +19,11 @@ try {
   await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible({ timeout: 30000 });
   assert.equal(new URL(page.url()).hash, '');
   const cookies = await adminContext.cookies();
-  assert.ok(
-    cookies
-      .filter((c) => ['__Host-valkyr_share', 'valkyr_session', 'valkyr_csrf'].includes(c.name))
-      .every((c) => c.secure),
-  );
+  for (const name of ['__Host-oryx_share', 'oryx_session', 'oryx_csrf']) {
+    const cookie = cookies.find((c) => c.name === name);
+    assert.ok(cookie, `Falta la cookie ${name}.`);
+    assert.equal(cookie.secure, true, `La cookie ${name} debe usar HTTPS.`);
+  }
   for (const name of ['Nuestra unidad', 'Crianza', 'Finanzas']) {
     await page.getByRole('button', { name, exact: true }).click();
     await expect(page.locator('main h1')).toBeVisible();

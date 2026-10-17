@@ -14,7 +14,7 @@ if (!['127.0.0.1', 'localhost'].includes(base.hostname) && process.env.ALLOW_ISO
   throw new Error(
     'Pruebas sólo sobre PostgreSQL local; para CI aislado configure ALLOW_ISOLATED_TEST_DB=true.',
   );
-const database = `valkyr_test_${Date.now()}`;
+const database = `oryx_test_${Date.now()}`;
 const admin = new pg.Client({ connectionString: base.toString() });
 await admin.connect();
 await admin.query(`CREATE DATABASE "${database}"`);
@@ -40,7 +40,7 @@ const env = {
   COOKIE_SECURE: 'false',
   SMTP_HOST: '',
   NODE_ENV: 'test',
-  VALKYR_NEXT_DIR: '.next-test',
+  ORYX_NEXT_DIR: '.next-test',
   BACKUP_ENABLED: 'false',
   DEMO_MODE: 'false',
   ADMIN_MFA_REQUIRED: 'false',
@@ -120,7 +120,7 @@ try {
           'COOKIE_SECURE',
           'SMTP_HOST',
           'NODE_ENV',
-          'VALKYR_NEXT_DIR',
+          'ORYX_NEXT_DIR',
           'VAPID_PUBLIC_KEY',
           'VAPID_PRIVATE_KEY',
           'VAPID_SUBJECT',

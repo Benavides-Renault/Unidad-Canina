@@ -16,7 +16,7 @@ Sólo existen ADMIN (Administrador), TRAINER (Entrenador) y CLIENT (Cliente). Un
 
 ## Propiedad, custodia y asignación
 
-Party identifica a VALKYR, una persona, municipalidad u organización. Dog.ownerPartyId define al propietario; Dog.custodianPartyId identifica a quien tiene físicamente al perro. El cliente ve perros cuyo propietario coincide con User.partyId. La custodia no concede acceso al portal. Varias cuentas de una municipalidad pueden vincularse a su misma entidad. Dog.assignedTrainerId determina el único entrenador autorizado; no depende del propietario ni de los contratos.
+Party identifica a ORYX, una persona, municipalidad u organización. Dog.ownerPartyId define al propietario; Dog.custodianPartyId identifica a quien tiene físicamente al perro. El cliente ve perros cuyo propietario coincide con User.partyId. La custodia no concede acceso al portal. Varias cuentas de una municipalidad pueden vincularse a su misma entidad. Dog.assignedTrainerId determina el único entrenador autorizado; no depende del propietario ni de los contratos.
 
 Cada consulta, descarga y alta comprueba su alcance en el servidor. Un ID ajeno devuelve 404. Los módulos administrativos devuelven 403 al entrenador y al cliente. Cambiar propietario o asignación aplica en las siguientes peticiones; cambiar entidad de la cuenta, contraseña, rol o deshabilitarla revoca sus sesiones. Deshabilitar o cambiar de rol a un entrenador retira sus asignaciones.
 

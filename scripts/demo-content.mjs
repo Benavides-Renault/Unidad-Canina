@@ -1,7 +1,7 @@
 // Presentation content for the synthetic local dataset. Provenance stays in docs/DEMO_ACCESOS.md.
 export const salesContact = 'María Vargas · +123456789';
 const replacements = [
-  ['Administrador DEMO', 'Administración VALKYR'],
+  ['Administrador DEMO', 'Administración ORYX'],
   ['Ana · entrenadora DEMO', 'Ana Rodríguez'],
   ['Diego · entrenador DEMO', 'Diego Mora'],
   ['Lucía · entrenadora DEMO', 'Lucía Campos'],
@@ -85,10 +85,10 @@ const replacements = [
   ['Devolución parcial ficticia.', 'Devolución parcial registrada.'],
   ['Movimiento ficticio; conserva propietario.', 'Cambio de ubicación y custodia.'],
   ['Demostración.', 'Seguimiento de la unidad.'],
-  ['Registro ficticio DEMO', 'Registro VALKYR'],
+  ['Registro ficticio DEMO', 'Registro ORYX'],
   ['Comprobante ficticio de pago', 'Comprobante de pago'],
   ['Contrato ficticio de demostración', 'Contrato de servicios'],
-  ['Centro de demostración VALKYR', 'Centro VALKYR'],
+  ['Centro de demostración ORYX', 'Centro ORYX'],
   ['Ingreso ficticio DEMO', 'Ingreso de inventario'],
   ['Baja de demostración', 'Baja de inventario'],
   ['Consumo de demostración', 'Consumo operativo'],
@@ -97,13 +97,13 @@ export function cleanText(value) {
   let text = value;
   for (const [from, to] of replacements) text = text.replaceAll(from, to);
   return text
-    .replace(/DEMO-/g, 'VK-')
+    .replace(/DEMO-/g, 'ORYX-')
     .replace(/ · DEMO| DEMO|DEMO /g, '')
     .replace(/ de demostración/g, '')
     .replace(/ fictici[oa]s?/g, '')
     .replace(/ para pruebas/g, '')
     .replace(/ para observar evolución/g, ' de evolución')
-    .replace(/demostracion\.pdf/gi, 'registro-valkyr.pdf');
+    .replace(/demostracion\.pdf/gi, 'registro-oryx.pdf');
 }
 export function cleanValue(value) {
   if (typeof value === 'string') return cleanText(value);

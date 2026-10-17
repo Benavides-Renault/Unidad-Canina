@@ -10,7 +10,7 @@
 - `GET /calendar/events?from=YYYY-MM-DD&to=YYYY-MM-DD&type=ALL`: ADMIN. Máximo 62 días, final exclusivo en Costa Rica; tipos APPOINTMENT/VACCINATION/TRAINING_PLAN/CERTIFICATION/BREEDING/CONTRACT/RESERVATION/ACCOUNT. Devuelve `{items,total}` con eventos normalizados; `sourceId` conserva el id de la cita para acciones.
 - `GET /system/status` añade `backupEnabled`, `backupHealthy`, `backupLastSuccess`. `GET /health` añade `demoMode` sin exponer configuración privada.
 
-API `/api/v1`, interfaz mismo origen con proxy Next. JSON camelCase, ids UUID, fechas civiles YYYY-MM-DD, instantes ISO UTC. Errores `{message: string | string[]}`. Listados paginados `{items, total, page, pageSize}` salvo catálogos explícitos. Todas las rutas privadas salvo health/login y recuperación. Cookie HttpOnly `valkyr_session`; CSRF double-submit: cookie legible `valkyr_csrf` y cabecera `x-csrf-token` para POST/PATCH/DELETE autenticados. Sesiones sólo servidor. Sin registro público.
+API `/api/v1`, interfaz mismo origen con proxy Next. JSON camelCase, ids UUID, fechas civiles YYYY-MM-DD, instantes ISO UTC. Errores `{message: string | string[]}`. Listados paginados `{items, total, page, pageSize}` salvo catálogos explícitos. Todas las rutas privadas salvo health/login y recuperación. Cookie HttpOnly `oryx_session`; CSRF double-submit: cookie legible `oryx_csrf` y cabecera `x-csrf-token` para POST/PATCH/DELETE autenticados. Sesiones sólo servidor. Sin registro público.
 
 Roles: ADMIN, TRAINER, CLIENT. Los módulos administrativos se restringen a ADMIN. Entrenadores usan /trainer con alcance por assignedTrainerId; clientes usan /portal con alcance por ownerPartyId = User.partyId. Consultar ROLES.md. Importes y cantidades decimales se reciben y devuelven como cadenas.
 
@@ -69,7 +69,7 @@ Listados paginados nuevos: instituciones, contratos, asignaciones, servicios, pe
 
 ## Portales y publicaciones
 
-- GET/POST /parties, PATCH /parties/:id: ADMIN; entidades propietarias y custodias (name, kind, phone?, email?). UNIT identifica VALKYR; las demás son PERSON, MUNICIPALITY u ORGANIZATION.
+- GET/POST /parties, PATCH /parties/:id: ADMIN; entidades propietarias y custodias (name, kind, phone?, email?). UNIT identifica ORYX; las demás son PERSON, MUNICIPALITY u ORGANIZATION.
 - POST /dogs requiere ownerPartyId y custodianPartyId; admite assignedTrainerId nullable. PATCH admite cambiar estos vínculos. POST /dogs/:id/movements requiere custodianPartyId, location y date.
 - POST /users admite partyId?, partyName?, partyKind?; sin entidad crea una para cliente/entrenador. PATCH admite partyId y revoca sesiones cuando se cambia.
 - GET /portal/dogs y GET /portal/dogs/:id: CLIENT (o vista propia ADMIN), sólo perros propios. Detalle con historial médico completo, vacunas, entrenamiento, pesos, citas, movimientos y documentos activos.

@@ -8,7 +8,7 @@ const { createDb } = require('../apps/api/dist/db.js');
 
 test('notificaciones completas, paginadas y privadas; métricas del inicio consistentes', async (t) => {
   Object.assign(process.env, runtime.env);
-  assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/valkyr_test_/);
+  assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/oryx_test_/);
   const db = createDb();
   try {
     await db.rateLimit.deleteMany();

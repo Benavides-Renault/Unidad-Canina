@@ -1,4 +1,4 @@
-name: Verificación privada
+name: Verificación ORYX K9
 on:
   push:
   pull_request:
@@ -12,23 +12,23 @@ jobs:
       postgres:
         image: postgres:17-bookworm
         env:
-          POSTGRES_USER: valkyr_test
+          POSTGRES_USER: oryx_test
           POSTGRES_PASSWORD: ephemeral-ci-only
-          POSTGRES_DB: valkyr_test
+          POSTGRES_DB: oryx_test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U valkyr_test -d valkyr_test"
+          --health-cmd "pg_isready -U oryx_test -d oryx_test"
           --health-interval 5s --health-timeout 5s --health-retries 15
     env:
-      DATABASE_URL: postgresql://valkyr_test:ephemeral-ci-only@127.0.0.1:5432/valkyr_test?schema=public
+      DATABASE_URL: postgresql://oryx_test:ephemeral-ci-only@127.0.0.1:5432/oryx_test?schema=public
       APP_ORIGIN: http://localhost:3000
       API_URL: http://127.0.0.1:4000
       API_PORT: 4000
       API_HOST: 127.0.0.1
       COOKIE_SECURE: 'false'
       STORAGE_DRIVER: local
-      STORAGE_PATH: /tmp/valkyr-ci-files
+      STORAGE_PATH: /tmp/oryx-ci-files
       CI: 'true'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

@@ -1,10 +1,11 @@
+import { isDemoDatabase } from './database-names.mjs';
 import { readFile, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import pg from 'pg';
 import { root, loadEnv } from './env.mjs';
 loadEnv();
 process.chdir(root);
-assert.match(new URL(process.env.DATABASE_URL).pathname, /^\/valkyr_demo_\d+$/);
+assert.ok(isDemoDatabase(new URL(process.env.DATABASE_URL).pathname));
 const runtime = JSON.parse(await readFile('.local/demo-runtime.json', 'utf8'));
 const apiBase = 'http://127.0.0.1:4000/api/v1';
 class Client {
@@ -17,7 +18,7 @@ class Client {
         cookie: Object.entries(this.cookies)
           .map(([k, v]) => `${k}=${v}`)
           .join('; '),
-        'x-csrf-token': this.cookies.valkyr_csrf || '',
+        'x-csrf-token': this.cookies.oryx_csrf || '',
         ...(body ? { 'content-type': 'application/json' } : {}),
       },
       body: body ? JSON.stringify(body) : undefined,

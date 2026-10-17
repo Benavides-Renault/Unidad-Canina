@@ -110,7 +110,7 @@ test('Portales: propiedad, asignación, historial privado y publicación control
     pedigreeSummary: 'Pedigrí autorizado',
   };
   let clinical: any, photo: any, cross: any, dam: any, sire: any;
-  const photoBytes = await readFile('assets/branding/valkyr-logo-original.png');
+  const photoBytes = await readFile('assets/branding/oryx-logo.png');
   async function upload(dogId: string, category: string) {
     const form = new FormData();
     form.set('file', new Blob([photoBytes], { type: 'image/png' }), 'prueba.png');

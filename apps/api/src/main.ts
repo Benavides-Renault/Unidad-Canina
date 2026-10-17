@@ -185,7 +185,7 @@ async function main() {
       'Content-Security-Policy',
       "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; frame-ancestors 'none'",
     );
-    const raw = req.cookies?.valkyr_session;
+    const raw = req.cookies?.oryx_session;
     if (!raw || typeof raw !== 'string' || raw.length > 100)
       return res.status(401).json({ message: 'Inicia sesión.' });
     try {
@@ -209,7 +209,7 @@ async function main() {
           'API privada. Las escrituras requieren cookie de sesión y cabecera x-csrf-token. Contrato detallado en docs/API_CONTRACT.md.',
         )
         .setVersion('1.0')
-        .addCookieAuth('valkyr_session')
+        .addCookieAuth('oryx_session')
         .build(),
     ),
   );

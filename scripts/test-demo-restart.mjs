@@ -1,3 +1,4 @@
+import { isDemoDatabase } from './database-names.mjs';
 import { readFile, writeFile } from 'node:fs/promises';
 import pg from 'pg';
 import assert from 'node:assert/strict';
@@ -5,7 +6,7 @@ import { root, loadEnv } from './env.mjs';
 loadEnv();
 process.chdir(root);
 const database = new URL(process.env.DATABASE_URL).pathname;
-assert.match(database, /^\/valkyr_demo_\d+$/);
+assert.ok(isDemoDatabase(database));
 const db = new pg.Client({ connectionString: process.env.DATABASE_URL });
 await db.connect();
 const hashes = {};

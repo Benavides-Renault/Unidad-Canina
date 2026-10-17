@@ -1,6 +1,7 @@
 import { mkdirSync, openSync, closeSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { args, command, docker, pgEnvironment, pgBinary, sha256 } from './common.mjs';
+import { BACKUP_FORMAT } from './formats.mjs';
 
 async function main() {
   const mode = args.mode || 'native';
@@ -14,7 +15,7 @@ async function main() {
       'Este script respalda almacenamiento LOCAL. S3 requiere snapshot/export de objetos coordinado por el operador.',
     );
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const destination = path.resolve(String(args.output || `backups/valkyr-${timestamp}`));
+  const destination = path.resolve(String(args.output || `backups/oryx-${timestamp}`));
   const storage = path.resolve(process.env.STORAGE_PATH || 'storage');
   if (mode === 'native') {
     const relative = path.relative(storage, destination);
@@ -44,9 +45,9 @@ async function main() {
           'postgres',
           'pg_dump',
           '-U',
-          process.env.POSTGRES_USER || 'valkyr',
+          process.env.POSTGRES_USER || 'oryx',
           '-d',
-          process.env.POSTGRES_DB || 'valkyr',
+          process.env.POSTGRES_DB || 'oryx',
           '--format=custom',
           '--no-owner',
           '--no-acl',
@@ -75,7 +76,7 @@ async function main() {
     }
   }
   const manifest = {
-    format: 'valkyr-backup-v1',
+    format: BACKUP_FORMAT,
     createdAt: new Date().toISOString(),
     mode,
     storageDriver: 'local',

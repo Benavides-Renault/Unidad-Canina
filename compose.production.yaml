@@ -1,15 +1,15 @@
 # Archivo independiente: usar docker compose -f compose.production.yaml ...
-name: valkyr-production
+name: oryx-production
 x-api: &api
   build:
     context: .
     dockerfile: infra/Dockerfile.api
-  image: valkyr-api:production
+  image: oryx-api:production
   env_file: .env
   environment:
     NODE_ENV: production
-    DATABASE_URL: postgresql://${POSTGRES_USER:-valkyr}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-valkyr}?schema=public
-    APP_ORIGIN: https://${VALKYR_HOST:?Configurar VALKYR_HOST}
+    DATABASE_URL: postgresql://${POSTGRES_USER:-oryx}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-oryx}?schema=public
+    APP_ORIGIN: https://${ORYX_HOST:?Configurar ORYX_HOST}
     API_PORT: 4000
     API_HOST: 0.0.0.0
     APP_ENCRYPTION_KEY: ${APP_ENCRYPTION_KEY:?Configurar APP_ENCRYPTION_KEY}
@@ -24,8 +24,8 @@ services:
   postgres:
     image: postgres:17-bookworm
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-valkyr}
-      POSTGRES_USER: ${POSTGRES_USER:-valkyr}
+      POSTGRES_DB: ${POSTGRES_DB:-oryx}
+      POSTGRES_USER: ${POSTGRES_USER:-oryx}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -64,7 +64,7 @@ services:
       dockerfile: infra/Dockerfile.web
       args:
         API_URL: http://api:4000
-    image: valkyr-web:production
+    image: oryx-web:production
     environment:
       API_URL: http://api:4000
     depends_on:
@@ -75,7 +75,7 @@ services:
   caddy:
     image: caddy:2-alpine
     environment:
-      VALKYR_HOST: ${VALKYR_HOST:?Configurar VALKYR_HOST}
+      ORYX_HOST: ${ORYX_HOST:?Configurar ORYX_HOST}
       ACME_EMAIL: ${ACME_EMAIL:-}
     ports:
       - '${HTTPS_BIND_ADDRESS:-127.0.0.1}:80:80'

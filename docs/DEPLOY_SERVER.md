@@ -6,7 +6,7 @@ No se ha desplegado ni abierto puertos externos. La siguiente guía requiere un 
 
 Instalar Docker/Compose y Node.js para scripts operativos, almacenamiento cifrado y copias independientes. Mantener sistema actualizado, acceso administrativo restringido y hora sincronizada (TOTP depende de ella). Una distribución Linux soportada simplifica servicios continuos; Windows con Docker Desktop requiere revisar inicio de sesión, energía y continuidad operacional.
 
-Crear `.env` de producción con secretos propios, `VALKYR_HOST`, `ACME_EMAIL`, SMTP real y `HTTPS_BIND_ADDRESS` correspondiente a IP privada/VPN. `compose.production.yaml` es un archivo separado, con PostgreSQL y API sin puertos del host. Sólo Caddy publica 80/443; por defecto se ligan a loopback y no se abre Internet automáticamente. `COOKIE_SECURE=true` y origen HTTPS son forzados en esa composición.
+Crear `.env` de producción con secretos propios, `ORYX_HOST`, `ACME_EMAIL`, SMTP real y `HTTPS_BIND_ADDRESS` correspondiente a IP privada/VPN. `compose.production.yaml` es un archivo separado, con PostgreSQL y API sin puertos del host. Sólo Caddy publica 80/443; por defecto se ligan a loopback y no se abre Internet automáticamente. `COOKIE_SECURE=true` y origen HTTPS son forzados en esa composición.
 
 Para LAN/VPN usar `CADDY_CONFIG=./infra/Caddyfile.lan` y distribuir únicamente el certificado CA público a dispositivos autorizados. Para dominio público y ACME usar `./infra/Caddyfile`; DNS debe resolver al servidor y el método de validación elegido debe ser accesible. La apertura de puertos/DNS públicos es una decisión del propietario y no se ejecuta durante esta entrega. Es preferible mantener el sistema privado mediante VPN.
 

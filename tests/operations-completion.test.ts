@@ -16,7 +16,7 @@ import { totp, passwordSchema } from '../apps/api/src/security';
 
 test('Operación local: avisos, cuarentena, cuotas y MFA obligatorio', async (t) => {
   Object.assign(process.env, runtime.env);
-  assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/valkyr_test_\d+$/);
+  assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/oryx_test_\d+$/);
   const db = createDb();
   await db.rateLimit.deleteMany();
   const admin = new Api();
@@ -195,7 +195,7 @@ test('Operación local: avisos, cuarentena, cuotas y MFA obligatorio', async (t)
       await new Promise<void>((resolve) => smtp.listen(0, '127.0.0.1', resolve));
       process.env.SMTP_HOST = '127.0.0.1';
       process.env.SMTP_PORT = String((smtp.address() as { port: number }).port);
-      process.env.SMTP_FROM = 'valkyr@example.invalid';
+      process.env.SMTP_FROM = 'oryx@example.invalid';
       process.env.SMTP_USER = '';
       process.env.SMTP_SECURE = 'false';
       try {

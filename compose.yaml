@@ -1,13 +1,13 @@
-name: valkyr
+name: oryx
 x-api: &api
   build:
     context: .
     dockerfile: infra/Dockerfile.api
-  image: valkyr-api:local
+  image: oryx-api:local
   env_file: .env
   environment: &api-environment
     NODE_ENV: development
-    DATABASE_URL: postgresql://${POSTGRES_USER:-valkyr}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD en .env}@postgres:5432/${POSTGRES_DB:-valkyr}?schema=public
+    DATABASE_URL: postgresql://${POSTGRES_USER:-oryx}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD en .env}@postgres:5432/${POSTGRES_DB:-oryx}?schema=public
     APP_ORIGIN: ${APP_ORIGIN:-http://localhost:3000}
     API_PORT: 4000
     API_HOST: 0.0.0.0
@@ -24,8 +24,8 @@ services:
   postgres:
     image: postgres:17-bookworm
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-valkyr}
-      POSTGRES_USER: ${POSTGRES_USER:-valkyr}
+      POSTGRES_DB: ${POSTGRES_DB:-oryx}
+      POSTGRES_USER: ${POSTGRES_USER:-oryx}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}
     ports:
       - '127.0.0.1:5433:5432'
@@ -66,7 +66,7 @@ services:
       dockerfile: infra/Dockerfile.web
       args:
         API_URL: http://api:4000
-    image: valkyr-web:local
+    image: oryx-web:local
     environment:
       API_URL: http://api:4000
     ports:

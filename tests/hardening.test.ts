@@ -30,7 +30,7 @@ test('operación: salud del trabajador y permisos mínimos de PostgreSQL', async
       assert.equal((await admin.json('/system/status')).workerHealthy, true);
     });
     await t.test('rol de aplicación puede operar pero no alterar historiales ni estructura', async () => {
-      const role = `valkyr_test_app_${Date.now()}`,
+      const role = `oryx_test_app_${Date.now()}`,
         quoted = pg.escapeIdentifier(role);
       await db.query(`CREATE ROLE ${quoted} NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT`);
       try {

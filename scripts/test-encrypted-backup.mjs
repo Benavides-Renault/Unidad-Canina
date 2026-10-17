@@ -10,7 +10,7 @@ import { sealBackup, openBackup } from '../infra/backup/encryption.mjs';
 import { sha256 } from '../infra/backup/common.mjs';
 process.chdir(root);
 const runtime = JSON.parse(await readFile('.local/test-runtime.json', 'utf8'));
-assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/valkyr_test_\d+$/);
+assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/oryx_test_\d+$/);
 Object.assign(process.env, runtime.env, {
   PG_BIN: path.join(root, '.local/pg-tools/pgsql/bin'),
   BACKUP_DATABASE_URL: runtime.env.DATABASE_URL,
@@ -45,7 +45,7 @@ await writeFile(envelopePath, JSON.stringify(envelope));
 await assert.rejects(openBackup(encrypted.destination, `${base}-tampered`));
 await copyFile(`${encryptedDump}.original`, encryptedDump);
 await writeFile(envelopePath, originalEnvelope);
-const database = `valkyr_restore_crypto_${stamp}`,
+const database = `oryx_restore_crypto_${stamp}`,
   files = `${base}-restored-files`;
 await new Promise((resolve, reject) => {
   const p = spawn(

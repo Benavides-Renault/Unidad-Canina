@@ -1,3 +1,4 @@
+import { isDemoDatabase } from './database-names.mjs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -7,7 +8,7 @@ process.chdir(root);
 // Explicit opt-in and database guard: stock photographs never enter a normal installation.
 assert.ok(process.argv.includes('--demo-only'), 'Usa --demo-only.');
 assert.equal(process.env.DEMO_MODE, 'true');
-assert.match(new URL(process.env.DATABASE_URL).pathname, /^\/valkyr_demo_\d+$/);
+assert.ok(isDemoDatabase(new URL(process.env.DATABASE_URL).pathname));
 assert.ok(['localhost', '127.0.0.1'].includes(new URL(process.env.DATABASE_URL).hostname));
 const sources = [
   { id: 20368539, group: 'shepherd', author: 'Julissa Pires', slug: 'german-shepherd-dog' },
@@ -51,7 +52,7 @@ async function call(route, method = 'GET', body) {
       cookie: Object.entries(cookies)
         .map(([k, v]) => `${k}=${v}`)
         .join('; '),
-      'x-csrf-token': cookies.valkyr_csrf || '',
+      'x-csrf-token': cookies.oryx_csrf || '',
       ...(body && !multipart ? { 'content-type': 'application/json' } : {}),
     },
     body: body ? (multipart ? body : JSON.stringify(body)) : undefined,

@@ -1,5 +1,5 @@
 {
-  "name": "valkyr-manager",
+  "name": "oryx-manager",
   "version": "0.1.0",
   "private": true,
   "workspaces": [
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "dev:web": "npm run dev --workspace @valkyr/web",
+    "dev:web": "npm run dev --workspace @oryx/web",
     "dev:api": "node scripts/run.mjs dev",
     "db:local": "node scripts/local-db.mjs",
     "db:generate": "node scripts/run.mjs db:generate",
@@ -21,7 +21,7 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "eslint apps tests scripts infra/backup --no-warn-ignored",
     "format": "prettier --write apps/*/src scripts tests docs README.md",
-    "test": "node --import tsx --test tests/unit.test.ts tests/share-gateway.test.mjs",
+    "test": "node --import tsx --test tests/unit.test.ts tests/share-gateway.test.mjs tests/repository.test.mjs",
     "test:integration": "node --import tsx --test tests/integration.test.ts",
     "test:e2e": "playwright test",
     "verify": "npm run typecheck && npm run lint && npm test && npm run build",

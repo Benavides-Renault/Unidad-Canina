@@ -1,7 +1,7 @@
 import http from 'node:http';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 
-const cookieName = '__Host-valkyr_share';
+const cookieName = '__Host-oryx_share';
 const digest = (value) => createHash('sha256').update(value).digest();
 const hopHeaders = [
   'connection',

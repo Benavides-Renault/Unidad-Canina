@@ -1,3 +1,4 @@
+import { isDemoDatabase } from './database-names.mjs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ loadEnv();
 process.chdir(root);
 const url = new URL(process.env.DATABASE_URL);
 assert.equal(process.env.DEMO_MODE, 'true');
-assert.match(url.pathname, /^\/valkyr_demo_\d+$/);
+assert.ok(isDemoDatabase(url.pathname));
 assert.ok(['localhost', '127.0.0.1'].includes(url.hostname));
 const runtime = JSON.parse(await readFile('.local/demo-runtime.json', 'utf8'));
 let cookies = {};
@@ -19,7 +20,7 @@ async function api(route, method = 'GET', body) {
       cookie: Object.entries(cookies)
         .map(([k, v]) => `${k}=${v}`)
         .join('; '),
-      'x-csrf-token': cookies.valkyr_csrf || '',
+      'x-csrf-token': cookies.oryx_csrf || '',
       ...(body && !multipart ? { 'content-type': 'application/json' } : {}),
     },
     body: body ? (multipart ? body : JSON.stringify(body)) : undefined,
@@ -40,21 +41,21 @@ for (const data of [
     name: 'Obediencia y socialización',
     kind: 'TRAINING',
     title: 'Evaluación de obediencia y socialización',
-    issuer: 'VALKYR · Unidad Canina',
+    issuer: 'ORYX K9 · Unidad Canina',
     body: '{{nombre}}, código {{codigo}}, completó la evaluación de obediencia y socialización el {{fecha}}. Referencia: {{referencia}}. Responsable: {{emisor}}.',
   },
   {
     name: 'Registro de crianza',
     kind: 'BREEDING',
     title: 'Ficha de seguimiento de crianza',
-    issuer: 'VALKYR · Unidad Canina',
+    issuer: 'ORYX K9 · Unidad Canina',
     body: 'Seguimiento de {{nombre}}, código {{codigo}}, registrado el {{fecha}}. La filiación, los controles y la camada se consultan en su expediente. Referencia {{referencia}}.',
   },
   {
     name: 'Servicio de entrenamiento',
     kind: 'CONTRACT',
     title: 'Acuerdo de seguimiento canino',
-    issuer: 'VALKYR · Unidad Canina',
+    issuer: 'ORYX K9 · Unidad Canina',
     body: 'Servicio para {{nombre}}, contrato {{referencia}}, a partir del {{fecha}}. Incluye sesiones de entrenamiento, bitácora de avances y coordinación con el responsable designado. Emisor: {{emisor}}.',
   },
 ])

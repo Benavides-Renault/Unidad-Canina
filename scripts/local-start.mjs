@@ -14,11 +14,11 @@ await mkdir(path.join(root, '.local'), { recursive: true });
 loadEnv();
 const releaseFile = path.join(root, '.local/active-release.json');
 const nextDir =
-  process.env.VALKYR_NEXT_DIR ||
+  process.env.ORYX_NEXT_DIR ||
   (existsSync(releaseFile) ? JSON.parse(readFileSync(releaseFile, 'utf8')).nextDir : '.next');
 if (typeof nextDir !== 'string' || !/^\.next(?:-[a-zA-Z0-9-]+)?$/.test(nextDir))
   throw new Error('Directorio de compilación no válido.');
-process.env.VALKYR_NEXT_DIR = nextDir;
+process.env.ORYX_NEXT_DIR = nextDir;
 async function databaseReady() {
   if (!process.env.DATABASE_URL) return false;
   const client = new pg.Client({ connectionString: process.env.DATABASE_URL, connectionTimeoutMillis: 1500 });

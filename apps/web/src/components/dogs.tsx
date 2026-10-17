@@ -256,11 +256,11 @@ export function Dogs({
   revision: number;
 }) {
   const [search, setSearch] = useState(() =>
-    typeof window !== 'undefined' ? sessionStorage.getItem('valkyr-search') || '' : '',
+    typeof window !== 'undefined' ? sessionStorage.getItem('oryx-search') || '' : '',
   );
   const [query, setQuery] = useState(search);
   const [status, setStatus] = useState(() =>
-    typeof window !== 'undefined' ? sessionStorage.getItem('valkyr-status') || '' : '',
+    typeof window !== 'undefined' ? sessionStorage.getItem('oryx-status') || '' : '',
   );
   const [location, setLocation] = useState('');
   const [page, setPage] = useState(1);
@@ -271,7 +271,7 @@ export function Dogs({
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
     setQuery(search);
-    sessionStorage.setItem('valkyr-search', search);
+    sessionStorage.setItem('oryx-search', search);
     setPage(1);
   };
   return (
@@ -306,7 +306,7 @@ export function Dogs({
             value={status}
             onChange={(event) => {
               setStatus(event.target.value);
-              sessionStorage.setItem('valkyr-status', event.target.value);
+              sessionStorage.setItem('oryx-status', event.target.value);
               setPage(1);
             }}
           >
@@ -421,8 +421,8 @@ export function Dogs({
                     setSearch('');
                     setStatus('');
                     setLocation('');
-                    sessionStorage.removeItem('valkyr-search');
-                    sessionStorage.removeItem('valkyr-status');
+                    sessionStorage.removeItem('oryx-search');
+                    sessionStorage.removeItem('oryx-status');
                   }}
                 >
                   Limpiar filtros

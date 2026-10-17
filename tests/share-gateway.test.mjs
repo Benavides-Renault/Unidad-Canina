@@ -29,14 +29,14 @@ function request(url, { body, ...options } = {}) {
 
 test('temporary sharing requires a private link and preserves origin, cookies and streaming', async () => {
   const token = randomBytes(32).toString('base64url');
-  const origin = 'https://valkyr-test.trycloudflare.com';
+  const origin = 'https://oryx-test.trycloudflare.com';
   const upstream = http
     .createServer(async (req, res) => {
       let body = '';
       for await (const c of req) body += c;
       res.setHeader('Set-Cookie', [
-        'valkyr_session=example; HttpOnly; Path=/',
-        'valkyr_csrf=example; Path=/',
+        'oryx_session=example; HttpOnly; Path=/',
+        'oryx_csrf=example; Path=/',
       ]);
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.end(
@@ -78,7 +78,7 @@ test('temporary sharing requires a private link and preserves origin, cookies an
     const admitted = await unlock(token);
     assert.equal(admitted.status, 204);
     assert.match(admitted.headers.get('set-cookie'), /HttpOnly; Secure; SameSite=Strict/);
-    const cookie = admitted.headers.get('set-cookie').split(';')[0] + '; valkyr_csrf=example';
+    const cookie = admitted.headers.get('set-cookie').split(';')[0] + '; oryx_csrf=example';
     assert.equal((await call('/api/v1/auth/login', { method: 'POST', headers: { cookie } })).status, 403);
     assert.equal(
       (
@@ -99,7 +99,7 @@ test('temporary sharing requires a private link and preserves origin, cookies an
     assert.equal(proxied.headers.get('access-control-allow-origin'), origin);
     const payload = await proxied.json();
     assert.equal(payload.origin, target);
-    assert.equal(payload.cookie, 'valkyr_csrf=example');
+    assert.equal(payload.cookie, 'oryx_csrf=example');
     assert.equal(payload.body, '{"username":"visitor"}');
     assert.equal(proxied.headers.get('cache-control'), 'no-store');
     assert.equal(proxied.headers.get('x-robots-tag'), 'noindex, nofollow, noarchive');

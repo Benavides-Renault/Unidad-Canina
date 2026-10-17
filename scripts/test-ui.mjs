@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { root } from './env.mjs';
 const runtime = JSON.parse(await readFile(path.join(root, '.local/test-runtime.json'), 'utf8'));
-assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/valkyr_test_\d+$/);
+assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/oryx_test_\d+$/);
 const env = { ...process.env, ...runtime.env };
 const children = [];
 function service(args, name) {

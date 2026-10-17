@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 const config: NextConfig = {
-  distDir: process.env.VALKYR_NEXT_DIR || '.next',
+  distDir: process.env.ORYX_NEXT_DIR || '.next',
   devIndicators: false,
   poweredByHeader: false,
   async rewrites() {

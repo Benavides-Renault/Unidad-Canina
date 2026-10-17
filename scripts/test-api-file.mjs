@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { root } from './env.mjs';
 process.chdir(root);
 const runtime = JSON.parse(await readFile('.local/test-runtime.json', 'utf8'));
-assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/valkyr_test_\d+$/);
+assert.match(new URL(runtime.env.DATABASE_URL).pathname, /^\/oryx_test_\d+$/);
 const env = { ...process.env, ...runtime.env };
 const log = createWriteStream('.local/api-test.log');
 const service = spawn(process.execPath, ['apps/api/dist/main.js'], {

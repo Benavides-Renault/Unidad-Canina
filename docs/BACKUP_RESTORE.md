@@ -26,7 +26,7 @@ Los scripts usan Node.js, herramientas PostgreSQL y `tar`. En Windows `tar.exe` 
 
 ```sh
 docker compose stop web api worker
-node --env-file=.env infra/backup/backup.mjs --mode=docker --quiesced --output=backups/valkyr-2026-10-15
+node --env-file=.env infra/backup/backup.mjs --mode=docker --quiesced --output=backups/oryx-2026-10-15
 docker compose start api worker web
 ```
 
@@ -35,7 +35,7 @@ En producción agregar `--compose=compose.production.yaml` al script y `-f compo
 **Nativo:** detener API, web y worker; dejar PostgreSQL activo. Configurar `PG_BIN` si no está en PATH:
 
 ```sh
-node --env-file=.local/local.env infra/backup/backup.mjs --mode=native --quiesced --output=backups/valkyr-2026-10-15
+node --env-file=.local/local.env infra/backup/backup.mjs --mode=native --quiesced --output=backups/oryx-2026-10-15
 ```
 
 Usar `.env` en lugar de `.local/local.env` si la base es administrada manualmente. `--quiesced` confirma que el operador ha pausado escritores; el script no puede deducir si hay otros procesos externos escribiendo. Produce `database.dump` (pg_dump custom), `files.tar` y `manifest.json` con SHA-256 de ambos. Nunca sobrescribe el destino. Los checksums verifican corrupción, no autoría frente a un atacante que pueda sustituir también el manifiesto.
@@ -45,7 +45,7 @@ Usar `.env` en lugar de `.local/local.env` si la base es administrada manualment
 El script produce un snapshot sin cifrar para permitir verificación. Proteger la carpeta con ACL y cifrado de volumen. Si `age` está instalado y el propietario ha creado una clave privada custodiada por separado:
 
 ```sh
-tar -cf backups/snapshot.tar -C backups valkyr-2026-10-15
+tar -cf backups/snapshot.tar -C backups oryx-2026-10-15
 age -r CLAVE_PUBLICA_AGE -o backups/snapshot.tar.age backups/snapshot.tar
 ```
 
@@ -55,19 +55,19 @@ Política inicial a aprobar: copia diaria, 7 diarias, 4 semanales y 6 mensuales;
 
 ## Restaurar primero en un destino aislado
 
-El script sólo acepta nombres `valkyr_restore_...`, crea una base nueva y exige un directorio de archivos inexistente. No usa `--clean`, no borra una base existente ni sobrescribe volúmenes. Verifica checksums antes de modificar, rechaza rutas de archivo inseguras y enlaces. Si algo falla puede dejar una base aislada parcial; revisarla y conservar diagnóstico, nunca apuntar producción a ella.
+El script sólo acepta nombres `oryx_restore_...`, crea una base nueva y exige un directorio de archivos inexistente. No usa `--clean`, no borra una base existente ni sobrescribe volúmenes. Verifica checksums antes de modificar, rechaza rutas de archivo inseguras y enlaces. Si algo falla puede dejar una base aislada parcial; revisarla y conservar diagnóstico, nunca apuntar producción a ella.
 
 ```sh
-node --env-file=.local/local.env infra/backup/restore.mjs --mode=native --source=backups/valkyr-2026-10-15 --database=valkyr_restore_prueba --files=restores/prueba
+node --env-file=.local/local.env infra/backup/restore.mjs --mode=native --source=backups/oryx-2026-10-15 --database=oryx_restore_prueba --files=restores/prueba
 ```
 
 Con Docker:
 
 ```sh
-node --env-file=.env infra/backup/restore.mjs --mode=docker --source=backups/valkyr-2026-10-15 --database=valkyr_restore_prueba --files=restores/prueba
+node --env-file=.env infra/backup/restore.mjs --mode=docker --source=backups/oryx-2026-10-15 --database=oryx_restore_prueba --files=restores/prueba
 ```
 
-La base aislada se crea en el servidor configurado; los archivos se extraen a la carpeta nueva del host. Para validación funcional iniciar una **instancia temporal** en puertos separados, `DATABASE_URL` apuntando a `valkyr_restore_prueba`, `STORAGE_PATH` al directorio restaurado y la clave original; dejar el worker/correo desactivados para no duplicar envíos. Comprobar:
+La base aislada se crea en el servidor configurado; los archivos se extraen a la carpeta nueva del host. Para validación funcional iniciar una **instancia temporal** en puertos separados, `DATABASE_URL` apuntando a `oryx_restore_prueba`, `STORAGE_PATH` al directorio restaurado y la clave original; dejar el worker/correo desactivados para no duplicar envíos. Comprobar:
 
 1. Recuentos de perros, documentos, vacunas, entrenamientos, usuarios y auditoría coinciden con el origen del snapshot.
 2. Iniciar sesión con una cuenta existente, abrir un perro y descargar foto/documento; comparar checksum con `Document.checksum`.
@@ -99,8 +99,14 @@ Para descifrar a una carpeta nueva, con la configuración local cargada por el s
 node scripts/backup-crypt.mjs --decrypt --source=RUTA_COPIA_CIFRADA --output=RUTA_NUEVA
 ```
 
-La restauración acepta el resultado descifrado y sigue exigiendo una base `valkyr_restore_*` y una carpeta inexistente. `scripts/test-demo-recovery.mjs` descifra y restaura una copia activa de forma aislada, compara 40 tablas de negocio y verifica cada objeto. `scripts/test-encrypted-backup.mjs` comprueba además clave incorrecta y alteración autenticada. Custodiar la clave y `APP_ENCRYPTION_KEY` fuera del disco antes de depender de una copia externa.
+La restauración acepta el resultado descifrado y sigue exigiendo una base `oryx_restore_*` y una carpeta inexistente. `scripts/test-demo-recovery.mjs` descifra y restaura una copia activa de forma aislada, compara 40 tablas de negocio y verifica cada objeto. `scripts/test-encrypted-backup.mjs` comprueba además clave incorrecta y alteración autenticada. Custodiar la clave y `APP_ENCRYPTION_KEY` fuera del disco antes de depender de una copia externa.
 
 ## Almacenamiento S3 opcional
 
 `online.mjs` admite S3: toma la lista de objetos y el dump del mismo snapshot, descarga las claves inmutables, valida checksums y genera una copia portable que puede restaurarse a almacenamiento local. El adaptador está probado mediante cliente de objetos inyectado. Deben validarse bucket privado, permisos, cuota del proveedor y recuperación real antes de cambiar esta instalación a S3. No se afirma que un bucket externo haya sido probado ni se usa su versionado como sustituto del respaldo.
+
+## Compatibilidad de la identidad
+
+Los respaldos nuevos usan los formatos `oryx-backup-v1` y `oryx-encrypted-v1`. El lector mantiene compatibilidad con las copias anteriores, incluidas su cabecera autenticada y sus verificaciones de integridad. No es necesario convertirlas ni descifrarlas permanentemente para actualizar la aplicación.
+
+Las migraciones ya aplicadas permanecen intactas para conservar sus checksums. El nombre técnico de una base existente se obtiene de su configuración privada: la limpieza del repositorio no renombra ni borra bases o archivos de uso. Las nuevas instalaciones y restauraciones utilizan el prefijo `oryx`.

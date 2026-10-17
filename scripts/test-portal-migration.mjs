@@ -7,7 +7,7 @@ import { root, loadEnv } from './env.mjs';
 loadEnv();
 const url = new URL(process.env.MIGRATION_DATABASE_URL || process.env.DATABASE_URL);
 assert.ok(['localhost', '127.0.0.1'].includes(url.hostname));
-const database = `valkyr_test_portal_migration_${Date.now()}`;
+const database = `oryx_test_portal_migration_${Date.now()}`;
 const control = new pg.Client({ connectionString: url.toString() });
 await control.connect();
 await control.query(`CREATE DATABASE "${database}"`);

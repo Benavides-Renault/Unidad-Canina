@@ -1,7 +1,7 @@
 {
     email {$ACME_EMAIL}
 }
-{$VALKYR_HOST} {
+{$ORYX_HOST} {
     encode zstd gzip
     header {
         Strict-Transport-Security "max-age=31536000"

@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile, appendFile, stat, rm } from 'node:fs/promis
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
 import { sha256, readManifest } from './common.mjs';
-const magic = Buffer.from('VALKYR01');
+import { ENCRYPTED_FORMAT, ENCRYPTED_MAGIC as magic, encryptedMagic } from './formats.mjs';
 function key() {
   const value = process.env.BACKUP_ENCRYPTION_KEY;
   if (!/^[a-fA-F0-9]{64}$/.test(value || ''))
@@ -21,7 +21,7 @@ async function encrypt(source, target, secret) {
   await pipeline(createReadStream(source), cipher, createWriteStream(target, { flags: 'a' }));
   await appendFile(target, cipher.getAuthTag());
 }
-async function decrypt(source, target, secret) {
+async function decrypt(source, target, secret, expectedMagic) {
   const size = (await stat(source)).size;
   if (size < 36) throw new Error('Archivo cifrado incompleto.');
   const header = await new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ async function decrypt(source, target, secret) {
       .on('end', () => resolve(Buffer.concat(chunks)))
       .on('error', reject);
   });
-  if (!header.subarray(0, 8).equals(magic)) throw new Error('Formato cifrado inválido.');
+  if (!header.subarray(0, 8).equals(expectedMagic)) throw new Error('Formato cifrado inválido.');
   const tag = await new Promise((resolve, reject) => {
     const chunks = [];
     createReadStream(source, { start: size - 16 })
@@ -40,7 +40,7 @@ async function decrypt(source, target, secret) {
       .on('error', reject);
   });
   const decipher = createDecipheriv('aes-256-gcm', secret, header.subarray(8));
-  decipher.setAAD(magic);
+  decipher.setAAD(expectedMagic);
   decipher.setAuthTag(tag);
   await pipeline(
     createReadStream(source, { start: 20, end: size - 17 }),
@@ -67,7 +67,7 @@ export async function sealBackup(source, destination) {
     path.join(destination, 'envelope.json'),
     JSON.stringify(
       {
-        format: 'valkyr-encrypted-v1',
+        format: ENCRYPTED_FORMAT,
         algorithm: 'AES-256-GCM',
         createdAt: new Date().toISOString(),
         sha256: checksums,
@@ -85,7 +85,8 @@ export async function openBackup(source, destination) {
   const secret = key();
   if (existsSync(destination)) throw new Error('El destino descifrado ya existe.');
   const envelope = JSON.parse(await readFile(path.join(source, 'envelope.json'), 'utf8'));
-  if (envelope.format !== 'valkyr-encrypted-v1' || envelope.algorithm !== 'AES-256-GCM')
+  const expectedMagic = encryptedMagic(envelope.format);
+  if (!expectedMagic || envelope.algorithm !== 'AES-256-GCM')
     throw new Error('Formato cifrado no compatible.');
   for (const name of ['database.dump', 'files.tar', 'manifest.json'])
     if ((await sha256(path.join(source, `${name}.enc`))) !== envelope.sha256?.[`${name}.enc`])
@@ -93,7 +94,7 @@ export async function openBackup(source, destination) {
   await mkdir(destination, { mode: 0o700 });
   try {
     for (const name of ['database.dump', 'files.tar', 'manifest.json'])
-      await decrypt(path.join(source, `${name}.enc`), path.join(destination, name), secret);
+      await decrypt(path.join(source, `${name}.enc`), path.join(destination, name), secret, expectedMagic);
     const manifest = readManifest(destination);
     for (const name of ['database.dump', 'files.tar'])
       if ((await sha256(path.join(destination, name))) !== manifest.sha256[name])

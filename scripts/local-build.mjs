@@ -4,7 +4,7 @@ import path from 'node:path';
 import { root, loadEnv } from './env.mjs';
 loadEnv();
 const nextDir = `.next-release-${Date.now()}`;
-const env = { ...process.env, NODE_ENV: 'production', VALKYR_NEXT_DIR: nextDir };
+const env = { ...process.env, NODE_ENV: 'production', ORYX_NEXT_DIR: nextDir };
 async function run(args) {
   await new Promise((resolve, reject) => {
     const child = spawn(process.execPath, args, { cwd: root, env, stdio: 'inherit', windowsHide: true });

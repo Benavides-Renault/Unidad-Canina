@@ -21,8 +21,8 @@ export async function api<T>(
   if (method !== 'GET') {
     const csrf = document.cookie
       .split('; ')
-      .find((item) => item.startsWith('valkyr_csrf='))
-      ?.slice('valkyr_csrf='.length);
+      .find((item) => item.startsWith('oryx_csrf='))
+      ?.slice('oryx_csrf='.length);
     if (csrf) headers['x-csrf-token'] = decodeURIComponent(csrf);
   }
   let response: Response;

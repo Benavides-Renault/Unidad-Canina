@@ -1,13 +1,13 @@
 # Fase 2 — Contratos y servicios
 
-Verificada el 15 de octubre de 2026 en la base aislada `valkyr_test_1792110140481`.
+Verificada el 15 de octubre de 2026 en una base de pruebas aislada.
 
 - Instituciones y contactos; contratos con importes decimales CRC/USD, vigencia, responsables y condiciones privadas.
 - Versiones de datos inmutables y control de revisión para evitar sobrescribir cambios simultáneos.
 - Documentos PDF/PNG/JPEG privados, hasta 10 MiB, con versiones, checksum y permisos de descarga.
 - Asignaciones temporales muchos-a-muchos. Dos solicitudes simultáneas incompatibles producen una aceptación y un conflicto; administración puede justificar una excepción auditada. El retiro conserva el historial.
 - Servicios y turnos. Un entrenador sólo consulta sus asignaciones y registra servicios dentro de sus periodos autorizados. No recibe montos ni cláusulas.
-- Recordatorios persistentes de vencimiento para administración y finanzas; informe PDF que excluye montos, cláusulas y notas internas.
+- Recordatorios persistentes de vencimiento para administración; informe PDF que excluye montos, cláusulas y notas internas.
 
 Pruebas: 7 unitarias, 16 escenarios API (18 nodos TAP) y 5 flujos Playwright, todos aprobados. Se comprobó por extracción que el PDF omite datos privados y se revisó su página renderizada. También se corrigió el menú para mantener accesibles navegación y cierre de sesión en ventanas pequeñas.
 

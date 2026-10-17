@@ -76,8 +76,8 @@ export class AuthController {
       path: '/',
       expires,
     };
-    res.cookie('valkyr_session', session, { ...options, httpOnly: true });
-    res.cookie('valkyr_csrf', csrf, { ...options, httpOnly: false });
+    res.cookie('oryx_session', session, { ...options, httpOnly: true });
+    res.cookie('oryx_csrf', csrf, { ...options, httpOnly: false });
   }
   @Public()
   @Post('login')
@@ -153,8 +153,8 @@ export class AuthController {
   }
   @Post('logout') async logout(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
     await this.db.session.deleteMany({ where: { id: req.session.id } });
-    res.clearCookie('valkyr_session', { path: '/' });
-    res.clearCookie('valkyr_csrf', { path: '/' });
+    res.clearCookie('oryx_session', { path: '/' });
+    res.clearCookie('oryx_csrf', { path: '/' });
     return { success: true };
   }
   @Public() @Post('forgot-password') async forgot(@Body() body: unknown, @Req() req: AuthRequest) {

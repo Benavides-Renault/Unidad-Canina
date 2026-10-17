@@ -1,3 +1,4 @@
+import { isDemoDatabase } from './database-names.mjs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -9,11 +10,11 @@ import { root, loadEnv } from './env.mjs';
 import { openBackup } from '../infra/backup/encryption.mjs';
 loadEnv();
 process.chdir(root);
-assert.match(new URL(process.env.DATABASE_URL).pathname, /^\/valkyr_demo_\d+$/);
+assert.ok(isDemoDatabase(new URL(process.env.DATABASE_URL).pathname));
 const status = JSON.parse(await readFile(process.env.BACKUP_STATUS_PATH, 'utf8'));
 assert.equal(status.ok, true);
 const stamp = Date.now(),
-  database = `valkyr_restore_demo_${stamp}`,
+  database = `oryx_restore_demo_${stamp}`,
   files = path.join(root, `.local/demo-recovery-${stamp}`);
 const sourceDirectory = status.encrypted
   ? (await openBackup(status.destination, path.join(root, `.local/demo-decrypted-${stamp}`))).destination
@@ -28,10 +29,12 @@ await new Promise((resolve, reject) => {
   p.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`Restauración: ${code}`))));
 });
 const source = new pg.Client({ connectionString: process.env.DATABASE_URL }),
+  sourceMetadata = new pg.Client({ connectionString: process.env.MIGRATION_DATABASE_URL }),
   url = new URL(process.env.MIGRATION_DATABASE_URL);
 url.pathname = `/${database}`;
 const restored = new pg.Client({ connectionString: url.toString() });
 await source.connect();
+await sourceMetadata.connect();
 await restored.connect();
 try {
   const tables = [
@@ -100,11 +103,10 @@ try {
     .rows[0];
   assert.equal(user.role, 'ADMIN');
   assert.equal(await argon2.verify(user.passwordHash, '1234'), true);
-  assert.equal(
-    (await restored.query('SELECT COUNT(*)::int n FROM "_prisma_migrations" WHERE finished_at IS NOT NULL'))
-      .rows[0].n,
-    10,
-  );
+  const migrationSql =
+    'SELECT migration_name, checksum FROM "_prisma_migrations" WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL ORDER BY migration_name';
+  const appliedMigrations = (await sourceMetadata.query(migrationSql)).rows;
+  assert.deepEqual((await restored.query(migrationSql)).rows, appliedMigrations);
   await assert.rejects(restored.query('UPDATE "GoalEvaluation" SET score=0'));
   await assert.rejects(restored.query('DELETE FROM "Payment"'));
   const result = {
@@ -115,7 +117,7 @@ try {
     exactTables: tables.length,
     verifiedFiles: docs.length,
     adminCredentialPreserved: true,
-    migrations: 10,
+    migrations: appliedMigrations.length,
     encrypted: status.encrypted === true,
     immutableHistory: true,
     checkedAt: new Date().toISOString(),
@@ -124,5 +126,6 @@ try {
   console.log(JSON.stringify(result, null, 2));
 } finally {
   await source.end();
+  await sourceMetadata.end();
   await restored.end();
 }
