@@ -1,0 +1,1019 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+model PushSubscription {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  endpoint String @unique
+  p256dh String
+  auth String
+  active Boolean @default(true)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  deliveries PushDelivery[]
+  @@index([userId,active])
+}
+
+model PushDelivery {
+  id String @id @default(uuid()) @db.Uuid
+  subscriptionId String @db.Uuid
+  subscription PushSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  notificationId String @db.Uuid
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Restrict)
+  status String @default("PENDING")
+  attempts Int @default(0)
+  nextAttempt DateTime @default(now()) @db.Timestamptz(3)
+  lockedAt DateTime? @db.Timestamptz(3)
+  sentAt DateTime? @db.Timestamptz(3)
+  lastError String?
+  @@unique([subscriptionId,notificationId])
+  @@index([status,nextAttempt])
+}
+
+model MedicalRevision {
+  id String @id @default(uuid()) @db.Uuid
+  entryId String @db.Uuid
+  entry MedicalEntry @relation(fields: [entryId], references: [id], onDelete: Restrict)
+  revision Int
+  snapshot Json
+  reason String
+  recordedBy String @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  @@unique([entryId, revision])
+}
+
+model RecordAttachment {
+  id String @id @default(uuid()) @db.Uuid
+  documentId String @unique @db.Uuid
+  document Document @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  vaccinationId String? @db.Uuid
+  vaccination Vaccination? @relation(fields: [vaccinationId], references: [id], onDelete: Restrict)
+  trainingSessionId String? @db.Uuid
+  trainingSession TrainingSession? @relation(fields: [trainingSessionId], references: [id], onDelete: Restrict)
+  evaluationId String? @db.Uuid
+  evaluation GoalEvaluation? @relation(fields: [evaluationId], references: [id], onDelete: Restrict)
+  medicalEntryId String? @db.Uuid
+  medicalEntry MedicalEntry? @relation(fields: [medicalEntryId], references: [id], onDelete: Restrict)
+  certificationId String? @db.Uuid
+  certification Certification? @relation(fields: [certificationId], references: [id], onDelete: Restrict)
+  breedingDogId String? @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model CertificateTemplate {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  kind String
+  title String
+  issuer String
+  body String
+  revision Int @default(1)
+  archivedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model UserPreference {
+  userId String @id @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  emailEnabled Boolean @default(true)
+  pushEnabled Boolean @default(false)
+  calendarView String @default("month")
+  calendarType String @default("ALL")
+}
+
+model Supplier {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  taxId String?
+  contact String?
+  email String?
+  phone String?
+  notes String?
+  active Boolean @default(true)
+  revision Int @default(1)
+  accounts Account[]
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model PaymentReconciliation {
+  id String @id @default(uuid()) @db.Uuid
+  paymentId String @unique @db.Uuid
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Restrict)
+  statementReference String
+  notes String?
+  recordedBy String @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model FinancialClose {
+  id String @id @default(uuid()) @db.Uuid
+  month String @unique
+  endDate DateTime @db.Date
+  snapshot Json
+  notes String
+  recordedBy String @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model ServiceHeartbeat {
+  name     String   @id
+  pulsedAt DateTime @db.Timestamptz(3)
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model TrainingPlan {
+  id         String @id @default(uuid()) @db.Uuid
+  dogId      String @db.Uuid
+  dog        Dog @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  title      String
+  discipline String
+  startDate  DateTime @db.Date
+  dueDate    DateTime @db.Date
+  status     String @default("ACTIVE")
+  revision   Int @default(1)
+  recordedBy String @db.Uuid
+  recorder   User @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  archivedAt DateTime? @db.Timestamptz(3)
+  goals      TrainingGoal[]
+  @@index([dogId, archivedAt])
+  @@index([dueDate, status])
+}
+
+model TrainingGoal {
+  id          String @id @default(uuid()) @db.Uuid
+  planId      String @db.Uuid
+  plan        TrainingPlan @relation(fields: [planId], references: [id], onDelete: Restrict)
+  title       String
+  criterion   String
+  targetScore Int
+  position    Int
+  evaluations GoalEvaluation[]
+  @@index([planId])
+}
+
+model GoalEvaluation {
+  attachments RecordAttachment[]
+  id         String @id @default(uuid()) @db.Uuid
+  goalId     String @db.Uuid
+  goal       TrainingGoal @relation(fields: [goalId], references: [id], onDelete: Restrict)
+  eventDate  DateTime @db.Date
+  score      Int
+  notes      String
+  recordedBy String @db.Uuid
+  recorder   User @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  @@index([goalId, eventDate, createdAt])
+}
+
+model Certification {
+  templateSnapshot Json?
+  attachments RecordAttachment[]
+  id          String @id @default(uuid()) @db.Uuid
+  dogId       String @db.Uuid
+  dog         Dog @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  title       String
+  issuer      String
+  reference   String?
+  issueDate   DateTime @db.Date
+  expiresDate DateTime? @db.Date
+  notes       String?
+  recordedBy  String @db.Uuid
+  recorder    User @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  archivedAt  DateTime? @db.Timestamptz(3)
+  @@index([dogId, archivedAt])
+  @@index([expiresDate])
+}
+
+enum Role {
+  ADMIN
+  TRAINER
+  CLIENT
+}
+
+enum PartyKind {
+  UNIT
+  PERSON
+  MUNICIPALITY
+  ORGANIZATION
+}
+
+enum CommercialCategory {
+  NOT_LISTED
+  FOR_SALE
+  FOR_BREEDING
+}
+
+model Party {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String
+  kind         PartyKind
+  phone        String?
+  email        String?
+  createdAt    DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime      @updatedAt @db.Timestamptz(3)
+  users        User[]
+  ownedDogs    Dog[]         @relation("DogOwner")
+  heldDogs     Dog[]         @relation("DogCustodian")
+  reservations Reservation[]
+
+  @@index([name])
+}
+
+model MedicalEntry {
+  diagnosis String?
+  clinicalStatus String?
+  allergen String?
+  medication String?
+  revision Int @default(1)
+  versions MedicalRevision[]
+  attachments RecordAttachment[]
+  id           String    @id @default(uuid()) @db.Uuid
+  dogId        String    @db.Uuid
+  dog          Dog       @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  eventDate    DateTime  @db.Date
+  kind         String
+  title        String
+  notes        String
+  professional String?
+  recordedBy   String    @db.Uuid
+  recorder     User      @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt    DateTime  @default(now()) @db.Timestamptz(3)
+  archivedAt   DateTime? @db.Timestamptz(3)
+
+  @@index([dogId, eventDate])
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+enum AdministrativeStatus {
+  OWNED
+  LOANED
+  SOLD
+  RETIRED
+  DECEASED
+}
+
+enum WorkStatus {
+  TRAINING
+  OPERATIONAL
+  REST
+  TEMPORARILY_UNFIT
+}
+
+enum ReproductiveStatus {
+  NONE
+  AVAILABLE
+  PLANNED
+  PREGNANT
+  NURSING
+  RETIRED
+}
+
+enum Availability {
+  AVAILABLE
+  ASSIGNED
+  RESERVED
+  UNAVAILABLE
+}
+
+enum DocumentCategory {
+  TRAINING
+  BREEDING
+  PHOTO
+  DOCUMENT
+  CLINICAL
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+enum ReminderStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+model User {
+  pushSubscriptions PushSubscription[]
+  recoveryHashes String[] @default([])
+  preferences UserPreference?
+  id                String            @id @default(uuid()) @db.Uuid
+  name              String
+  username          String            @unique
+  email             String?           @unique
+  passwordHash      String
+  role              Role
+  partyId           String?           @db.Uuid
+  party             Party?            @relation(fields: [partyId], references: [id], onDelete: Restrict)
+  assignedDogs      Dog[]             @relation("AssignedTrainer")
+  medicalEntries    MedicalEntry[]
+  trainingPlans     TrainingPlan[]
+  goalEvaluations   GoalEvaluation[]
+  certifications    Certification[]
+  active            Boolean           @default(true)
+  totpSecret        String?
+  totpPendingSecret String?
+  createdAt         DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime          @updatedAt @db.Timestamptz(3)
+  sessions          Session[]
+  resetTokens       PasswordReset[]
+  reminders         Reminder[]
+  notifications     Notification[]
+  vaccinations      Vaccination[]
+  weights           Weight[]
+  movements         Movement[]
+  trainingSessions  TrainingSession[]
+  appointments      Appointment[]
+  documents         Document[]
+  auditLogs         AuditLog[]
+  contractFiles     ContractFile[]
+  contractVersions  ContractVersion[]
+  assignments       Assignment[]
+  serviceLogs       ServiceLog[]
+  breedingEvents    BreedingEvent[]
+  payments          Payment[]
+  accountFiles      AccountFile[]
+  stockMovements    StockMovement[]
+}
+
+model Session {
+  id        String   @id @db.Uuid
+  tokenHash String   @unique
+  csrfHash  String
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  expiresAt DateTime @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid()) @db.Uuid
+  tokenHash String    @unique
+  userId    String    @db.Uuid
+  user      User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+  expiresAt DateTime  @db.Timestamptz(3)
+  usedAt    DateTime? @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+}
+
+model RateLimit {
+  key       String   @id
+  attempts  Int      @default(1)
+  expiresAt DateTime @db.Timestamptz(3)
+}
+
+model Dog {
+  id                   String               @id @default(uuid()) @db.Uuid
+  code                 String               @unique
+  name                 String
+  registeredName       String?
+  birthDate            DateTime?            @db.Date
+  birthDateEstimated   Boolean              @default(false)
+  sex                  Sex
+  breed                String
+  coat                 String?
+  markings             String?
+  microchip            String?              @unique
+  pedigreeNumber       String?
+  registry             String?
+  owner                String?
+  ownerPartyId         String               @default("00000000-0000-4000-8000-000000000001") @db.Uuid
+  ownerParty           Party                @relation("DogOwner", fields: [ownerPartyId], references: [id], onDelete: Restrict)
+  custodianPartyId     String               @default("00000000-0000-4000-8000-000000000001") @db.Uuid
+  custodianParty       Party                @relation("DogCustodian", fields: [custodianPartyId], references: [id], onDelete: Restrict)
+  assignedTrainerId    String?              @db.Uuid
+  assignedTrainer      User?                @relation("AssignedTrainer", fields: [assignedTrainerId], references: [id], onDelete: Restrict)
+  commercialCategory   CommercialCategory   @default(NOT_LISTED)
+  salePublished        Boolean              @default(false)
+  salePrice            Decimal?             @db.Decimal(18, 2)
+  saleCurrency         Currency             @default(CRC)
+  saleContact          String?
+  publicDescription    String?
+  achievements         String?
+  trainingSummary      String?
+  functionalities      String?
+  healthSummary        String?
+  pedigreeSummary      String?
+  medicalEntries       MedicalEntry[]
+  trainingPlans        TrainingPlan[]
+  certifications       Certification[]
+  breeder              String?
+  intakeDate           DateTime?            @db.Date
+  location             String?
+  custodian            String?
+  specialties          String[]             @default([])
+  administrativeStatus AdministrativeStatus @default(OWNED)
+  workStatus           WorkStatus           @default(TRAINING)
+  reproductiveStatus   ReproductiveStatus   @default(NONE)
+  availability         Availability         @default(AVAILABLE)
+  notes                String?
+  photoId              String?              @db.Uuid
+  photo                Document?            @relation("MainPhoto", fields: [photoId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  archivedAt           DateTime?            @db.Timestamptz(3)
+  createdAt            DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime             @updatedAt @db.Timestamptz(3)
+  vaccinations         Vaccination[]
+  weights              Weight[]
+  movements            Movement[]
+  trainingSessions     TrainingSession[]
+  appointments         Appointment[]
+  documents            Document[]
+  assignments          Assignment[]
+  isPuppy              Boolean              @default(false)
+  litterId             String?              @db.Uuid
+  litter               Litter?              @relation("Puppies", fields: [litterId], references: [id], onDelete: Restrict)
+  breedingProfile      BreedingProfile?     @relation("ProfileDog")
+  sireProfiles         BreedingProfile[]    @relation("ProfileSire")
+  damProfiles          BreedingProfile[]    @relation("ProfileDam")
+  breedingEvents       BreedingEvent[]
+  sirePlans            BreedingPlan[]       @relation("PlanSire")
+  damPlans             BreedingPlan[]       @relation("PlanDam")
+  sireLitters          Litter[]             @relation("LitterSire")
+  damLitters           Litter[]             @relation("LitterDam")
+  reservations         Reservation[]
+  accounts             Account[]
+  stockMovements       StockMovement[]
+
+  @@index([archivedAt, workStatus])
+  @@index([location])
+  @@index([ownerPartyId])
+  @@index([assignedTrainerId])
+  @@index([salePublished, commercialCategory])
+}
+
+model Vaccination {
+  attachments RecordAttachment[]
+  id           String    @id @default(uuid()) @db.Uuid
+  dogId        String    @db.Uuid
+  dog          Dog       @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  product      String
+  appliedDate  DateTime  @db.Date
+  nextDueDate  DateTime? @db.Date
+  manufacturer String?
+  batch        String?
+  professional String?
+  notes        String?
+  recordedBy   String    @db.Uuid
+  recorder     User      @relation(fields: [recordedBy], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  createdAt    DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime  @updatedAt @db.Timestamptz(3)
+
+  @@index([dogId, appliedDate])
+  @@index([nextDueDate])
+}
+
+model Weight {
+  id         String   @id @default(uuid()) @db.Uuid
+  dogId      String   @db.Uuid
+  dog        Dog      @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  date       DateTime @db.Date
+  kg         Float
+  recordedBy String   @db.Uuid
+  recorder   User     @relation(fields: [recordedBy], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, date])
+}
+
+model Movement {
+  id         String   @id @default(uuid()) @db.Uuid
+  dogId      String   @db.Uuid
+  dog        Dog      @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  date       DateTime @db.Timestamptz(3)
+  location   String
+  custodian  String?
+  notes      String?
+  recordedBy String   @db.Uuid
+  recorder   User     @relation(fields: [recordedBy], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, date])
+}
+
+model TrainingSession {
+  attachments RecordAttachment[]
+  id              String   @id @default(uuid()) @db.Uuid
+  dogId           String   @db.Uuid
+  dog             Dog      @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  occurredAt      DateTime @db.Timestamptz(3)
+  discipline      String
+  objective       String
+  durationMinutes Int
+  location        String?
+  exercises       String?
+  material        String?
+  difficulty      String?
+  successes       Int?
+  falseAlerts     Int?
+  misses          Int?
+  score           Float?
+  notes           String?
+  trainerId       String   @db.Uuid
+  trainer         User     @relation(fields: [trainerId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  trainerName     String
+  createdAt       DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, occurredAt])
+}
+
+model Appointment {
+  id                String            @id @default(uuid()) @db.Uuid
+  dogId             String            @db.Uuid
+  dog               Dog               @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  title             String
+  startsAt          DateTime          @db.Timestamptz(3)
+  location          String?
+  professional      String?
+  notes             String?
+  status            AppointmentStatus @default(SCHEDULED)
+  remindBeforeHours Int               @default(24)
+  createdBy         String            @db.Uuid
+  creator           User              @relation(fields: [createdBy], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  createdAt         DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime          @updatedAt @db.Timestamptz(3)
+
+  @@index([dogId, startsAt])
+  @@index([status, startsAt])
+}
+
+model Document {
+  recordAttachment RecordAttachment?
+  id           String           @id @default(uuid()) @db.Uuid
+  dogId        String           @db.Uuid
+  dog          Dog              @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  name         String
+  storageKey   String           @unique
+  mimeType     String
+  size         Int
+  checksum     String
+  category     DocumentCategory
+  uploadedBy   String           @db.Uuid
+  uploader     User             @relation(fields: [uploadedBy], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  mainPhotoFor Dog[]            @relation("MainPhoto")
+  archivedAt   DateTime?        @db.Timestamptz(3)
+  createdAt    DateTime         @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, archivedAt])
+}
+
+model Reminder {
+  id           String         @id @default(uuid()) @db.Uuid
+  dedupeKey    String         @unique
+  sourceType   String
+  sourceId     String         @db.Uuid
+  userId       String         @db.Uuid
+  user         User           @relation(fields: [userId], references: [id], onDelete: Restrict)
+  dueAt        DateTime       @db.Timestamptz(3)
+  title        String
+  body         String
+  status       ReminderStatus @default(PENDING)
+  attempts     Int            @default(0)
+  lockedAt     DateTime?      @db.Timestamptz(3)
+  lastError    String?
+  sentAt       DateTime?      @db.Timestamptz(3)
+  emailSentAt  DateTime?      @db.Timestamptz(3)
+  createdAt    DateTime       @default(now()) @db.Timestamptz(3)
+  notification Notification?
+
+  @@index([status, dueAt])
+}
+
+model Notification {
+  pushDeliveries PushDelivery[]
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+  reminderId String    @unique @db.Uuid
+  reminder   Reminder  @relation(fields: [reminderId], references: [id], onDelete: Restrict)
+  title      String
+  body       String
+  readAt     DateTime? @db.Timestamptz(3)
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([userId, createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  actorId   String?  @db.Uuid
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  actorName String?
+  entity    String
+  entityId  String?
+  dogId     String?  @db.Uuid
+  action    String
+  summary   String
+  origin    String?
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, createdAt])
+  @@index([createdAt])
+}
+
+enum ContractStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum Currency {
+  CRC
+  USD
+}
+
+model Institution {
+  id         String     @id @default(uuid()) @db.Uuid
+  name       String
+  kind       String
+  taxId      String?
+  address    String?
+  notes      String?
+  archivedAt DateTime?  @db.Timestamptz(3)
+  createdAt  DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime   @updatedAt @db.Timestamptz(3)
+  contacts   Contact[]
+  contracts  Contract[]
+
+  @@index([name])
+}
+
+model Contact {
+  id            String      @id @default(uuid()) @db.Uuid
+  institutionId String      @db.Uuid
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Restrict)
+  name          String
+  position      String?
+  email         String?
+  phone         String?
+  active        Boolean     @default(true)
+  createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+
+  @@index([institutionId])
+}
+
+model Contract {
+  renewedFromId String? @db.Uuid
+  renewedFrom Contract? @relation("ContractRenewal", fields: [renewedFromId], references: [id], onDelete: Restrict)
+  renewals Contract[] @relation("ContractRenewal")
+  id            String            @id @default(uuid()) @db.Uuid
+  number        String            @unique
+  institutionId String            @db.Uuid
+  institution   Institution       @relation(fields: [institutionId], references: [id], onDelete: Restrict)
+  title         String
+  amount        Decimal           @db.Decimal(18, 2)
+  currency      Currency
+  periodicity   String
+  startDate     DateTime          @db.Date
+  endDate       DateTime          @db.Date
+  status        ContractStatus    @default(DRAFT)
+  responsible   String
+  clauses       String?
+  notes         String?
+  revision      Int               @default(1)
+  createdAt     DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime          @updatedAt @db.Timestamptz(3)
+  versions      ContractVersion[]
+  files         ContractFile[]
+  assignments   Assignment[]
+  services      ServiceLog[]
+  accounts      Account[]
+
+  @@index([status, endDate])
+  @@index([institutionId])
+}
+
+model ContractVersion {
+  id         String   @id @default(uuid()) @db.Uuid
+  contractId String   @db.Uuid
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  revision   Int
+  snapshot   Json
+  recordedBy String   @db.Uuid
+  recorder   User     @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@unique([contractId, revision])
+}
+
+model ContractFile {
+  id         String   @id @default(uuid()) @db.Uuid
+  contractId String   @db.Uuid
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  version    Int
+  name       String
+  storageKey String   @unique
+  mimeType   String
+  size       Int
+  checksum   String
+  uploadedBy String   @db.Uuid
+  uploader   User     @relation(fields: [uploadedBy], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@unique([contractId, version])
+}
+
+model Assignment {
+  id            String    @id @default(uuid()) @db.Uuid
+  contractId    String    @db.Uuid
+  contract      Contract  @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  dogId         String    @db.Uuid
+  dog           Dog       @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  handlerId     String    @db.Uuid
+  handler       User      @relation(fields: [handlerId], references: [id], onDelete: Restrict)
+  role          String
+  startDate     DateTime  @db.Date
+  endDate       DateTime  @db.Date
+  releasedOn    DateTime? @db.Date
+  overlapReason String?
+  releaseReason String?
+  createdAt     DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, startDate, endDate])
+  @@index([contractId])
+  @@index([handlerId])
+}
+
+model ServiceLog {
+  id            String   @id @default(uuid()) @db.Uuid
+  contractId    String   @db.Uuid
+  contract      Contract @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  occurredAt    DateTime @db.Timestamptz(3)
+  endsAt        DateTime @db.Timestamptz(3)
+  location      String
+  publicSummary String
+  internalNotes String?
+  recordedBy    String   @db.Uuid
+  recorder      User     @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt     DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([contractId, occurredAt])
+}
+
+enum BreedingPlanStatus {
+  PLANNED
+  MATED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum ReservationStatus {
+  ACTIVE
+  DELIVERED
+  CANCELLED
+  EXPIRED
+}
+
+enum AccountDirection {
+  PAYABLE
+  RECEIVABLE
+}
+
+enum PaymentKind {
+  PAYMENT
+  REFUND
+}
+
+enum StockKind {
+  IN
+  OUT
+  DISPOSAL
+}
+
+model BreedingProfile {
+  dogId           String   @id @db.Uuid
+  dog             Dog      @relation("ProfileDog", fields: [dogId], references: [id], onDelete: Restrict)
+  sireId          String?  @db.Uuid
+  sire            Dog?     @relation("ProfileSire", fields: [sireId], references: [id], onDelete: Restrict)
+  damId           String?  @db.Uuid
+  dam             Dog?     @relation("ProfileDam", fields: [damId], references: [id], onDelete: Restrict)
+  pedigreeSource  String?
+  pedigreeQuality String   @default("UNKNOWN")
+  healthNotes     String?
+  professional    String?
+  revision        Int      @default(1)
+  updatedAt       DateTime @updatedAt @db.Timestamptz(3)
+}
+
+model BreedingEvent {
+  id           String   @id @default(uuid()) @db.Uuid
+  dogId        String   @db.Uuid
+  dog          Dog      @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  kind         String
+  eventDate    DateTime @db.Date
+  professional String?
+  notes        String
+  recordedBy   String   @db.Uuid
+  recorder     User     @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([dogId, eventDate])
+}
+
+model BreedingPlan {
+  published         Boolean            @default(false)
+  publicTitle       String?
+  publicDescription String?
+  puppyPrice        Decimal?           @db.Decimal(18, 2)
+  currency          Currency           @default(CRC)
+  contact           String?
+  id                String             @id @default(uuid()) @db.Uuid
+  damId             String             @db.Uuid
+  dam               Dog                @relation("PlanDam", fields: [damId], references: [id], onDelete: Restrict)
+  sireId            String             @db.Uuid
+  sire              Dog                @relation("PlanSire", fields: [sireId], references: [id], onDelete: Restrict)
+  plannedDate       DateTime           @db.Date
+  matingDate        DateTime?          @db.Date
+  windowStart       DateTime?          @db.Date
+  windowEnd         DateTime?          @db.Date
+  estimationMethod  String?
+  professional      String?
+  notes             String?
+  status            BreedingPlanStatus @default(PLANNED)
+  revision          Int                @default(1)
+  litter            Litter?
+  createdAt         DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime           @updatedAt @db.Timestamptz(3)
+
+  @@index([status, plannedDate])
+}
+
+model Litter {
+  id           String        @id @default(uuid()) @db.Uuid
+  code         String        @unique
+  damId        String        @db.Uuid
+  dam          Dog           @relation("LitterDam", fields: [damId], references: [id], onDelete: Restrict)
+  sireId       String        @db.Uuid
+  sire         Dog           @relation("LitterSire", fields: [sireId], references: [id], onDelete: Restrict)
+  planId       String?       @unique @db.Uuid
+  plan         BreedingPlan? @relation(fields: [planId], references: [id], onDelete: Restrict)
+  birthDate    DateTime      @db.Date
+  liveBorn     Int
+  stillBorn    Int           @default(0)
+  notes        String?
+  puppies      Dog[]         @relation("Puppies")
+  reservations Reservation[]
+  accounts     Account[]
+  createdAt    DateTime      @default(now()) @db.Timestamptz(3)
+
+  @@index([birthDate])
+}
+
+model Reservation {
+  customerPartyId String?           @db.Uuid
+  customerParty   Party?            @relation(fields: [customerPartyId], references: [id], onDelete: Restrict)
+  id              String            @id @default(uuid()) @db.Uuid
+  litterId        String            @db.Uuid
+  litter          Litter            @relation(fields: [litterId], references: [id], onDelete: Restrict)
+  dogId           String?           @db.Uuid
+  dog             Dog?              @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  customer        String
+  contact         String?
+  reservedDate    DateTime          @db.Date
+  expiresDate     DateTime          @db.Date
+  conditions      String?
+  status          ReservationStatus @default(ACTIVE)
+  closedDate      DateTime?         @db.Date
+  closeReason     String?
+  account         Account?
+  createdAt       DateTime          @default(now()) @db.Timestamptz(3)
+
+  @@index([litterId, status])
+  @@index([dogId, status])
+}
+
+model Account {
+  supplierId String? @db.Uuid
+  supplier Supplier? @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  id            String           @id @default(uuid()) @db.Uuid
+  direction     AccountDirection
+  party         String
+  concept       String
+  category      String
+  costCenter    String?
+  amount        Decimal          @db.Decimal(18, 2)
+  currency      Currency
+  exchangeRate  Decimal?         @db.Decimal(18, 6)
+  exchangeDate  DateTime?        @db.Date
+  dueDate       DateTime         @db.Date
+  issueDate     DateTime         @db.Date
+  cancelledAt   DateTime?        @db.Timestamptz(3)
+  cancelReason  String?
+  notes         String?
+  dogId         String?          @db.Uuid
+  dog           Dog?             @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  litterId      String?          @db.Uuid
+  litter        Litter?          @relation(fields: [litterId], references: [id], onDelete: Restrict)
+  contractId    String?          @db.Uuid
+  contract      Contract?        @relation(fields: [contractId], references: [id], onDelete: Restrict)
+  reservationId String?          @unique @db.Uuid
+  reservation   Reservation?     @relation(fields: [reservationId], references: [id], onDelete: Restrict)
+  payments      Payment[]
+  files         AccountFile[]
+  createdAt     DateTime         @default(now()) @db.Timestamptz(3)
+
+  @@index([direction, dueDate])
+  @@index([dogId])
+  @@index([litterId])
+  @@index([contractId])
+}
+
+model Payment {
+  reconciliation PaymentReconciliation?
+  id         String      @id @default(uuid()) @db.Uuid
+  accountId  String      @db.Uuid
+  account    Account     @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  kind       PaymentKind @default(PAYMENT)
+  amount     Decimal     @db.Decimal(18, 2)
+  paidDate   DateTime    @db.Date
+  method     String
+  reference  String?
+  notes      String?
+  requestId  String      @unique @db.Uuid
+  recordedBy String      @db.Uuid
+  recorder   User        @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt  DateTime    @default(now()) @db.Timestamptz(3)
+
+  @@index([accountId, paidDate])
+}
+
+model AccountFile {
+  id         String   @id @default(uuid()) @db.Uuid
+  accountId  String   @db.Uuid
+  account    Account  @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  name       String
+  storageKey String   @unique
+  mimeType   String
+  size       Int
+  checksum   String
+  uploadedBy String   @db.Uuid
+  uploader   User     @relation(fields: [uploadedBy], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([accountId])
+}
+
+model Product {
+  id        String     @id @default(uuid()) @db.Uuid
+  sku       String     @unique
+  name      String
+  category  String
+  unit      String
+  minimum   Decimal    @default(0) @db.Decimal(18, 3)
+  active    Boolean    @default(true)
+  lots      StockLot[]
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+}
+
+model StockLot {
+  id          String          @id @default(uuid()) @db.Uuid
+  productId   String          @db.Uuid
+  product     Product         @relation(fields: [productId], references: [id], onDelete: Restrict)
+  batch       String
+  expiresDate DateTime?       @db.Date
+  quantity    Decimal         @default(0) @db.Decimal(18, 3)
+  unitCost    Decimal         @db.Decimal(18, 2)
+  currency    Currency
+  movements   StockMovement[]
+  createdAt   DateTime        @default(now()) @db.Timestamptz(3)
+
+  @@unique([productId, batch])
+  @@index([expiresDate])
+}
+
+model StockMovement {
+  id           String    @id @default(uuid()) @db.Uuid
+  lotId        String    @db.Uuid
+  lot          StockLot  @relation(fields: [lotId], references: [id], onDelete: Restrict)
+  kind         StockKind
+  quantity     Decimal   @db.Decimal(18, 3)
+  movementDate DateTime  @db.Date
+  reason       String
+  area         String?
+  dogId        String?   @db.Uuid
+  dog          Dog?      @relation(fields: [dogId], references: [id], onDelete: Restrict)
+  requestId    String    @unique @db.Uuid
+  recordedBy   String    @db.Uuid
+  recorder     User      @relation(fields: [recordedBy], references: [id], onDelete: Restrict)
+  createdAt    DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([lotId, movementDate])
+}

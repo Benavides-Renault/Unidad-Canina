@@ -1,0 +1,11 @@
+import { copyFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { root, loadEnv } from './env.mjs';
+import { onlineBackup } from '../infra/backup/online.mjs';
+loadEnv(); process.chdir(root);
+process.env.PG_BIN ||= path.join(root,'.local/pg-tools/pgsql/bin');
+const result=await onlineBackup(path.join(root,`.local/backups/pre-update-${Date.now()}`));
+await copyFile('.local/local.env',path.join(result.destination,'previous-local.env'));
+await copyFile('.local/active-release.json',path.join(result.destination,'previous-release.json'));
+await writeFile('.local/pre-update-backup.json',JSON.stringify({destination:result.destination,files:result.verifiedFiles,at:result.createdAt},null,2));
+console.log(`Respaldo previo verificado: ${result.verifiedFiles} archivos. ${result.destination}`);

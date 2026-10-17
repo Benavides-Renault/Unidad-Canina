@@ -1,0 +1,49 @@
+{
+  "name": "valkyr-manager",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "npm run dev --workspace @valkyr/web",
+    "dev:api": "node scripts/run.mjs dev",
+    "db:local": "node scripts/local-db.mjs",
+    "db:generate": "node scripts/run.mjs db:generate",
+    "db:migrate": "node scripts/run.mjs db:deploy",
+    "bootstrap": "node scripts/run.mjs bootstrap",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint apps tests scripts infra/backup --no-warn-ignored",
+    "format": "prettier --write apps/*/src scripts tests docs README.md",
+    "test": "node --import tsx --test tests/unit.test.ts tests/share-gateway.test.mjs",
+    "test:integration": "node --import tsx --test tests/integration.test.ts",
+    "test:e2e": "playwright test",
+    "verify": "npm run typecheck && npm run lint && npm test && npm run build",
+    "test:system": "node scripts/test-system.mjs",
+    "local": "node scripts/local-start.mjs",
+    "db:stop": "node scripts/db-control.mjs stop",
+    "test:backup": "node scripts/test-backup.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.15.0",
+    "dotenv": "^17.2.0",
+    "embedded-postgres": "18.4.0-beta.17",
+    "eslint": "10.12.0",
+    "globals": "^16.5.0",
+    "pg": "^8.16.0",
+    "prettier": "^3.6.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "8.71.2"
+  },
+  "type": "module"
+}

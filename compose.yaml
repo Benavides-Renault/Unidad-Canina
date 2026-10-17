@@ -1,0 +1,91 @@
+name: valkyr
+x-api: &api
+  build:
+    context: .
+    dockerfile: infra/Dockerfile.api
+  image: valkyr-api:local
+  env_file: .env
+  environment: &api-environment
+    NODE_ENV: development
+    DATABASE_URL: postgresql://${POSTGRES_USER:-valkyr}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD en .env}@postgres:5432/${POSTGRES_DB:-valkyr}?schema=public
+    APP_ORIGIN: ${APP_ORIGIN:-http://localhost:3000}
+    API_PORT: 4000
+    API_HOST: 0.0.0.0
+    APP_ENCRYPTION_KEY: ${APP_ENCRYPTION_KEY:?Generar APP_ENCRYPTION_KEY en .env}
+    STORAGE_DRIVER: local
+    STORAGE_PATH: /data/files
+    SMTP_HOST: mailpit
+    SMTP_PORT: 1025
+    SMTP_SECURE: 'false'
+  volumes:
+    - files:/data/files
+  restart: unless-stopped
+services:
+  postgres:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-valkyr}
+      POSTGRES_USER: ${POSTGRES_USER:-valkyr}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  migrate:
+    <<: *api
+    command: [npm, run, db:deploy]
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+  api:
+    <<: *api
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:4000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+  worker:
+    <<: *api
+    command: [node, dist/worker.js]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  web:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.web
+      args:
+        API_URL: http://api:4000
+    image: valkyr-web:local
+    environment:
+      API_URL: http://api:4000
+    ports:
+      - '127.0.0.1:3000:3000'
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+  mailpit:
+    image: axllent/mailpit:v1
+    ports:
+      - '127.0.0.1:8025:8025'
+      - '127.0.0.1:1025:1025'
+    volumes:
+      - mailpit:/data
+    environment:
+      MP_DATABASE: /data/mailpit.db
+    restart: unless-stopped
+volumes:
+  postgres:
+  files:
+  mailpit:

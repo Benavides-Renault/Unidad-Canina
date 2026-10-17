@@ -1,0 +1,93 @@
+# Archivo independiente: usar docker compose -f compose.production.yaml ...
+name: valkyr-production
+x-api: &api
+  build:
+    context: .
+    dockerfile: infra/Dockerfile.api
+  image: valkyr-api:production
+  env_file: .env
+  environment:
+    NODE_ENV: production
+    DATABASE_URL: postgresql://${POSTGRES_USER:-valkyr}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-valkyr}?schema=public
+    APP_ORIGIN: https://${VALKYR_HOST:?Configurar VALKYR_HOST}
+    API_PORT: 4000
+    API_HOST: 0.0.0.0
+    APP_ENCRYPTION_KEY: ${APP_ENCRYPTION_KEY:?Configurar APP_ENCRYPTION_KEY}
+    COOKIE_SECURE: 'true'
+    STORAGE_DRIVER: local
+    STORAGE_PATH: /data/files
+  volumes:
+    - files:/data/files
+  restart: unless-stopped
+  security_opt: [no-new-privileges:true]
+services:
+  postgres:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-valkyr}
+      POSTGRES_USER: ${POSTGRES_USER:-valkyr}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  migrate:
+    <<: *api
+    command: [npm, run, db:deploy]
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+  api:
+    <<: *api
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:4000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+  worker:
+    <<: *api
+    command: [node, dist/worker.js]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  web:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.web
+      args:
+        API_URL: http://api:4000
+    image: valkyr-web:production
+    environment:
+      API_URL: http://api:4000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+  caddy:
+    image: caddy:2-alpine
+    environment:
+      VALKYR_HOST: ${VALKYR_HOST:?Configurar VALKYR_HOST}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    ports:
+      - '${HTTPS_BIND_ADDRESS:-127.0.0.1}:80:80'
+      - '${HTTPS_BIND_ADDRESS:-127.0.0.1}:443:443'
+    volumes:
+      - ${CADDY_CONFIG:-./infra/Caddyfile}:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [web]
+    restart: unless-stopped
+volumes:
+  postgres:
+  files:
+  caddy_data:
+  caddy_config:

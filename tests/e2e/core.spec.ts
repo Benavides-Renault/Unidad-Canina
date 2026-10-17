@@ -1,0 +1,106 @@
+import { test, expect, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
+async function login(page: Page) {
+  await page.goto('/');
+  await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
+  await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeAttached();
+  await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible();
+}
+test('escritorio: crea expediente, registra vacuna y sesión, persiste al recargar', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await login(page);
+  await page.getByRole('button', { name: 'Nuevo perro', exact: true }).click();
+  await page.getByLabel('Nombre de llamado').fill('E2E — CANINO DE PRUEBA');
+  await page.getByLabel('Raza', { exact: false }).fill('Pastor alemán');
+  await page.getByLabel('Sexo', { exact: false }).selectOption('FEMALE');
+  await page.getByLabel('Microchip', { exact: false }).fill('999000000000002');
+  await page.getByLabel('Ubicación actual').fill('Canil de prueba E2E');
+  await page.getByRole('button', { name: 'Crear expediente', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'E2E — CANINO DE PRUEBA', exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Salud y vacunas' }).click();
+  await page.getByRole('button', { name: 'Registrar vacuna', exact: true }).click();
+  await page.getByLabel('Nombre de la vacuna / producto').fill('Vacuna E2E de prueba');
+  await page.getByLabel('Fecha aplicada').fill('2026-10-01');
+  await page.getByLabel('Próxima dosis').fill('2026-11-01');
+  await page.getByRole('button', { name: 'Guardar', exact: true }).click();
+  await expect(page.getByText('Vacuna E2E de prueba', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Entrenamiento', exact: true }).click();
+  await page.getByRole('button', { name: 'Nueva sesión', exact: true }).click();
+  await page.getByLabel('Fecha y hora · Costa Rica').fill('2026-10-15T09:00');
+  await page.getByLabel('Disciplina', { exact: false }).fill('Obediencia de prueba');
+  await page.getByLabel('Objetivo de la sesión').fill('Validación E2E');
+  await page.getByLabel('Duración (minutos)').fill('25');
+  await page.getByRole('button', { name: 'Guardar', exact: true }).click();
+  await expect(page.getByText('Validación E2E', { exact: true })).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Nuestra unidad', exact: true }).click();
+  await page.getByRole('button', { name: /E2E — CANINO DE PRUEBA/ }).click();
+  await expect(page.getByRole('heading', { name: 'E2E — CANINO DE PRUEBA', exact: true })).toBeVisible();
+  await page.screenshot({ path: 'test-results/desktop-expediente.png', fullPage: true });
+  expect(errors).toEqual([]);
+});
+test('móvil: navegación y calendario sin desbordamiento horizontal', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await login(page);
+  await page.screenshot({ path: 'test-results/mobile-dashboard.png', fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await page.getByRole('button', { name: 'Abrir navegación', exact: true }).click();
+  await page.getByRole('button', { name: 'Calendario', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Calendario', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Día', exact: true }).click();
+  await page.getByRole('button', { name: 'Programar cita', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await page.screenshot({ path: 'test-results/mobile-cita.png', fullPage: true });
+});
+test('login: errores legibles, logo intacto y PWA sin caché de datos privados', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Bienvenido a la unidad' })).toBeVisible();
+  await page.getByLabel('Usuario', { exact: true }).fill('no-existe');
+  await page.getByLabel('Contraseña', { exact: true }).fill('IncorrectaSoloPrueba!');
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+  await expect(page.getByRole('alert').filter({ hasText: 'Usuario o contraseña incorrectos' })).toBeVisible();
+  await page.screenshot({ path: 'test-results/login.png', fullPage: true });
+  const manifest = await page.request.get('/manifest.webmanifest');
+  expect(manifest.ok()).toBe(true);
+  expect(await page.evaluate(() => caches.keys())).toEqual([]);
+  const res = await page.request.get('/api/v1/dogs');
+  expect(res.status()).toBe(401);
+});
+
+test('administrador crea un socio sin correo, cambia su contraseña y el socio puede ingresar', async ({
+  page,
+}) => {
+  await login(page);
+  await page.getByRole('button', { name: 'Usuarios', exact: true }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await page.getByRole('button', { name: 'Crear usuario', exact: true }).click();
+  const modal = page.getByRole('dialog');
+  await modal.getByLabel('Nombre completo').fill('Socio E2E');
+  await modal.getByRole('textbox', { name: 'Usuario', exact: true }).fill('socio.e2e');
+  await modal.getByLabel('Contraseña inicial').fill('SocioTemporalPrueba!');
+  await modal.getByLabel('Rol de acceso').selectOption('CLIENT');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await modal.getByRole('button', { name: 'Crear usuario', exact: true }).click();
+  await expect(modal).not.toBeVisible();
+  await expect(page.getByText('socio.e2e', { exact: true })).toBeVisible();
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.getByRole('button', { name: 'Editar Socio E2E', exact: true }).click();
+  await modal.getByLabel('Nueva contraseña (opcional)').fill('SocioNuevaPrueba2026!');
+  await modal.getByRole('button', { name: 'Guardar cambios', exact: true }).click();
+  await expect(modal).not.toBeVisible();
+  await page.screenshot({ path: 'test-results/usuarios.png', fullPage: true });
+  await page.getByRole('button', { name: 'Cerrar sesión', exact: true }).click();
+  await page.getByLabel('Usuario', { exact: true }).fill('SOCIO.E2E');
+  await page.getByLabel('Contraseña', { exact: true }).fill('SocioNuevaPrueba2026!');
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Mis perros', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Usuarios', exact: true })).not.toBeAttached();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeAttached();
+});

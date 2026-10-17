@@ -1,0 +1,68 @@
+[
+  {
+    "id": 20368539,
+    "group": "shepherd",
+    "author": "Julissa Pires",
+    "slug": "german-shepherd-dog",
+    "source": "https://www.pexels.com/photo/german-shepherd-dog-20368539/",
+    "download": "https://images.pexels.com/photos/20368539/pexels-photo-20368539.jpeg?fm=jpg&w=1000&q=85",
+    "license": "https://www.pexels.com/license/",
+    "file": "assets/demo/pexels-20368539.jpg",
+    "sha256": "d79a547fac5076cd53876d14b572bb12c49c9082937563a286891f343046efce"
+  },
+  {
+    "id": 18058222,
+    "group": "shepherd",
+    "author": "Nano Erdozain",
+    "slug": "close-up-of-a-german-shepherd-dog",
+    "source": "https://www.pexels.com/photo/close-up-of-a-german-shepherd-dog-18058222/",
+    "download": "https://images.pexels.com/photos/18058222/pexels-photo-18058222.jpeg?fm=jpg&w=1000&q=85",
+    "license": "https://www.pexels.com/license/",
+    "file": "assets/demo/pexels-18058222.jpg",
+    "sha256": "e643347ee4b0923bcf5d46bb20031a698ac1b59b829d580ac5eb757c0b7f6b18"
+  },
+  {
+    "id": 30211148,
+    "group": "malinois",
+    "author": "Diana",
+    "slug": "majestic-belgian-malinois-in-natural-setting",
+    "source": "https://www.pexels.com/photo/majestic-belgian-malinois-in-natural-setting-30211148/",
+    "download": "https://images.pexels.com/photos/30211148/pexels-photo-30211148.jpeg?fm=jpg&w=1000&q=85",
+    "license": "https://www.pexels.com/license/",
+    "file": "assets/demo/pexels-30211148.jpg",
+    "sha256": "24a72f799fd15e999bed4749ddc36d901f5f14651c9e9cce171bbd81bd44cb52"
+  },
+  {
+    "id": 6641155,
+    "group": "malinois",
+    "author": "Zacharias Korsalka",
+    "slug": "belgian-shepherd-malinois-dog",
+    "source": "https://www.pexels.com/photo/belgian-shepherd-malinois-dog-6641155/",
+    "download": "https://images.pexels.com/photos/6641155/pexels-photo-6641155.jpeg?fm=jpg&w=1000&q=85",
+    "license": "https://www.pexels.com/license/",
+    "file": "assets/demo/pexels-6641155.jpg",
+    "sha256": "9a54360852eaa99e3c7b6c3beb3a10d785f507af47b1e784752b86ea1bf6dfb6"
+  },
+  {
+    "id": 9983475,
+    "group": "puppy",
+    "author": "Дмитрий Пропадалин",
+    "slug": "close-up-photo-of-a-cute-german-shepherd-puppy",
+    "source": "https://www.pexels.com/photo/close-up-photo-of-a-cute-german-shepherd-puppy-9983475/",
+    "download": "https://images.pexels.com/photos/9983475/pexels-photo-9983475.jpeg?fm=jpg&w=1000&q=85",
+    "license": "https://www.pexels.com/license/",
+    "file": "assets/demo/pexels-9983475.jpg",
+    "sha256": "bd32725603735f0dfd62dac30a90eb7cacc4a7190237ddb1ee3787b0a5e3c3c4"
+  },
+  {
+    "id": 20600677,
+    "group": "puppy",
+    "author": "Nothing Ahead",
+    "slug": "adorable-german-shepherd-puppy",
+    "source": "https://www.pexels.com/photo/adorable-german-shepherd-puppy-20600677/",
+    "download": "https://images.pexels.com/photos/20600677/pexels-photo-20600677.jpeg?fm=jpg&w=1000&q=85",
+    "license": "https://www.pexels.com/license/",
+    "file": "assets/demo/pexels-20600677.jpg",
+    "sha256": "02726513d7a6bb6a66991144e97ddaaf5dce08336d81eded690063f1984579ac"
+  }
+]
