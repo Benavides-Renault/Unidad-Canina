@@ -12,7 +12,7 @@ import {
   type PageData,
   type User,
 } from '@/lib/api';
-import { useResource } from '@/lib/use-resource';
+import { useDebouncedValue, useResource } from '@/lib/use-resource';
 import {
   AddButton,
   Badge,
@@ -62,8 +62,9 @@ export function AppointmentEditor({
   onSaved: () => void;
 }) {
   const [search, setSearch] = useState('');
+  const searchQuery = useDebouncedValue(search);
   const { data, error } = useResource<PageData<Dog>>(
-    `/dogs?search=${encodeURIComponent(search)}&pageSize=100`,
+    `/dogs?search=${encodeURIComponent(searchQuery)}&pageSize=100`,
   );
   return (
     <Modal

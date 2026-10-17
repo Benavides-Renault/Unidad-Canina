@@ -12,6 +12,7 @@ import {
 } from '@/lib/api';
 import { useResource } from '@/lib/use-resource';
 import { Button, Empty, ErrorBox, Loading, PageHeading, Panel, TextLink } from './ui';
+import { Pager } from './business-ui';
 import { TrainingHistory } from './dogs';
 
 export function TrainingPage({
@@ -157,7 +158,10 @@ export function HealthPage({
   );
 }
 export function NotificationsPage({ onRead }: { onRead: () => void }) {
-  const { data, error, loading, reload } = useResource<PageData<Notification>>('/notifications');
+  const [page, setPage] = useState(1);
+  const { data, error, loading, reload } = useResource<PageData<Notification>>(
+    `/notifications?page=${page}&pageSize=20`,
+  );
   const [actionError, setActionError] = useState('');
   async function mark(id: string) {
     setActionError('');
@@ -216,10 +220,8 @@ export function NotificationsPage({ onRead }: { onRead: () => void }) {
           />
         )}
       </Panel>
-      <p className="footnote">
-        Las notificaciones de correo requieren SMTP configurado. Las notificaciones push del navegador están
-        previstas para una fase posterior.
-      </p>
+      {data && !loading && !error && <Pager page={page} data={data} setPage={setPage} />}
+      <p className="footnote">Configura los canales de aviso en tus preferencias de notificaciones.</p>
     </>
   );
 }

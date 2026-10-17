@@ -45,6 +45,12 @@ try {
   });
   await client.getByRole('tab', { name: 'Galería de venta y preventa', exact: true }).click();
   await expect.poll(() => client.locator('main img').count()).toBeGreaterThan(0);
+  for (const photo of await client.locator('main img').all()) {
+    await photo.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => photo.evaluate((image) => image.complete && image.naturalWidth > 0), { timeout: 30000 })
+      .toBe(true);
+  }
   await expect
     .poll(
       () =>

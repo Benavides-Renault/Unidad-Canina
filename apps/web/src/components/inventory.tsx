@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Package, Plus } from 'lucide-react';
 import { formatDate, today, type PageData } from '@/lib/api';
-import { useResource } from '@/lib/use-resource';
+import { useDebouncedValue, useResource } from '@/lib/use-resource';
 import { Badge, Button, Empty, ErrorBox, Loading, PageHeading, Panel, type FieldDef } from './ui';
 import { BusinessForm, choice, money, Pager, SimpleTable } from './business-ui';
 type Lot = {
@@ -45,7 +45,17 @@ const productFields: FieldDef[] = [
     label: 'Categoría del producto',
     type: 'select',
     required: true,
-    options: ['Alimento', 'Medicamento', 'Insumo veterinario', 'Equipo de entrenamiento', 'Protección personal', 'Higiene y limpieza', 'Transporte', 'Documentación', 'Otro'],
+    options: [
+      'Alimento',
+      'Medicamento',
+      'Insumo veterinario',
+      'Equipo de entrenamiento',
+      'Protección personal',
+      'Higiene y limpieza',
+      'Transporte',
+      'Documentación',
+      'Otro',
+    ],
   },
   {
     name: 'unit',
@@ -67,8 +77,9 @@ export function InventoryPage() {
     [search, setSearch] = useState(''),
     [id, setId] = useState<string | null>(null),
     [form, setForm] = useState(false);
+  const searchQuery = useDebouncedValue(search);
   const r = useResource<PageData<Product>>(
-    `/inventory/products?page=${page}&search=${encodeURIComponent(search)}`,
+    `/inventory/products?page=${page}&search=${encodeURIComponent(searchQuery)}`,
   );
   if (id)
     return (

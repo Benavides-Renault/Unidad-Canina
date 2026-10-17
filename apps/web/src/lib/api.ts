@@ -9,7 +9,12 @@ export class ApiError extends Error {
   }
 }
 
-export async function api<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
+export async function api<T>(
+  path: string,
+  method = 'GET',
+  body?: unknown,
+  options: { signal?: AbortSignal } = {},
+): Promise<T> {
   const headers: Record<string, string> = {};
   const multipart = body instanceof FormData;
   if (body && !multipart) headers['Content-Type'] = 'application/json';
@@ -27,9 +32,11 @@ export async function api<T>(path: string, method = 'GET', body?: unknown): Prom
       headers,
       credentials: 'same-origin',
       cache: 'no-store',
+      signal: options.signal,
       body: body ? (multipart ? (body as FormData) : JSON.stringify(body)) : undefined,
     });
-  } catch {
+  } catch (error) {
+    if (options.signal?.aborted) throw error;
     throw new ApiError('No se pudo conectar con el servidor. Comprueba tu conexión a la red autorizada.', 0);
   }
   if (!response.ok) {
@@ -54,16 +61,21 @@ export async function api<T>(path: string, method = 'GET', body?: unknown): Prom
   return response.json().catch(() => undefined) as Promise<T>;
 }
 
+const dateFormatter = new Intl.DateTimeFormat('es-CR', {
+  dateStyle: 'medium',
+  timeZone: 'America/Costa_Rica',
+});
+const dateTimeFormatter = new Intl.DateTimeFormat('es-CR', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+  timeZone: 'America/Costa_Rica',
+});
 export const formatDate = (value?: string | null, withTime = false) => {
   if (!value) return 'Sin registrar';
   const civil = /^\d{4}-\d{2}-\d{2}$/.test(value);
   const date = new Date(civil ? `${value}T12:00:00-06:00` : value);
   if (Number.isNaN(date.getTime())) return 'Fecha no válida';
-  return new Intl.DateTimeFormat('es-CR', {
-    dateStyle: 'medium',
-    ...(withTime ? { timeStyle: 'short' as const } : {}),
-    timeZone: 'America/Costa_Rica',
-  }).format(date);
+  return (withTime ? dateTimeFormatter : dateFormatter).format(date);
 };
 export const today = () =>
   new Intl.DateTimeFormat('en-CA', {

@@ -141,7 +141,7 @@ function Photo({ dog, source }: { dog: PortalDog; source: 'portal' | 'trainer' |
   return (
     <div className={`portal-photo ${url ? '' : 'placeholder'}`}>
       {url ? (
-        <img src={url} alt={dog.name} />
+        <img src={url} alt={dog.name} loading="lazy" decoding="async" />
       ) : (
         <>
           <DogIcon size={56} />
@@ -285,9 +285,7 @@ export function Gallery() {
     [page, setPage] = useState(1),
     [selected, setSelected] = useState<PortalDog | Cross | null>(null),
     [parent, setParent] = useState<PortalDog | null>(null);
-  const dogs = useResource<PageData<PortalDog>>(`/portal/gallery/dogs?page=${page}&pageSize=12`);
-  const crosses = useResource<PageData<Cross>>(`/portal/gallery/crosses?page=${page}&pageSize=12`);
-  const r = kind === 'dogs' ? dogs : crosses;
+  const r = useResource<PageData<PortalDog | Cross>>(`/portal/gallery/${kind}?page=${page}&pageSize=12`);
   if (parent)
     return (
       <>

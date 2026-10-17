@@ -169,45 +169,39 @@ export class DashboardController {
     const now = new Date(),
       until = new Date(now.valueOf() + 30 * 86400000),
       dog = { archivedAt: null };
-    const [
-      totalDogs,
-      operationalDogs,
-      trainingDogs,
-      availableDogs,
-      upcomingVaccinations,
-      upcomingAppointments,
-      recentTraining,
-      trainingCount,
-    ] = await Promise.all([
-      this.db.dog.count({ where: dog }),
-      this.db.dog.count({ where: { ...dog, workStatus: 'OPERATIONAL' } }),
-      this.db.dog.count({ where: { ...dog, workStatus: 'TRAINING' } }),
-      this.db.dog.count({ where: { ...dog, availability: 'AVAILABLE' } }),
-      this.db.vaccination.findMany({
-        where: { dog, nextDueDate: { lte: until } },
-        take: 20,
-        orderBy: { nextDueDate: 'asc' },
-        include: { dog: { select: { id: true, name: true, code: true } } },
-      }),
-      this.db.appointment.findMany({
-        where: { dog, status: 'SCHEDULED', startsAt: { gte: now, lte: until } },
-        take: 20,
-        orderBy: { startsAt: 'asc' },
-        include: { dog: { select: { id: true, name: true, code: true } } },
-      }),
-      this.db.trainingSession.findMany({
-        where: { dog },
-        take: 10,
-        orderBy: { occurredAt: 'desc' },
-        include: { dog: { select: { id: true, name: true, code: true } } },
-      }),
-      this.db.trainingSession.count({ where: { dog } }),
-    ]);
+    const [counts, upcomingVaccinations, upcomingAppointments, recentTraining, trainingCount] =
+      await Promise.all([
+        this.db.$queryRaw<
+          { totalDogs: number; operationalDogs: number; trainingDogs: number; availableDogs: number }[]
+        >`
+        SELECT count(*)::int AS "totalDogs",
+          count(*) FILTER (WHERE "workStatus" = 'OPERATIONAL')::int AS "operationalDogs",
+          count(*) FILTER (WHERE "workStatus" = 'TRAINING')::int AS "trainingDogs",
+          count(*) FILTER (WHERE availability = 'AVAILABLE')::int AS "availableDogs"
+        FROM "Dog" WHERE "archivedAt" IS NULL
+      `,
+        this.db.vaccination.findMany({
+          where: { dog, nextDueDate: { lte: until } },
+          take: 20,
+          orderBy: { nextDueDate: 'asc' },
+          include: { dog: { select: { id: true, name: true, code: true } } },
+        }),
+        this.db.appointment.findMany({
+          where: { dog, status: 'SCHEDULED', startsAt: { gte: now, lte: until } },
+          take: 20,
+          orderBy: { startsAt: 'asc' },
+          include: { dog: { select: { id: true, name: true, code: true } } },
+        }),
+        this.db.trainingSession.findMany({
+          where: { dog },
+          take: 10,
+          orderBy: { occurredAt: 'desc' },
+          include: { dog: { select: { id: true, name: true, code: true } } },
+        }),
+        this.db.trainingSession.count({ where: { dog } }),
+      ]);
     return {
-      totalDogs,
-      operationalDogs,
-      trainingDogs,
-      availableDogs,
+      ...counts[0],
       upcomingVaccinations,
       upcomingAppointments,
       recentTraining,
@@ -223,14 +217,23 @@ export class NotificationsController {
     const types: string[] = [];
     if (READ_DOGS.includes(req.user.role)) types.push('APPOINTMENT', 'CERTIFICATION');
     if (CLINICAL.includes(req.user.role)) types.push('VACCINATION');
-    if (BUSINESS.includes(req.user.role)) types.push('CONTRACT', 'ACCOUNT', 'RESERVATION');
+    if (BUSINESS.includes(req.user.role)) types.push('CONTRACT', 'ACCOUNT', 'RESERVATION', 'BREEDING');
     return { userId: req.user.id, reminder: { sourceType: { in: types } } };
+  }
+  @Get('summary') async summary(@Req() req: AuthRequest) {
+    const unread = await this.db.notification.count({ where: { ...this.scope(req), readAt: null } });
+    return { unread };
   }
   @Get() async list(@Req() req: AuthRequest, @Query() query: Record<string, string>) {
     const { page, pageSize, skip } = pagination(query),
       where = this.scope(req);
     const [items, total] = await Promise.all([
-      this.db.notification.findMany({ where, skip, take: pageSize, orderBy: { createdAt: 'desc' } }),
+      this.db.notification.findMany({
+        where,
+        skip,
+        take: pageSize,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      }),
       this.db.notification.count({ where }),
     ]);
     return { items, total, page, pageSize };

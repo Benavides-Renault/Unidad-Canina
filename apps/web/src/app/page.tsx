@@ -1,5 +1,6 @@
 'use client';
 import { BrandMark } from '@/components/brand';
+import dynamic from 'next/dynamic';
 import { useEffect, useState, type FormEvent } from 'react';
 import {
   Bell,
@@ -23,21 +24,78 @@ import {
   FileText,
   ClipboardList,
 } from 'lucide-react';
-import { api, errorMessage, labels, type User, type Notification, type PageData } from '@/lib/api';
+import { api, errorMessage, labels, type User } from '@/lib/api';
 import { useResource } from '@/lib/use-resource';
 import { Auth } from '@/components/auth';
-import { Dashboard } from '@/components/dashboard';
-import { Dogs, DogDetail, DogEditor } from '@/components/dogs';
-import { Calendar, AppointmentEditor } from '@/components/calendar';
-import { HealthPage, NotificationsPage, TrainingPage } from '@/components/operations';
-import { SettingsPage, UsersPage } from '@/components/settings';
 import { ErrorBox, Loading } from '@/components/ui';
-import { ContractsPage, ServicesPage } from '@/components/contracts';
-import { BreedingPage } from '@/components/breeding';
-import { FinancePage, ReservationsPage } from '@/components/finance';
-import { InventoryPage } from '@/components/inventory';
-import { RestrictedWorkspace, PartiesPage, CatalogManager, TrainerWorkspace } from '@/components/portals';
-import { detachBrowserPush } from '@/components/notification-preferences';
+const Dashboard = dynamic(() => import('@/components/dashboard').then((module) => module.Dashboard), {
+  loading: () => <Loading />,
+});
+const Dogs = dynamic(() => import('@/components/dogs').then((module) => module.Dogs), {
+  loading: () => <Loading />,
+});
+const DogDetail = dynamic(() => import('@/components/dogs').then((module) => module.DogDetail), {
+  loading: () => <Loading />,
+});
+const DogEditor = dynamic(() => import('@/components/dogs').then((module) => module.DogEditor), {
+  loading: () => <Loading />,
+});
+const Calendar = dynamic(() => import('@/components/calendar').then((module) => module.Calendar), {
+  loading: () => <Loading />,
+});
+const AppointmentEditor = dynamic(
+  () => import('@/components/calendar').then((module) => module.AppointmentEditor),
+  { loading: () => <Loading /> },
+);
+const HealthPage = dynamic(() => import('@/components/operations').then((module) => module.HealthPage), {
+  loading: () => <Loading />,
+});
+const NotificationsPage = dynamic(
+  () => import('@/components/operations').then((module) => module.NotificationsPage),
+  { loading: () => <Loading /> },
+);
+const TrainingPage = dynamic(() => import('@/components/operations').then((module) => module.TrainingPage), {
+  loading: () => <Loading />,
+});
+const SettingsPage = dynamic(() => import('@/components/settings').then((module) => module.SettingsPage), {
+  loading: () => <Loading />,
+});
+const UsersPage = dynamic(() => import('@/components/settings').then((module) => module.UsersPage), {
+  loading: () => <Loading />,
+});
+const ContractsPage = dynamic(() => import('@/components/contracts').then((module) => module.ContractsPage), {
+  loading: () => <Loading />,
+});
+const ServicesPage = dynamic(() => import('@/components/contracts').then((module) => module.ServicesPage), {
+  loading: () => <Loading />,
+});
+const BreedingPage = dynamic(() => import('@/components/breeding').then((module) => module.BreedingPage), {
+  loading: () => <Loading />,
+});
+const FinancePage = dynamic(() => import('@/components/finance').then((module) => module.FinancePage), {
+  loading: () => <Loading />,
+});
+const ReservationsPage = dynamic(
+  () => import('@/components/finance').then((module) => module.ReservationsPage),
+  { loading: () => <Loading /> },
+);
+const InventoryPage = dynamic(() => import('@/components/inventory').then((module) => module.InventoryPage), {
+  loading: () => <Loading />,
+});
+const RestrictedWorkspace = dynamic(
+  () => import('@/components/portals').then((module) => module.RestrictedWorkspace),
+  { loading: () => <Loading /> },
+);
+const PartiesPage = dynamic(() => import('@/components/portals').then((module) => module.PartiesPage), {
+  loading: () => <Loading />,
+});
+const CatalogManager = dynamic(() => import('@/components/portals').then((module) => module.CatalogManager), {
+  loading: () => <Loading />,
+});
+const TrainerWorkspace = dynamic(
+  () => import('@/components/portals').then((module) => module.TrainerWorkspace),
+  { loading: () => <Loading /> },
+);
 
 const navigation = [
   { id: 'home', label: 'Inicio', icon: LayoutDashboard },
@@ -79,10 +137,10 @@ export default function Home() {
   const [revision, setRevision] = useState(0);
   const [search, setSearch] = useState('');
   const [offline, setOffline] = useState(false);
-  const notifications = useResource<PageData<Notification>>(
-    user && (!user.mfaRequired || user.mfaEnabled) ? '/notifications' : null,
+  const notifications = useResource<{ unread: number }>(
+    user?.role === 'ADMIN' && (!user.mfaRequired || user.mfaEnabled) ? '/notifications/summary' : null,
   );
-  const unread = notifications.data?.items.filter((item) => !item.readAt).length || 0;
+  const unread = notifications.data?.unread || 0;
   const authenticate = () => {
     setChecking(true);
     setConnectionError('');
@@ -114,7 +172,9 @@ export default function Home() {
   };
   const logout = async () => {
     try {
-      await detachBrowserPush().catch(() => undefined);
+      await import('@/components/notification-preferences')
+        .then((module) => module.detachBrowserPush())
+        .catch(() => undefined);
       await api('/auth/logout', 'POST');
       setUser(null);
       sessionStorage.removeItem('valkyr-search');
@@ -435,9 +495,7 @@ export default function Home() {
               {page === 'contracts' && ['ADMIN'].includes(user.role) && (
                 <ContractsPage user={user} openDog={(id) => navigate('dogs', id)} />
               )}
-              {page === 'services' && ['ADMIN', 'TRAINER'].includes(user.role) && (
-                <ServicesPage />
-              )}
+              {page === 'services' && ['ADMIN', 'TRAINER'].includes(user.role) && <ServicesPage />}
               {page === 'breeding' && ['ADMIN'].includes(user.role) && (
                 <BreedingPage user={user} openDog={(id) => navigate('dogs', id)} />
               )}
@@ -457,9 +515,7 @@ export default function Home() {
                   onBackToList={() => setAccountId(undefined)}
                 />
               )}
-              {page === 'inventory' && ['ADMIN'].includes(user.role) && (
-                <InventoryPage />
-              )}
+              {page === 'inventory' && ['ADMIN'].includes(user.role) && <InventoryPage />}
               {page === 'settings' && (
                 <SettingsPage user={user} refreshUser={async () => setUser(await api<User>('/auth/me'))} />
               )}

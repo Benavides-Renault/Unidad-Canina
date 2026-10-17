@@ -2,77 +2,76 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorMessage, type PageData } from './api';
 
-export function useResource<T>(path: string | null, refreshKey = 0) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+type ResourceState<T> = { path: string | null; data: T | null; error: string; loading: boolean };
+type Reader<T> = (path: string, signal: AbortSignal) => Promise<T>;
+
+function useRead<T>(path: string | null, read: Reader<T>, refreshKey = 0) {
+  const [state, setState] = useState<ResourceState<T>>({ path: null, data: null, error: '', loading: false });
   const [revision, setRevision] = useState(0);
   const reload = useCallback(() => setRevision((value) => value + 1), []);
   useEffect(() => {
-    let active = true;
     if (!path) {
-      setLoading(false);
+      setState({ path: null, data: null, error: '', loading: false });
       return;
     }
-    setLoading(true);
-    setError('');
-    api<T>(path)
-      .then((result) => {
-        if (active) setData(result);
+    const controller = new AbortController();
+    setState((previous) => ({
+      path,
+      data: previous.path === path ? previous.data : null,
+      error: '',
+      loading: true,
+    }));
+    read(path, controller.signal)
+      .then((data) => {
+        if (!controller.signal.aborted) setState({ path, data, error: '', loading: false });
       })
-      .catch((err) => {
-        if (active) setError(errorMessage(err));
-      })
-      .finally(() => {
-        if (active) setLoading(false);
+      .catch((error) => {
+        if (!controller.signal.aborted)
+          setState({ path, data: null, error: errorMessage(error), loading: false });
       });
-    return () => {
-      active = false;
-    };
-  }, [path, revision, refreshKey]);
-  return { data, error, loading, reload };
+    return () => controller.abort();
+  }, [path, read, revision, refreshKey]);
+  // Never expose a previous record during the render before the next effect runs.
+  const current = path && state.path === path ? state : { data: null, error: '', loading: !!path };
+  return { data: current.data, error: current.error, loading: current.loading, reload };
 }
 
-/** Small private catalogues: traverse API pages so selectors never silently omit records after 100. */
+function readResource<T>(path: string, signal: AbortSignal) {
+  return api<T>(path, 'GET', undefined, { signal });
+}
+export function useResource<T>(path: string | null, refreshKey = 0) {
+  return useRead<T>(path, readResource, refreshKey);
+}
+
+async function readCatalog<T>(path: string, signal: AbortSignal): Promise<PageData<T>> {
+  const items: T[] = [];
+  let page = 1;
+  let total: number;
+  do {
+    signal.throwIfAborted();
+    const result = await api<PageData<T>>(
+      `${path}${path.includes('?') ? '&' : '?'}page=${page}&pageSize=100`,
+      'GET',
+      undefined,
+      { signal },
+    );
+    items.push(...result.items);
+    total = result.total;
+    page++;
+    if (!result.items.length) break;
+  } while (items.length < total);
+  return { items, total: items.length, page: 1, pageSize: 100 };
+}
+/** Traverse all catalogue pages, stopping when the selector is closed. */
 export function useCatalog<T>(path: string | null) {
-  const [data, setData] = useState<PageData<T> | null>(null),
-    [error, setError] = useState(''),
-    [loading, setLoading] = useState(true),
-    [revision, setRevision] = useState(0);
-  const reload = useCallback(() => setRevision((n) => n + 1), []);
+  return useRead<PageData<T>>(path, readCatalog);
+}
+
+export function useDebouncedValue<T>(value: T, delay = 250) {
+  const [debounced, setDebounced] = useState(value);
   useEffect(() => {
-    let active = true;
-    if (!path) {
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    setError('');
-    (async () => {
-      const items: T[] = [];
-      let page = 1;
-      let total: number;
-      do {
-        const result = await api<PageData<T>>(
-          `${path}${path.includes('?') ? '&' : '?'}page=${page}&pageSize=100`,
-        );
-        if (!active) return;
-        items.push(...result.items);
-        total = result.total;
-        page++;
-        if (!result.items.length) break;
-      } while (items.length < total);
-      if (active) setData({ items, total: items.length, page: 1, pageSize: 100 });
-    })()
-      .catch((e) => {
-        if (active) setError(errorMessage(e));
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [path, revision]);
-  return { data, error, loading, reload };
+    const timer = window.setTimeout(() => setDebounced(value), delay);
+    return () => window.clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
 }

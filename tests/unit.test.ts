@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { Prisma } from '@prisma/client';
 import { serializeDates } from '../apps/api/src/serialization';
+import { api, formatDate } from '../apps/web/src/lib/api';
 import {
   civilDate,
   csvCell,
@@ -17,6 +18,28 @@ import {
   pagination,
   usernameSchema,
 } from '../apps/api/src/security';
+
+test('cancelled API requests preserve cancellation instead of reporting a connection failure', async (t) => {
+  t.mock.method(
+    globalThis,
+    'fetch',
+    (_url: unknown, options: RequestInit) =>
+      new Promise((_resolve, reject) => {
+        options.signal!.addEventListener('abort', () => reject(options.signal!.reason), { once: true });
+      }),
+  );
+  const controller = new AbortController();
+  const pending = api('/dogs', 'GET', undefined, { signal: controller.signal });
+  controller.abort();
+  await assert.rejects(pending, { name: 'AbortError' });
+});
+
+test('shared date formatters retain Costa Rica civil dates and time boundaries', () => {
+  assert.equal(formatDate('2026-10-16'), formatDate('2026-10-16T12:00:00-06:00'));
+  assert.equal(formatDate('2026-10-17T02:00:00Z'), formatDate('2026-10-16'));
+  assert.match(formatDate('2026-10-17T02:00:00Z', true), /8:00/);
+  assert.equal(formatDate('invalid'), 'Fecha no válida');
+});
 
 test('date serialization preserves civil dates, instants, weights and decimal precision', () => {
   const when = new Date('2026-10-16T14:30:00.000Z');

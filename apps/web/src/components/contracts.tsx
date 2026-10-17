@@ -13,7 +13,7 @@ import {
   type PageData,
   type User,
 } from '@/lib/api';
-import { useResource, useCatalog } from '@/lib/use-resource';
+import { useDebouncedValue, useResource, useCatalog } from '@/lib/use-resource';
 import { Badge, Button, Empty, ErrorBox, Loading, PageHeading, Panel, type FieldDef } from './ui';
 import { BusinessForm, choice, money, Pager, SimpleTable } from './business-ui';
 type Contact = { id: string; name: string; position?: string; email?: string; phone?: string };
@@ -159,8 +159,9 @@ export function ContractsPage({ user, openDog }: { user: User; openDog: (id: str
     [status, setStatus] = useState(''),
     [form, setForm] = useState<'institution' | 'contract' | null>(null);
   const canEdit = ['ADMIN'].includes(user.role);
+  const searchQuery = useDebouncedValue(search);
   const listing = useResource<PageData<Contract>>(
-    `/contracts?page=${page}&pageSize=20&search=${encodeURIComponent(search)}&status=${status}`,
+    `/contracts?page=${page}&pageSize=20&search=${encodeURIComponent(searchQuery)}&status=${status}`,
   );
   const institutions = useCatalog<Institution>('/institutions');
   const templates = useResource<CertificateTemplate[]>('/templates');

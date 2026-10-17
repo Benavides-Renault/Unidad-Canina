@@ -6,7 +6,7 @@ import { NotificationPreferences } from './notification-preferences';
 import { useState } from 'react';
 import { Check, KeyRound, LockKeyhole, Pencil, ShieldCheck, UserPlus, Users } from 'lucide-react';
 import { api, errorMessage, formatDate, type PageData, type User } from '@/lib/api';
-import { useResource } from '@/lib/use-resource';
+import { useDebouncedValue, useResource } from '@/lib/use-resource';
 import {
   Badge,
   Button,
@@ -25,8 +25,9 @@ const roles = ['ADMIN', 'TRAINER', 'CLIENT'];
 export function UsersPage({ current }: { current: User }) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const searchQuery = useDebouncedValue(search);
   const { data, error, loading, reload } = useResource<PageData<User>>(
-    `/users?page=${page}&pageSize=20&search=${encodeURIComponent(search)}`,
+    `/users?page=${page}&pageSize=20&search=${encodeURIComponent(searchQuery)}`,
   );
   const [editing, setEditing] = useState<User | 'new' | null>(null);
   const editingUser = editing && editing !== 'new' ? editing : undefined;

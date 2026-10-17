@@ -348,6 +348,8 @@ export function Dogs({
                       <img
                         src={`${API}/documents/${dog.photoId}/download`}
                         alt={`Fotografía de ${dog.name}`}
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="dog-avatar">

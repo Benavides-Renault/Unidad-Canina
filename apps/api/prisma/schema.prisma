@@ -610,6 +610,7 @@ model Notification {
   createdAt  DateTime  @default(now()) @db.Timestamptz(3)
 
   @@index([userId, createdAt])
+  @@index([userId, readAt])
 }
 
 model AuditLog {
