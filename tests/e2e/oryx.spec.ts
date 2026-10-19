@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
 const fixture = JSON.parse(readFileSync('.local/oryx-fixtures.json', 'utf8'));
 async function login(page: Page) {
-  await page.goto('/');
+  await page.goto('/panel');
   await expect(page.locator('.auth-brand-top').getByAltText('ORYX K9 · Unidad Canina')).toBeVisible();
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);

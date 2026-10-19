@@ -1,11 +1,13 @@
 'use client';
 import { BrandMark } from '@/components/brand';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { ArrowRight, Eye, EyeOff, LockKeyhole, ShieldCheck, LoaderCircle, PawPrint } from 'lucide-react';
 import { api, errorMessage, type User } from '@/lib/api';
 import { Button, ErrorBox, Success } from './ui';
 
 export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   const [mode, setMode] = useState<'login' | 'forgot' | 'reset'>(() =>
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('token')
       ? 'reset'
@@ -34,7 +36,7 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
           token: new URLSearchParams(window.location.search).get('token') || form.get('token'),
           password: form.get('password'),
         });
-        window.history.replaceState(null, '', '/');
+        window.history.replaceState(null, '', '/acceso');
         setMode('login');
         setSuccess('Contraseña actualizada. Ya puedes iniciar sesión.');
       } else {
@@ -109,7 +111,7 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
           </p>
           {error && <ErrorBox message={error} />}
           {success && <Success>{success}</Success>}
-          <form onSubmit={submit} className="auth-form">
+          <form onSubmit={submit} method="post" className="auth-form">
             {mode !== 'reset' && (
               <div className="field">
                 <label htmlFor="username">Usuario</label>
@@ -198,7 +200,7 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
             <Button
               type="submit"
               icon={busy ? LoaderCircle : ArrowRight}
-              disabled={busy}
+              disabled={busy || !ready}
               className="auth-submit"
             >
               {busy

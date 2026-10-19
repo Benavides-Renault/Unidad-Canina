@@ -53,7 +53,7 @@ test('visitante móvil: contacto por correo y solicitud de cuenta llegan a admin
   await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click();
   await page.getByRole('button', { name: 'Entendido' }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();

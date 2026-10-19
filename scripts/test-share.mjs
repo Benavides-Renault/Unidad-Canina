@@ -11,7 +11,7 @@ try {
   const publicContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const publicPage = await publicContext.newPage();
   publicPage.on('pageerror', (e) => errors.push(e.message));
-  await publicPage.goto(shared.publicUrl || `${shared.origin}/catalogo`);
+  await publicPage.goto(`${shared.origin}/`);
   await expect(publicPage.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
   await expect(publicPage.locator('.public-catalog .portal-card').first()).toBeVisible();
   await expect(publicPage.locator('.public-catalog [role="alert"]')).not.toBeAttached();
@@ -23,13 +23,20 @@ try {
     'href',
     new RegExp(`^https://wa\\.me/${settings.whatsappNumber.replace(/\D/g, '')}\\?text=`),
   );
-  assert.equal((await publicContext.request.get(`${shared.origin}/api/v1/inquiries`)).status(), 403);
+  assert.equal((await publicContext.request.get(`${shared.origin}/api/v1/inquiries`)).status(), 401);
   assert.equal(
     (await publicContext.cookies()).some((cookie) => cookie.name === '__Host-oryx_share'),
     false,
   );
   await publicPage.screenshot({ path: '.local/share-public-desktop.png' });
-  await publicPage.getByRole('tab', { name: 'Camadas y preventa', exact: true }).click();
+  await publicPage
+    .getByRole('navigation', { name: 'Navegación pública' })
+    .getByRole('link', { name: 'Camadas', exact: true })
+    .click();
+  await expect(publicPage.getByRole('tab', { name: 'Camadas y preventa' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
   await publicPage.locator('.public-catalog .portal-card').first().click();
   await expect(publicPage.getByRole('button', { name: 'Volver al catálogo' })).toBeVisible();
   await publicPage.reload();
@@ -43,28 +50,41 @@ try {
   await expect(publicPage.getByLabel('Contraseña', { exact: true })).not.toBeAttached();
   await publicContext.close();
   const adminContext = await browser.newContext();
-  assert.equal((await adminContext.request.get(shared.origin + '/api/v1/dogs')).status(), 403);
+  assert.equal((await adminContext.request.get(shared.origin + '/api/v1/dogs')).status(), 401);
   const page = await adminContext.newPage();
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto(shared.shareUrl);
+  await page.goto(shared.origin + '/');
+  await page
+    .getByRole('navigation', { name: 'Navegación pública' })
+    .getByRole('link', { name: 'Iniciar sesión' })
+    .click();
   await page.getByLabel('Usuario', { exact: true }).fill('admin');
   await page.getByLabel('Contraseña', { exact: true }).fill('1234');
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
   await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible({ timeout: 30000 });
   assert.equal(new URL(page.url()).hash, '');
+  assert.equal(new URL(page.url()).pathname, '/panel');
   const cookies = await adminContext.cookies();
-  for (const name of ['__Host-oryx_share', 'oryx_session', 'oryx_csrf']) {
+  for (const name of ['oryx_session', 'oryx_csrf']) {
     const cookie = cookies.find((c) => c.name === name);
     assert.ok(cookie, `Falta la cookie ${name}.`);
     assert.equal(cookie.secure, true, `La cookie ${name} debe usar HTTPS.`);
   }
+  assert.equal(
+    (
+      await adminContext.request.post(shared.origin + '/api/v1/auth/logout', {
+        headers: { origin: shared.origin },
+      })
+    ).status(),
+    403,
+  );
   for (const name of ['Nuestra unidad', 'Crianza', 'Finanzas']) {
     await page.getByRole('button', { name, exact: true }).click();
     await expect(page.locator('main h1')).toBeVisible();
     await expect(page.locator('main [role="alert"]')).not.toBeAttached();
   }
   await page.screenshot({ path: '.local/share-admin.png', fullPage: true });
-  await page.goto(shared.publicUrl || `${shared.origin}/catalogo`);
+  await page.goto(`${shared.origin}/`);
   await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
   await expect(page.locator('.auth-page, .public-access, #private-invitation')).not.toBeAttached();
   await expect(page.getByLabel('Contraseña', { exact: true })).not.toBeAttached();
@@ -74,7 +94,11 @@ try {
   });
   const client = await context.newPage();
   client.on('pageerror', (e) => errors.push(e.message));
-  await client.goto(shared.shareUrl);
+  await client.goto(shared.origin + '/');
+  await client
+    .getByRole('navigation', { name: 'Navegación pública' })
+    .getByRole('link', { name: 'Iniciar sesión' })
+    .click();
   await client.getByLabel('Usuario', { exact: true }).fill('sofia.cliente');
   await client.getByLabel('Contraseña', { exact: true }).fill('1234');
   await client.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
@@ -114,6 +138,8 @@ try {
     origin: shared.origin,
     anonymousApiDenied: true,
     publicCatalogWithoutAccount: true,
+    publicHomepage: true,
+    loginFromPublicHeader: true,
     publicDeepLinks: true,
     publicCatalogWithoutPrivateAccess: true,
     publicCatalogStaysPublicAfterLogin: true,

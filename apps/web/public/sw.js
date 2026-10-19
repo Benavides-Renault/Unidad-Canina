@@ -11,8 +11,8 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(async clients=>{
     const target=clients.find(c=>new URL(c.url).origin===self.location.origin);
-    if(target)return target.focus();
-    return self.clients.openWindow('/');
+    if(target){await target.navigate('/panel');return target.focus();}
+    return self.clients.openWindow('/panel');
   }));
 });
 self.addEventListener('fetch', (event) => {

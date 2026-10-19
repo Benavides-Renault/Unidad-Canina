@@ -59,6 +59,19 @@
   gap: 40px;
   overflow: hidden;
 }
+.public-header nav > .public-sign-in {
+  color: white;
+  white-space: nowrap;
+}
+.auth-home-link {
+  position: absolute;
+  top: 14px;
+  right: 24px;
+  z-index: 10;
+  color: #88662e;
+  font-size: 13px;
+  padding: 8px;
+}
 .public-hero .eyebrow {
   color: #ddc298;
 }
@@ -266,15 +279,113 @@
   align-items: center;
 }
 .public-footer {
-  max-width: 1240px;
-  margin: auto;
-  padding: 28px 24px;
+  margin-top: 64px;
+  padding: 56px max(24px, calc((100% - 1240px) / 2)) 24px;
+  background: #182720;
+  color: #d5dfd7;
+  border-top: 3px solid #ab8648;
+  font-size: 14px;
+}
+.public-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.85fr 1fr 1.1fr;
+  gap: 38px;
+}
+.public-footer h2 {
+  font-size: 15px;
+  color: #ead4ac;
+  margin: 5px 0 20px;
+}
+.public-footer p {
+  color: #afbeb3;
+  line-height: 1.8;
+  margin: 18px 0;
+  max-width: 300px;
+}
+.public-footer a {
+  color: inherit;
+}
+.public-footer a:hover,
+.public-footer button:hover {
+  color: #f1d7a4;
+}
+.public-footer .public-brand {
+  color: #fff8ec;
+  font-size: 21px;
+}
+.public-footer .brand-mark {
+  width: 62px;
+  height: 62px;
+}
+.public-footer-location {
+  color: #d4b77d;
+  font-size: 12px;
+}
+.public-footer nav,
+.public-footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.public-footer nav h2,
+.public-footer-contact h2 {
+  margin-bottom: 6px;
+}
+.public-footer-contact a,
+.public-footer button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  overflow-wrap: anywhere;
+}
+.public-footer button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+.public-footer .public-footer-account {
+  color: #ead4ac;
+  border-bottom: 1px solid #6b7053;
+  padding-bottom: 8px;
+}
+.public-footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 22px;
+  font-size: 12px;
+}
+.public-footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.public-footer-bottom {
+  margin-top: 42px;
+  border-top: 1px solid #3a4a40;
+  padding-top: 24px;
   display: flex;
   justify-content: space-between;
-  gap: 15px;
-  border-top: 1px solid #dce2d8;
+  gap: 20px;
+  flex-wrap: wrap;
+  color: #afbeb3;
   font-size: 12px;
-  color: #6a796f;
+}
+.public-footer a:focus-visible,
+.public-footer button:focus-visible {
+  outline: 2px solid #ead4ac;
+  outline-offset: 5px;
+}
+@media (max-width: 1000px) {
+  .public-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
 }
 .public-inquiry-form {
   display: flex;
@@ -452,12 +563,18 @@
     height: 52px;
   }
   .public-header nav {
-    gap: 15px;
+    gap: 10px;
     width: 100%;
     justify-content: space-between;
   }
   .public-header nav > a {
-    font-size: 13px;
+    font-size: 12px;
+  }
+  .public-header .public-sign-in {
+    padding: 10px;
+  }
+  .public-header .public-sign-in svg {
+    display: none;
   }
   .public-hero {
     padding: 38px 22px;
@@ -485,7 +602,16 @@
     grid-template-columns: 1fr;
   }
   .public-footer {
+    padding: 36px 22px 24px;
+  }
+  .public-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .public-footer-bottom {
     flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
   }
   .public-interest {
     padding: 22px;

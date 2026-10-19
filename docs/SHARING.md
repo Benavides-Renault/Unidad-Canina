@@ -1,23 +1,24 @@
 # Compartir ORYX K9 desde esta PC
 
-La aplicación sigue alojada en esta PC. Cloudflare Quick Tunnel ofrece una dirección HTTPS temporal sin abrir puertos entrantes del router. El enlace cambia al iniciar una sesión nueva y funciona mientras la PC, ORYX K9 y el túnel estén activos. Caduca como máximo a las 24 horas. [Documentación de Cloudflare](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
+La página principal es pública: muestra perros disponibles, camadas, contacto y el botón **Iniciar sesión**. Cualquier visitante puede explorarla sin cuenta. Para entrar al panel usa su usuario y contraseña; no se necesitan invitaciones ni enlaces con claves.
 
 1. Abrir `INICIAR_ORYX_K9.cmd` si la aplicación está detenida.
 2. Abrir `COMPARTIR_ORYX_K9.cmd` y mantener su ventana abierta.
-3. Copiar el campo `shareUrl` de `.local/share-runtime.json`, incluido `#compartir=…`, y enviarlo únicamente a la persona invitada.
-4. La persona abre el enlace y usa una cuenta de la aplicación. Las cuentas de ejemplo están en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Para mostrar toda la administración: usuario `admin`, contraseña `1234`; para mostrar la vista de cliente: `sofia.cliente`, contraseña `1234`.
-5. Al terminar, abrir `DETENER_ENLACE_ORYX_K9.cmd`. La aplicación local continúa funcionando.
+3. Copiar `publicUrl` de `.local/share-runtime.json` y compartirlo. Abre la portada `/`.
+4. **Perros disponibles** y **Camadas** seleccionan la sección correspondiente. Cada ficha permite copiar su enlace.
+5. **Iniciar sesión** abre `/acceso`; después de autenticarse, la cuenta entra a `/panel` según su rol.
+6. Al terminar, abrir `DETENER_ENLACE_ORYX_K9.cmd`. La aplicación local continúa funcionando.
 
-Para compartir perros, camadas y preventas sin una cuenta, usar el campo `publicUrl` de `.local/share-runtime.json`. Abre `/catalogo` y permite consultar exclusivamente publicaciones comerciales, enviar consultas y solicitar una cuenta. Cada ficha tiene un enlace que se puede copiar y enviar a otra persona. Administración recibe las solicitudes y decide si aprueba las cuentas. Las redes y WhatsApp se configuran en **Solicitudes → Contacto y redes de la portada**.
+El pie de página reúne navegación, teléfono, WhatsApp, solicitudes de contacto y cuenta, y las redes configuradas en **Solicitudes → Contacto y redes de la portada**. No se muestran redes sin configurar. `/catalogo` conserva los enlaces compartidos anteriormente.
 
-El campo `shareUrl` actúa como invitación al espacio privado: cualquiera que lo reciba completo puede abrir el inicio de sesión. Su clave aleatoria tiene 256 bits, se intercambia por una cookie segura y se retira de la barra de dirección. Sin esa invitación sólo se permiten la portada del catálogo, sus recursos estáticos y las rutas públicas expresamente autorizadas; expedientes y solicitudes administrativas permanecen bloqueados. No guardar la invitación en GitHub. Para revocarla, detener el enlace y generar otro.
+Los campos `publicUrl` y `shareUrl` contienen la misma portada; `loginUrl` apunta a `/acceso`. Las cuentas de prueba se consultan en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Los datos de la instalación y los archivos `.local` no se publican en GitHub.
 
-El catálogo público no muestra formularios de inicio de sesión, campos de invitación ni avisos del espacio privado, tampoco cuando quien lo visita ya tiene una sesión abierta. Para entrar a una cuenta, abrir directamente `shareUrl` completo, incluida la parte `#compartir=`. La invitación abre el inicio de sesión en una pantalla separada. Si cambió el dominio temporal, usar el enlace nuevo que entregue el administrador.
+Cloudflare Quick Tunnel ofrece una dirección HTTPS temporal sin abrir puertos entrantes del router. El enlace cambia al iniciar una sesión nueva y funciona mientras la PC, ORYX K9 y el túnel estén activos. Caduca como máximo a las 24 horas. [Documentación de Cloudflare](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
 
-La sesión compartida usa los mismos datos de prueba que la aplicación local. Los cambios realizados desde una cuenta administradora se reflejan aquí. El iniciador rechaza instalaciones sin `DEMO_MODE=true`; las contraseñas de cuatro caracteres siguen siendo únicamente para este entorno de prueba.
+El proxy escucha exclusivamente en `127.0.0.1:3002`, admite las páginas y rutas API de la aplicación, valida dominio y origen, marca las cookies como Secure y evita almacenar respuestas. La API comprueba las sesiones, los roles y CSRF antes de entregar datos o aceptar cambios privados. Sin iniciar sesión no se pueden consultar expedientes ni solicitudes administrativas. No se expone PostgreSQL ni directorios de archivos. El ejecutable de Cloudflare se comprueba contra el SHA-256 de la versión fijada.
 
-El proxy escucha exclusivamente en `127.0.0.1:3002`, valida dominio y origen antes de reenviar, conserva la protección CSRF, marca las cookies como Secure y evita almacenar respuestas. No expone PostgreSQL ni directorios de archivos. El ejecutable de Cloudflare se descarga de su repositorio oficial y se comprueba contra el SHA-256 de la versión fijada.
+La sesión compartida usa los mismos datos de prueba que la aplicación local. Los cambios de administración se reflejan aquí. El iniciador rechaza instalaciones sin `DEMO_MODE=true`; las contraseñas de cuatro caracteres siguen siendo únicamente para este entorno de prueba.
 
 El túnel usa selección automática de protocolo: prueba QUIC y puede recurrir a HTTP/2 si UDP no está disponible, según los [parámetros oficiales de Cloudflare](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/run-parameters/#protocol). La disponibilidad del enlace depende también de la conexión a Internet y del servicio temporal.
 
-Para alojamiento permanente, usar el procedimiento de [DEPLOY_SERVER.md](DEPLOY_SERVER.md) con un proveedor, dominio y credenciales definitivas.
+Para alojamiento permanente, usar [DEPLOY_SERVER.md](DEPLOY_SERVER.md) con un proveedor, dominio y credenciales definitivas.

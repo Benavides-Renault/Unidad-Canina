@@ -34,7 +34,7 @@ for (const width of [390, 1440]) {
 }
 
 test('una sesión abierta no añade controles privados al catálogo', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
@@ -43,6 +43,6 @@ test('una sesión abierta no añade controles privados al catálogo', async ({ p
   await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
   await expect(page.locator('.auth-page, .public-access, #private-invitation')).toHaveCount(0);
   await expect(page.getByLabel('Contraseña', { exact: true })).toHaveCount(0);
-  await page.goto('/');
+  await page.goto('/panel');
   await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible();
 });

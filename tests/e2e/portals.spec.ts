@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
 const fixture = JSON.parse(readFileSync('.local/portal-test-fixtures.json', 'utf8'));
 async function login(page: Page, username: string, password: string) {
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(username);
   await page.getByLabel('Contraseña', { exact: true }).fill(password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();

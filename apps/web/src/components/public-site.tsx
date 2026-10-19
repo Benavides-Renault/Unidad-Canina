@@ -8,6 +8,9 @@ import {
   MessageCircle,
   Share2,
   UserPlus,
+  LogIn,
+  Phone,
+  Mail,
 } from 'lucide-react';
 import { API, formatDate, type PageData } from '@/lib/api';
 import { useResource } from '@/lib/use-resource';
@@ -16,6 +19,7 @@ import { Badge, Button, Empty, ErrorBox, Loading, Success } from './ui';
 import { money, Pager } from './business-ui';
 import {
   ContactLinks,
+  whatsappLink,
   InquiryDialog,
   type InquiryInterest,
   type InquiryKind,
@@ -123,7 +127,7 @@ function Detail({
     [shareError, setShareError] = useState('');
   async function share() {
     try {
-      const url = `${window.location.origin}/catalogo?tipo=${selection.kind}&id=${selection.id}`;
+      const url = `${window.location.origin}/?tipo=${selection.kind}&id=${selection.id}#catalogo`;
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setShareError('');
@@ -209,7 +213,7 @@ function Detail({
                   <h3>Cachorros disponibles de esta camada</h3>
                   <div className="portal-grid">
                     {item.litter.puppies.map((puppy) => (
-                      <a className="portal-card" key={puppy.id} href={`/catalogo?tipo=dogs&id=${puppy.id}`}>
+                      <a className="portal-card" key={puppy.id} href={`/?tipo=dogs&id=${puppy.id}#catalogo`}>
                         <Photo dog={puppy} />
                         <div className="portal-card-content">
                           <h3>{puppy.name}</h3>
@@ -279,6 +283,8 @@ export function PublicCatalog({
       const q = new URLSearchParams(window.location.search);
       const type = q.get('tipo');
       const id = q.get('id');
+      setKind(type === 'crosses' ? 'crosses' : 'dogs');
+      setPage(1);
       if (id && (type === 'dogs' || type === 'crosses')) {
         setKind(type);
         setSelection({ kind: type, id });
@@ -293,12 +299,12 @@ export function PublicCatalog({
   );
   function open(item: CatalogDog | CatalogCross) {
     setSelection({ kind, id: item.id });
-    window.history.pushState(null, '', `/catalogo?tipo=${kind}&id=${item.id}`);
+    window.history.pushState(null, '', `/?tipo=${kind}&id=${item.id}#catalogo`);
     document.getElementById('catalogo')?.scrollIntoView({ behavior: 'instant' });
   }
   function back() {
     setSelection(null);
-    window.history.pushState(null, '', '/catalogo');
+    window.history.pushState(null, '', `/?tipo=${kind}#catalogo`);
   }
   if (selection)
     return (
@@ -335,6 +341,7 @@ export function PublicCatalog({
             onClick={() => {
               setKind(id);
               setPage(1);
+              window.history.pushState(null, '', `/?tipo=${id}#catalogo`);
             }}
           >
             {label}
@@ -405,20 +412,23 @@ export function PublicLanding() {
   const settings = useResource<PublicSettings>('/public/settings');
   const [dialog, setDialog] = useState<{ kind: InquiryKind; interest?: InquiryInterest } | null>(null);
   return (
-    <div className="public-site">
+    <div className="public-site" id="top">
       <a className="skip-link" href="#catalogo">
         Saltar al catálogo
       </a>
       <header className="public-header">
-        <a className="public-brand" href="/catalogo">
+        <a className="public-brand" href="/" aria-label="ORYX K9 · Inicio">
           <BrandMark />
           <span>
             ORYX K9<small>UNIDAD CANINA</small>
           </span>
         </a>
         <nav aria-label="Navegación pública">
-          <a href="#catalogo">Disponibles</a>
-          <a href="#contacto">Contacto</a>
+          <a href="/?tipo=dogs#catalogo">Perros disponibles</a>
+          <a href="/?tipo=crosses#catalogo">Camadas</a>
+          <a className="button button-primary public-sign-in" href="/acceso">
+            <LogIn size={16} /> Iniciar sesión
+          </a>
         </nav>
       </header>
       <main>
@@ -492,9 +502,86 @@ export function PublicLanding() {
           </div>
         </section>
       </main>
-      <footer className="public-footer">
-        <strong>ORYX K9 · Unidad Canina</strong>
-        <span>Costa Rica · Crianza y formación canina</span>
+      <footer className="public-footer" id="pie-de-pagina">
+        <div className="public-footer-grid">
+          <div className="public-footer-brand">
+            <a className="public-brand" href="/" aria-label="ORYX K9 · Inicio">
+              <BrandMark />
+              <span>
+                ORYX K9<small>UNIDAD CANINA</small>
+              </span>
+            </a>
+            <p>Crianza responsable, entrenamiento y un vínculo para toda la vida.</p>
+            <span className="public-footer-location">Costa Rica</span>
+          </div>
+          <nav aria-label="Explorar ORYX K9">
+            <h2>Explora</h2>
+            <a href="/?tipo=dogs#catalogo">Perros disponibles</a>
+            <a href="/?tipo=crosses#catalogo">Camadas y preventa</a>
+            <a href="/#contacto">Contacto</a>
+            <a href="/acceso">Iniciar sesión</a>
+          </nav>
+          <div className="public-footer-contact">
+            <h2>Hablemos</h2>
+            {settings.data?.phone && (
+              <a href={`tel:${settings.data.phone.replace(/[^+\d]/g, '')}`}>
+                <Phone size={16} />
+                {settings.data.phone}
+              </a>
+            )}
+            {settings.data?.whatsappNumber && (
+              <a
+                href={whatsappLink(
+                  settings.data.whatsappNumber,
+                  'Hola, quisiera información sobre los perros y camadas de ORYX K9.',
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle size={16} />
+                Escribir por WhatsApp
+              </a>
+            )}
+            {settings.data?.email && (
+              <a href={`mailto:${settings.data.email}`}>
+                <Mail size={16} />
+                {settings.data.email}
+              </a>
+            )}
+            <button type="button" onClick={() => setDialog({ kind: 'CONTACT' })}>
+              Enviar una consulta <ArrowUpRight size={15} />
+            </button>
+          </div>
+          <div className="public-footer-community">
+            <h2>Tu cuenta ORYX K9</h2>
+            <p>Consulta el seguimiento de tus perros y mantente cerca de nuestra unidad.</p>
+            <button
+              className="public-footer-account"
+              type="button"
+              onClick={() => setDialog({ kind: 'ACCOUNT' })}
+            >
+              Solicita tu cuenta <ArrowUpRight size={15} />
+            </button>
+            <div className="public-footer-socials">
+              {[
+                ['Instagram', settings.data?.instagramUrl],
+                ['Facebook', settings.data?.facebookUrl],
+                ['TikTok', settings.data?.tiktokUrl],
+              ]
+                .filter(([, url]) => url)
+                .map(([name, url]) => (
+                  <a key={name} href={url!} target="_blank" rel="noopener noreferrer">
+                    {name} <ArrowUpRight size={13} />
+                  </a>
+                ))}
+            </div>
+          </div>
+        </div>
+        <div className="public-footer-bottom">
+          <span>© {new Date().getFullYear()} ORYX K9 · Unidad Canina</span>
+          <span>Confianza. Disciplina. Propósito.</span>
+          <a href="#top">Volver arriba ↑</a>
+        </div>
       </footer>
       {dialog && <InquiryDialog {...dialog} onClose={() => setDialog(null)} />}
     </div>

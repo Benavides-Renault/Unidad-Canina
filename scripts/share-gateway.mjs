@@ -1,8 +1,5 @@
 import http from 'node:http';
-import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 
-const cookieName = '__Host-oryx_share';
-const digest = (value) => createHash('sha256').update(value).digest();
 const hopHeaders = [
   'connection',
   'keep-alive',
@@ -14,33 +11,34 @@ const hopHeaders = [
   'upgrade',
 ];
 
-function isPublicRequest(pathname, method) {
-  if (method === 'POST') return pathname === '/api/v1/public/inquiries';
+function isApplicationRequest(pathname, method) {
+  if (pathname.startsWith('/api/v1/'))
+    return ['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
   if (!['GET', 'HEAD'].includes(method)) return false;
   return (
-    pathname === '/catalogo' ||
-    ['/oryx-logo.png', '/favicon.ico', '/manifest.webmanifest', '/sw.js'].includes(pathname) ||
-    /^\/_next\/static\/[A-Za-z0-9_./-]+$/.test(pathname) ||
-    /^\/api\/v1\/public\/(?:settings|dogs|crosses)$/.test(pathname) ||
-    /^\/api\/v1\/public\/(?:dogs|crosses|photos)\/[0-9a-f-]{36}$/i.test(pathname)
+    [
+      '/',
+      '/catalogo',
+      '/acceso',
+      '/panel',
+      '/reset-password',
+      '/oryx-logo.png',
+      '/favicon.ico',
+      '/manifest.webmanifest',
+      '/sw.js',
+    ].includes(pathname) || /^\/_next\/static\/[A-Za-z0-9_./-]+$/.test(pathname)
   );
 }
 
 export function createShareGateway({
-  token,
   publicOrigin,
   upstream = 'http://localhost:3000',
   lifetimeMs = 24 * 3600_000,
 }) {
-  if (!/^[A-Za-z0-9_-]{43,}$/.test(token))
-    throw new Error('Se requiere una clave aleatoria de al menos 32 bytes.');
-  const expected = digest(token),
-    expiresAt = Date.now() + lifetimeMs,
+  const expiresAt = Date.now() + lifetimeMs,
     target = new URL(upstream);
   if (!['localhost', '127.0.0.1', '[::1]'].includes(target.hostname) || target.protocol !== 'http:')
     throw new Error('El destino debe ser local.');
-  const allowed = (candidate) =>
-    typeof candidate === 'string' && candidate.length <= 200 && timingSafeEqual(digest(candidate), expected);
   const server = http.createServer(async (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('Referrer-Policy', 'no-referrer');
@@ -62,51 +60,14 @@ export function createShareGateway({
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && req.headers.origin !== external.origin)
       return fail(403, 'Se requiere el origen del sitio.');
     const pathname = new URL(req.url, external).pathname;
-    if (pathname === '/__share/unlock' && req.method === 'POST') {
-      if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || ''))
-        return fail(415, 'Formato no permitido.');
-      let body = '';
-      try {
-        for await (const chunk of req) {
-          body += chunk;
-          if (body.length > 1024) {
-            fail(413, 'Solicitud demasiado grande.');
-            return;
-          }
-        }
-        if (!allowed(JSON.parse(body).token)) return fail(403, 'El enlace no es válido.');
-      } catch {
-        return fail(400, 'Solicitud no válida.');
-      }
-      const maxAge = Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
-      res.setHeader(
-        'Set-Cookie',
-        `${cookieName}=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`,
-      );
-      res.writeHead(204);
-      return res.end();
-    }
+    if (!isApplicationRequest(pathname, req.method)) return fail(404, 'No encontrado.');
+    // Authentication, CSRF, MFA and role permissions are enforced by the API AccessGuard.
     const cookies = (req.headers.cookie || '').split(';').map((part) => part.trim());
-    const key = cookies.find((part) => part.startsWith(`${cookieName}=`))?.slice(cookieName.length + 1);
-    if (!allowed(key) && !isPublicRequest(pathname, req.method)) {
-      if (req.method !== 'GET' || pathname !== '/')
-        return fail(403, 'Abre el enlace completo de acceso compartido.');
-      const nonce = randomBytes(18).toString('base64');
-      res.setHeader(
-        'Content-Security-Policy',
-        `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'`,
-      );
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.end(
-        `<!doctype html><html lang="es"><meta name="viewport" content="width=device-width"><title>ORYX K9 · Acceso privado</title><style nonce="${nonce}">body{font:18px system-ui;background:#f4f3ee;color:#253229;max-width:650px;margin:15vh auto;padding:30px}h1{letter-spacing:.12em}p{line-height:1.7}</style><h1>ORYX K9</h1><p id="status">Abre el enlace completo que te compartieron para acceder.</p><script nonce="${nonce}">const key=new URLSearchParams(location.hash.slice(1)).get('compartir');if(key){history.replaceState(null,'','/');document.getElementById('status').textContent='Abriendo ORYX K9…';fetch('/__share/unlock',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:key})}).then(r=>{if(!r.ok)throw Error();location.replace('/')}).catch(()=>{document.getElementById('status').textContent='No se pudo abrir el enlace. Solicita uno nuevo.'})}</script></html>`,
-      );
-    }
-    if (pathname.startsWith('/__share/')) return fail(404, 'No encontrado.');
     const headers = { ...req.headers, host: target.host };
     for (const name of Object.keys(headers))
       if (hopHeaders.includes(name) || name.startsWith('x-forwarded-') || name === 'forwarded')
         delete headers[name];
-    headers.cookie = cookies.filter((part) => !part.startsWith(`${cookieName}=`)).join('; ');
+    headers.cookie = cookies.filter((part) => !part.startsWith('__Host-oryx_share=')).join('; ');
     if (headers.origin) headers.origin = target.origin;
     if (headers.referer) headers.referer = target.origin + '/';
     const outgoing = http.request(

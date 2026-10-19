@@ -18,7 +18,7 @@ También puedes usar `npm run local` con Node 24 LTS. El iniciador aplica migrac
 
 ## Compartir una visita desde esta PC
 
-`COMPARTIR_ORYX_K9.cmd` genera un enlace HTTPS público al catálogo y una invitación separada al espacio privado. Ambos funcionan mientras esta PC y ORYX K9 estén encendidos. `DETENER_ENLACE_ORYX_K9.cmd` revoca el acceso sin detener la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); la invitación y los archivos locales no forman parte del repositorio.
+`COMPARTIR_ORYX_K9.cmd` genera un enlace HTTPS a la página principal pública, con perros disponibles, camadas e inicio de sesión mediante usuario y contraseña. Funciona mientras esta PC y ORYX K9 estén encendidos. `DETENER_ENLACE_ORYX_K9.cmd` detiene el enlace sin cerrar la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); los archivos locales no forman parte del repositorio.
 
 ## Inicio con Docker
 

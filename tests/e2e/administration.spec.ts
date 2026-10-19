@@ -10,7 +10,7 @@ const day = new Intl.DateTimeFormat('en-CA', {
 const before = new Date(Date.parse(`${day}T00:00:00Z`) - 70 * 86400000).toISOString().slice(0, 10);
 const future = new Date(Date.parse(`${day}T00:00:00Z`) + 30 * 86400000).toISOString().slice(0, 10);
 async function login(page: Page) {
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();

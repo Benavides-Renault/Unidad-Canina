@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 const fixture = JSON.parse(readFileSync('.local/completion-fixtures.json', 'utf8'));
 const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
 async function login(page: Page, username = runtime.username, password = runtime.password) {
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(username);
   await page.getByLabel('Contraseña', { exact: true }).fill(password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
@@ -19,13 +19,11 @@ test('comprobantes vinculados y versiones clínicas en el portal del propietario
   await page.getByRole('button', { name: 'Vincular comprobante', exact: true }).click();
   let modal = page.getByRole('dialog');
   await modal.getByLabel('Registro relacionado').selectOption(`MEDICAL:${fixture.recordId}`);
-  await modal
-    .getByLabel('Comprobante', { exact: true })
-    .setInputFiles({
-      name: 'control-vinculado-e2e.pdf',
-      mimeType: 'application/pdf',
-      buffer: Buffer.from('%PDF-1.4\nControl de prueba\n%%EOF'),
-    });
+  await modal.getByLabel('Comprobante', { exact: true }).setInputFiles({
+    name: 'control-vinculado-e2e.pdf',
+    mimeType: 'application/pdf',
+    buffer: Buffer.from('%PDF-1.4\nControl de prueba\n%%EOF'),
+  });
   await modal.getByRole('button', { name: 'Guardar comprobante vinculado', exact: true }).click();
   await expect(modal).not.toBeVisible();
   await expect(page.getByRole('link', { name: 'control-vinculado-e2e.pdf', exact: true })).toBeVisible();

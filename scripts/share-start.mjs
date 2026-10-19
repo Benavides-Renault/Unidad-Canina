@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { createHash, randomBytes } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createWriteStream } from 'node:fs';
 import { once } from 'node:events';
@@ -34,13 +34,12 @@ if (!bytes) {
 }
 if (createHash('sha256').update(bytes).digest('hex') !== checksum)
   throw new Error('El ejecutable no coincide con la versión verificada.');
-const token = randomBytes(32).toString('base64url'),
-  startedAt = new Date(),
+const startedAt = new Date(),
   expiresAt = new Date(Date.now() + 24 * 3600_000);
 let origin,
   tunnel,
   stopping = false;
-const gateway = createShareGateway({ token, publicOrigin: () => origin }).listen(3002, '127.0.0.1');
+const gateway = createShareGateway({ publicOrigin: () => origin }).listen(3002, '127.0.0.1');
 await once(gateway, 'listening');
 const log = createWriteStream('.local/share-tunnel.log', { flags: 'w' });
 tunnel = spawn(
@@ -65,7 +64,7 @@ async function acceptOutput(chunk) {
   const found = combined.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com\b/);
   if (!found) return;
   origin = found[0];
-  const shareUrl = `${origin}/#compartir=${token}`;
+  const shareUrl = `${origin}/`;
   await writeFile(
     '.local/share-runtime.json',
     JSON.stringify(
@@ -74,7 +73,8 @@ async function acceptOutput(chunk) {
         tunnelPid: tunnel.pid,
         origin,
         shareUrl,
-        publicUrl: `${origin}/catalogo`,
+        publicUrl: shareUrl,
+        loginUrl: `${origin}/acceso`,
         startedAt,
         expiresAt,
       },
@@ -83,7 +83,7 @@ async function acceptOutput(chunk) {
     ),
   );
   console.log(
-    'Los enlaces público y privado están listos en .local/share-runtime.json. Caducan en 24 horas o al detenerlos.',
+    'La página pública y el inicio de sesión están listos en .local/share-runtime.json. El enlace caduca en 24 horas o al detenerlo.',
   );
 }
 tunnel.stdout.on('data', (chunk) => void acceptOutput(chunk).catch(() => void stop(1)));

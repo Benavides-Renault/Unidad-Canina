@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { randomBytes } from 'node:crypto';
 import { once } from 'node:events';
 import { createShareGateway } from '../scripts/share-gateway.mjs';
 
@@ -27,11 +26,14 @@ function request(url, { body, ...options } = {}) {
   });
 }
 
-test('temporary sharing requires a private link and preserves origin, cookies and streaming', async () => {
-  const token = randomBytes(32).toString('base64url');
+test('public sharing opens the homepage and login while preserving application authorization and origin', async () => {
   const origin = 'https://oryx-test.trycloudflare.com';
   const upstream = http
     .createServer(async (req, res) => {
+      if (req.url === '/api/v1/dogs' && !req.headers.cookie?.includes('oryx_session=example')) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ message: 'Inicia sesión para continuar.' }));
+      }
       let body = '';
       for await (const c of req) body += c;
       res.setHeader('Set-Cookie', ['oryx_session=example; HttpOnly; Path=/', 'oryx_csrf=example; Path=/']);
@@ -48,10 +50,7 @@ test('temporary sharing requires a private link and preserves origin, cookies an
     .listen(0, '127.0.0.1');
   await once(upstream, 'listening');
   const target = `http://127.0.0.1:${upstream.address().port}`;
-  const gateway = createShareGateway({ token, publicOrigin: origin, upstream: target }).listen(
-    0,
-    '127.0.0.1',
-  );
+  const gateway = createShareGateway({ publicOrigin: origin, upstream: target }).listen(0, '127.0.0.1');
   await once(gateway, 'listening');
   const call = (path, { headers = {}, ...options } = {}) =>
     request(`http://127.0.0.1:${gateway.address().port}${path}`, {
@@ -61,9 +60,12 @@ test('temporary sharing requires a private link and preserves origin, cookies an
   try {
     const landing = await call('/');
     assert.equal(landing.status, 200);
-    assert.match(await landing.text(), /enlace completo/);
-    assert.equal((await call('/api/v1/dogs')).status, 403);
+    assert.doesNotMatch(await landing.text(), /compartir|enlace completo/);
+    assert.equal((await call('/api/v1/dogs')).status, 401);
     for (const path of [
+      '/acceso',
+      '/panel',
+      '/reset-password?token=example',
       '/catalogo?tipo=crosses&id=00000000-0000-4000-a000-000000000001',
       '/api/v1/public/settings',
       '/api/v1/public/dogs?page=1',
@@ -73,17 +75,9 @@ test('temporary sharing requires a private link and preserves origin, cookies an
       '/oryx-logo.png',
     ])
       assert.equal((await call(path)).status, 200, path);
-    for (const path of [
-      '/api/v1/inquiries',
-      '/api/v1/public/../dogs',
-      '/api/v1/public/settings/private',
-      '/_next/server/app.js',
-    ])
-      assert.equal((await call(path)).status, 403, path);
-    assert.equal(
-      (await call('/api/v1/public/settings', { method: 'PATCH', headers: { origin } })).status,
-      403,
-    );
+    for (const path of ['/.env', '/__share/unlock', '/private-files/example', '/_next/server/app.js'])
+      assert.equal((await call(path)).status, 404, path);
+    assert.equal((await call('/', { method: 'POST', headers: { origin } })).status, 404);
     assert.equal((await call('/api/v1/public/inquiries', { method: 'POST' })).status, 403);
     assert.equal(
       (
@@ -99,18 +93,7 @@ test('temporary sharing requires a private link and preserves origin, cookies an
       200,
     );
     assert.equal((await call('/', { headers: { host: 'evil.example' } })).status, 421);
-    const unlock = (key, suppliedOrigin = origin) =>
-      call('/__share/unlock', {
-        method: 'POST',
-        headers: { origin: suppliedOrigin, 'content-type': 'application/json' },
-        body: JSON.stringify({ token: key }),
-      });
-    assert.equal((await unlock('invalid')).status, 403);
-    assert.equal((await unlock(token, 'https://evil.example')).status, 403);
-    const admitted = await unlock(token);
-    assert.equal(admitted.status, 204);
-    assert.match(admitted.headers.get('set-cookie'), /HttpOnly; Secure; SameSite=Strict/);
-    const cookie = admitted.headers.get('set-cookie').split(';')[0] + '; oryx_csrf=example';
+    const cookie = '__Host-oryx_share=obsolete; oryx_csrf=example';
     assert.equal((await call('/api/v1/auth/login', { method: 'POST', headers: { cookie } })).status, 403);
     assert.equal(
       (
@@ -133,6 +116,7 @@ test('temporary sharing requires a private link and preserves origin, cookies an
     assert.equal(payload.origin, target);
     assert.equal(payload.cookie, 'oryx_csrf=example');
     assert.equal(payload.body, '{"username":"visitor"}');
+    assert.equal((await call('/api/v1/dogs', { headers: { cookie: 'oryx_session=example' } })).status, 200);
     assert.equal(proxied.headers.get('cache-control'), 'no-store');
     assert.equal(proxied.headers.get('x-robots-tag'), 'noindex, nofollow, noarchive');
   } finally {
@@ -141,11 +125,10 @@ test('temporary sharing requires a private link and preserves origin, cookies an
 });
 
 test('temporary sharing expires and refuses nonlocal upstreams', async () => {
-  const token = randomBytes(32).toString('base64url');
   assert.throws(() =>
-    createShareGateway({ token, publicOrigin: 'https://example.com', upstream: 'http://external.example' }),
+    createShareGateway({ publicOrigin: 'https://example.com', upstream: 'http://external.example' }),
   );
-  const server = createShareGateway({ token, publicOrigin: 'https://example.com', lifetimeMs: -1 }).listen(
+  const server = createShareGateway({ publicOrigin: 'https://example.com', lifetimeMs: -1 }).listen(
     0,
     '127.0.0.1',
   );

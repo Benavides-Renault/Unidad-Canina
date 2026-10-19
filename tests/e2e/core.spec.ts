@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
 async function login(page: Page) {
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
@@ -58,7 +58,7 @@ test('móvil: navegación y calendario sin desbordamiento horizontal', async ({ 
   await page.screenshot({ path: 'test-results/mobile-cita.png', fullPage: true });
 });
 test('login: errores legibles, logo intacto y PWA sin caché de datos privados', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/panel');
   await expect(page.getByRole('heading', { name: 'Bienvenido a la unidad' })).toBeVisible();
   await page.getByLabel('Usuario', { exact: true }).fill('no-existe');
   await page.getByLabel('Contraseña', { exact: true }).fill('IncorrectaSoloPrueba!');

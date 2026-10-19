@@ -8,7 +8,7 @@ const day = new Intl.DateTimeFormat('en-CA', {
   day: '2-digit',
 }).format(new Date());
 test('contratos: institución, contrato, asignación y servicio desde formularios', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/panel');
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
