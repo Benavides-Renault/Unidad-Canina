@@ -27,7 +27,7 @@ import {
 import { api, errorMessage, labels, type User } from '@/lib/api';
 import { useResource } from '@/lib/use-resource';
 import { ErrorBox, Loading } from '@/components/ui';
-const PublicLanding = dynamic(() => import('@/components/public-site').then((m) => m.PublicLanding), {
+const Auth = dynamic(() => import('@/components/auth').then((m) => m.Auth), {
   loading: () => <Loading />,
 });
 const InquiriesPage = dynamic(() => import('@/components/inquiries').then((m) => m.InquiriesPage), {
@@ -218,7 +218,7 @@ export default function Home() {
             <ErrorBox message={connectionError} retry={authenticate} />
           </div>
         )}
-        <PublicLanding
+        <Auth
           onLogin={(next) => {
             setUser(next);
             setConnectionError('');

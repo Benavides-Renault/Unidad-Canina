@@ -1,55 +1,48 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
 
-test('el catálogo pide la invitación antes de solicitar credenciales y rechaza otros destinos', async ({
-  page,
-}) => {
-  await page.route('**/api/v1/auth/me', (route) =>
-    route.fulfill({
-      status: 403,
-      json: { message: 'Abre el enlace completo de acceso compartido.' },
-    }),
-  );
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/catalogo');
-  await expect(page.getByRole('heading', { name: 'Accede con tu enlace privado' })).toBeVisible();
-  await expect(page.getByLabel('Usuario', { exact: true })).not.toBeAttached();
-  await expect(page.getByLabel('Contraseña', { exact: true })).not.toBeAttached();
-  await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
-  const origin = new URL(page.url()).origin;
-  for (const value of [
-    `https://otro.example/#compartir=${'a'.repeat(43)}`,
-    `javascript:alert(1)`,
-    `${origin}/catalogo#compartir=${'a'.repeat(43)}`,
-    `${origin}/?redirect=otro#compartir=${'a'.repeat(43)}`,
-    `${origin}/#compartir=incompleto`,
-  ]) {
-    await page.getByLabel('Enlace de acceso privado', { exact: true }).fill(value);
-    await page.getByRole('button', { name: 'Abrir acceso privado' }).click();
-    await expect(page.locator('.auth-panel').getByRole('alert')).toContainText(
-      'Pega el enlace privado completo',
-    );
-    expect(page.url()).toBe(`${origin}/catalogo`);
-  }
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-});
-
-for (const status of [403, 410, 503]) {
-  test(`un fallo ${status} no se presenta como contraseña incorrecta y permite reintentar`, async ({
+for (const width of [390, 1440]) {
+  test(`catálogo público a ${width}px sin acceso privado desde la primera carga ni al recargar`, async ({
     page,
   }) => {
-    let available = false;
-    await page.route('**/api/v1/auth/me', (route) =>
-      route.fulfill({
-        status: available ? 401 : status,
-        json: { message: available ? 'Unauthorized' : 'Acceso no disponible' },
-      }),
+    const privateRequests: string[] = [];
+    page.on('request', (request) => {
+      const path = new URL(request.url()).pathname;
+      if (path.startsWith('/api/v1/') && !path.startsWith('/api/v1/public/')) privateRequests.push(path);
+    });
+    const response = await page.request.get('/catalogo');
+    expect(await response.text()).not.toMatch(
+      /auth-page|public-access|private-invitation|#compartir=|Accede con tu enlace privado/,
     );
-    await page.goto('/catalogo');
-    await expect(page.getByRole('heading', { name: 'No pudimos comprobar el acceso' })).toBeVisible();
-    await expect(page.getByLabel('Contraseña', { exact: true })).not.toBeAttached();
-    available = true;
-    await page.getByRole('button', { name: 'Volver a comprobar' }).click();
-    await expect(page.getByLabel('Usuario', { exact: true })).toBeVisible();
-    await expect(page.getByLabel('Contraseña', { exact: true })).toBeVisible();
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/catalogo#acceso');
+    for (let load = 0; load < 2; load++) {
+      await expect(page.locator('.public-catalog .portal-card').first()).toBeVisible();
+      await page.locator('.public-footer').scrollIntoViewIfNeeded();
+      await expect(page.locator('.auth-page, .public-access, #private-invitation')).toHaveCount(0);
+      await expect(page.getByLabel('Usuario', { exact: true })).toHaveCount(0);
+      await expect(page.getByLabel('Contraseña', { exact: true })).toHaveCount(0);
+      await expect(page.getByRole('link', { name: 'Ingresar', exact: true })).toHaveCount(0);
+      await expect(page.locator('body')).not.toContainText('Accede con tu enlace privado');
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+      if (!load) await page.reload();
+    }
+    expect(privateRequests).toEqual([]);
+    await page.screenshot({ path: `test-results/public-footer-${width}.png` });
   });
 }
+
+test('una sesión abierta no añade controles privados al catálogo', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
+  await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+  await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible();
+  await page.goto('/catalogo');
+  await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
+  await expect(page.locator('.auth-page, .public-access, #private-invitation')).toHaveCount(0);
+  await expect(page.getByLabel('Contraseña', { exact: true })).toHaveCount(0);
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible();
+});

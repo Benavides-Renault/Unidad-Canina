@@ -12,7 +12,7 @@ Para compartir perros, camadas y preventas sin una cuenta, usar el campo `public
 
 El campo `shareUrl` actúa como invitación al espacio privado: cualquiera que lo reciba completo puede abrir el inicio de sesión. Su clave aleatoria tiene 256 bits, se intercambia por una cookie segura y se retira de la barra de dirección. Sin esa invitación sólo se permiten la portada del catálogo, sus recursos estáticos y las rutas públicas expresamente autorizadas; expedientes y solicitudes administrativas permanecen bloqueados. No guardar la invitación en GitHub. Para revocarla, detener el enlace y generar otro.
 
-Si se entra desde el catálogo sin invitación, la sección de acceso pide el **enlace de acceso privado** antes de mostrar usuario y contraseña. Se puede abrir directamente la invitación o pegarla allí completa, incluida la parte `#compartir=`. El aviso no significa que la contraseña sea incorrecta. Sólo se aceptan enlaces privados de la misma instalación; si cambió el dominio temporal, abrir el enlace nuevo que entregue el administrador.
+El catálogo público no muestra formularios de inicio de sesión, campos de invitación ni avisos del espacio privado, tampoco cuando quien lo visita ya tiene una sesión abierta. Para entrar a una cuenta, abrir directamente `shareUrl` completo, incluida la parte `#compartir=`. La invitación abre el inicio de sesión en una pantalla separada. Si cambió el dominio temporal, usar el enlace nuevo que entregue el administrador.
 
 La sesión compartida usa los mismos datos de prueba que la aplicación local. Los cambios realizados desde una cuenta administradora se reflejan aquí. El iniciador rechaza instalaciones sin `DEMO_MODE=true`; las contraseñas de cuatro caracteres siguen siendo únicamente para este entorno de prueba.
 

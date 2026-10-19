@@ -29,7 +29,7 @@ test('visitante móvil: contacto por correo y solicitud de cuenta llegan a admin
   const accountName = `Cuenta móvil ${suffix}`;
   const username = `public-mobile-${suffix}`;
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/catalogo');
   await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
   await page.getByRole('button', { name: 'Enviar solicitud de contacto', exact: true }).click();
   await page.getByLabel('Nombre completo', { exact: true }).fill(contactName);
@@ -53,6 +53,7 @@ test('visitante móvil: contacto por correo y solicitud de cuenta llegan a admin
   await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click();
   await page.getByRole('button', { name: 'Entendido' }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await page.goto('/');
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();

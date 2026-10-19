@@ -38,14 +38,9 @@ try {
   await publicPage.locator('.public-catalog').scrollIntoViewIfNeeded();
   assert.ok(await publicPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
   await publicPage.screenshot({ path: '.local/share-public-mobile.png' });
-  await expect(publicPage.getByRole('heading', { name: 'Accede con tu enlace privado' })).toBeVisible();
+  await expect(publicPage.locator('.auth-page, .public-access, #private-invitation')).not.toBeAttached();
   await expect(publicPage.getByLabel('Usuario', { exact: true })).not.toBeAttached();
   await expect(publicPage.getByLabel('Contraseña', { exact: true })).not.toBeAttached();
-  await publicPage.getByLabel('Enlace de acceso privado', { exact: true }).fill(shared.shareUrl);
-  await publicPage.getByRole('button', { name: 'Abrir acceso privado' }).click();
-  await expect(publicPage.getByLabel('Usuario', { exact: true })).toBeVisible();
-  assert.equal(new URL(publicPage.url()).hash, '');
-  assert.ok((await publicContext.cookies()).some((cookie) => cookie.name === '__Host-oryx_share'));
   await publicContext.close();
   const adminContext = await browser.newContext();
   assert.equal((await adminContext.request.get(shared.origin + '/api/v1/dogs')).status(), 403);
@@ -69,6 +64,10 @@ try {
     await expect(page.locator('main [role="alert"]')).not.toBeAttached();
   }
   await page.screenshot({ path: '.local/share-admin.png', fullPage: true });
+  await page.goto(shared.publicUrl || `${shared.origin}/catalogo`);
+  await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
+  await expect(page.locator('.auth-page, .public-access, #private-invitation')).not.toBeAttached();
+  await expect(page.getByLabel('Contraseña', { exact: true })).not.toBeAttached();
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     timezoneId: 'America/Costa_Rica',
@@ -116,8 +115,8 @@ try {
     anonymousApiDenied: true,
     publicCatalogWithoutAccount: true,
     publicDeepLinks: true,
-    privateInvitationBeforeCredentials: true,
-    pastedInvitationUnlocksAccess: true,
+    publicCatalogWithoutPrivateAccess: true,
+    publicCatalogStaysPublicAfterLogin: true,
     whatsappPreparedMessage: true,
     adminLogin: true,
     clientLogin: true,

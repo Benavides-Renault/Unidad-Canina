@@ -265,40 +265,6 @@
   gap: 5px;
   align-items: center;
 }
-.public-access {
-  max-width: 1240px;
-  margin: 0 auto 50px;
-  border-radius: 20px;
-  border: 1px solid #dce2d8;
-  background: white;
-  overflow: hidden;
-  scroll-margin-top: 30px;
-}
-.public-access .auth-page {
-  min-height: 0;
-  grid-template-columns: 1fr 1fr;
-}
-.public-access .auth-brand {
-  padding: 32px;
-}
-.public-access .auth-brand-top,
-.public-access .auth-pill,
-.public-access .auth-brand-bottom {
-  display: none;
-}
-.public-access .auth-story {
-  margin: 0;
-  position: relative;
-}
-.public-access .auth-story h1 {
-  font-size: 32px;
-}
-.public-access .auth-panel {
-  padding: 32px;
-}
-.public-access .auth-form-wrap {
-  max-width: 420px;
-}
 .public-footer {
   max-width: 1240px;
   margin: auto;
@@ -471,15 +437,6 @@
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  .public-access {
-    margin: 0 20px 30px;
-  }
-  .public-access .auth-page {
-    grid-template-columns: 1fr;
-  }
-  .public-access .auth-brand {
-    display: none;
-  }
 }
 @media (max-width: 560px) {
   .public-header {
@@ -532,9 +489,6 @@
   }
   .public-interest {
     padding: 22px;
-  }
-  .public-access .auth-panel {
-    padding: 24px 18px;
   }
   .inquiry-row {
     align-items: flex-start;

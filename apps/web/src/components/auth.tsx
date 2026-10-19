@@ -4,10 +4,8 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, Eye, EyeOff, LockKeyhole, ShieldCheck, LoaderCircle, PawPrint } from 'lucide-react';
 import { api, errorMessage, type User } from '@/lib/api';
 import { Button, ErrorBox, Success } from './ui';
-import { AuthAccess } from './auth-access';
 
-export function Auth({ onLogin, embedded = false }: { onLogin: (user: User) => void; embedded?: boolean }) {
-  const Container = embedded ? 'div' : 'main';
+export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
   const [mode, setMode] = useState<'login' | 'forgot' | 'reset'>(() =>
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('token')
       ? 'reset'
@@ -62,7 +60,7 @@ export function Auth({ onLogin, embedded = false }: { onLogin: (user: User) => v
     }
   }
   return (
-    <Container className="auth-page">
+    <main className="auth-page">
       <section className="auth-brand">
         <div className="auth-brand-top">
           <BrandMark />
@@ -95,137 +93,135 @@ export function Auth({ onLogin, embedded = false }: { onLogin: (user: User) => v
           <div className="access-pill">
             <span /> ACCESO PRIVADO
           </div>
-          <AuthAccess>
-            <h2>
-              {mode === 'login'
-                ? 'Bienvenido a la unidad'
-                : mode === 'forgot'
-                  ? 'Recupera tu acceso'
-                  : 'Establece tu contraseña'}
-            </h2>
-            <p className="auth-description">
-              {mode === 'login'
-                ? 'Ingresa con tu cuenta autorizada para continuar.'
-                : mode === 'forgot'
-                  ? 'Ingresa tu usuario. Si no tienes correo asociado, solicita una nueva contraseña al administrador.'
-                  : 'Elige una contraseña única de al menos 12 caracteres.'}
-            </p>
-            {error && <ErrorBox message={error} />}
-            {success && <Success>{success}</Success>}
-            <form onSubmit={submit} className="auth-form">
-              {mode !== 'reset' && (
-                <div className="field">
-                  <label htmlFor="username">Usuario</label>
+          <h2>
+            {mode === 'login'
+              ? 'Bienvenido a la unidad'
+              : mode === 'forgot'
+                ? 'Recupera tu acceso'
+                : 'Establece tu contraseña'}
+          </h2>
+          <p className="auth-description">
+            {mode === 'login'
+              ? 'Ingresa con tu cuenta autorizada para continuar.'
+              : mode === 'forgot'
+                ? 'Ingresa tu usuario. Si no tienes correo asociado, solicita una nueva contraseña al administrador.'
+                : 'Elige una contraseña única de al menos 12 caracteres.'}
+          </p>
+          {error && <ErrorBox message={error} />}
+          {success && <Success>{success}</Success>}
+          <form onSubmit={submit} className="auth-form">
+            {mode !== 'reset' && (
+              <div className="field">
+                <label htmlFor="username">Usuario</label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  maxLength={40}
+                  required
+                  placeholder="Tu nombre de usuario"
+                />
+              </div>
+            )}
+            {mode !== 'forgot' && (
+              <div className="field">
+                <label htmlFor="password">Contraseña</label>
+                <div className="password-input">
                   <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
-                    autoCapitalize="none"
-                    spellCheck={false}
-                    maxLength={40}
+                    id="password"
+                    name="password"
+                    type={visible ? 'text' : 'password'}
+                    autoComplete={mode === 'reset' ? 'new-password' : 'current-password'}
                     required
-                    placeholder="Tu nombre de usuario"
+                    minLength={mode === 'reset' ? 12 : undefined}
+                    maxLength={128}
+                    placeholder="Ingresa tu contraseña"
                   />
-                </div>
-              )}
-              {mode !== 'forgot' && (
-                <div className="field">
-                  <label htmlFor="password">Contraseña</label>
-                  <div className="password-input">
-                    <input
-                      id="password"
-                      name="password"
-                      type={visible ? 'text' : 'password'}
-                      autoComplete={mode === 'reset' ? 'new-password' : 'current-password'}
-                      required
-                      minLength={mode === 'reset' ? 12 : undefined}
-                      maxLength={128}
-                      placeholder="Ingresa tu contraseña"
-                    />
-                    <button
-                      type="button"
-                      aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                      onClick={() => setVisible(!visible)}
-                    >
-                      {visible ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
-                  {mode === 'reset' && <small>Incluye mayúsculas, minúsculas, números y símbolos.</small>}
-                </div>
-              )}
-              {mfa && mode === 'login' && (
-                <div className="field">
-                  <label htmlFor="totp">
-                    {recovery ? 'Código de recuperación' : 'Código de autenticación'}
-                  </label>
-                  <input
-                    id="totp"
-                    name={recovery ? 'recoveryCode' : 'totp'}
-                    inputMode={recovery ? 'text' : 'numeric'}
-                    pattern={recovery ? '[a-fA-F0-9-]{20,24}' : '[0-9]{6}'}
-                    autoComplete="one-time-code"
-                    maxLength={recovery ? 24 : 6}
-                    required
-                    autoFocus
-                  />
-                  <small>
-                    {recovery
-                      ? 'Usa uno de los códigos guardados al activar MFA. Cada código se utiliza una sola vez.'
-                      : 'Ingresa el código de 6 dígitos de tu aplicación autenticadora.'}
-                  </small>
-                  <Button
-                    variant="ghost"
-                    onClick={() => {
-                      setRecovery(!recovery);
-                      setError('');
-                    }}
-                  >
-                    {recovery ? 'Usar autenticador' : 'Usar código de recuperación'}
-                  </Button>
-                </div>
-              )}
-              {mode === 'login' && (
-                <div className="auth-forgot">
                   <button
                     type="button"
-                    onClick={() => {
-                      setMode('forgot');
-                      setError('');
-                    }}
+                    aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                    onClick={() => setVisible(!visible)}
                   >
-                    ¿Olvidaste tu contraseña?
+                    {visible ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-              )}
-              <Button
-                type="submit"
-                icon={busy ? LoaderCircle : ArrowRight}
-                disabled={busy}
-                className="auth-submit"
-              >
-                {busy
-                  ? 'Un momento…'
-                  : mode === 'login'
-                    ? 'Iniciar sesión'
-                    : mode === 'forgot'
-                      ? 'Enviar instrucciones'
-                      : 'Guardar contraseña'}
-              </Button>
-              {mode !== 'login' && (
+                {mode === 'reset' && <small>Incluye mayúsculas, minúsculas, números y símbolos.</small>}
+              </div>
+            )}
+            {mfa && mode === 'login' && (
+              <div className="field">
+                <label htmlFor="totp">
+                  {recovery ? 'Código de recuperación' : 'Código de autenticación'}
+                </label>
+                <input
+                  id="totp"
+                  name={recovery ? 'recoveryCode' : 'totp'}
+                  inputMode={recovery ? 'text' : 'numeric'}
+                  pattern={recovery ? '[a-fA-F0-9-]{20,24}' : '[0-9]{6}'}
+                  autoComplete="one-time-code"
+                  maxLength={recovery ? 24 : 6}
+                  required
+                  autoFocus
+                />
+                <small>
+                  {recovery
+                    ? 'Usa uno de los códigos guardados al activar MFA. Cada código se utiliza una sola vez.'
+                    : 'Ingresa el código de 6 dígitos de tu aplicación autenticadora.'}
+                </small>
                 <Button
                   variant="ghost"
                   onClick={() => {
-                    setMode('login');
+                    setRecovery(!recovery);
                     setError('');
-                    setSuccess('');
                   }}
                 >
-                  Volver a iniciar sesión
+                  {recovery ? 'Usar autenticador' : 'Usar código de recuperación'}
                 </Button>
-              )}
-            </form>
-          </AuthAccess>
+              </div>
+            )}
+            {mode === 'login' && (
+              <div className="auth-forgot">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('forgot');
+                    setError('');
+                  }}
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+              </div>
+            )}
+            <Button
+              type="submit"
+              icon={busy ? LoaderCircle : ArrowRight}
+              disabled={busy}
+              className="auth-submit"
+            >
+              {busy
+                ? 'Un momento…'
+                : mode === 'login'
+                  ? 'Iniciar sesión'
+                  : mode === 'forgot'
+                    ? 'Enviar instrucciones'
+                    : 'Guardar contraseña'}
+            </Button>
+            {mode !== 'login' && (
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setMode('login');
+                  setError('');
+                  setSuccess('');
+                }}
+              >
+                Volver a iniciar sesión
+              </Button>
+            )}
+          </form>
           <div className="auth-security">
             <ShieldCheck size={19} />
             <p>
@@ -240,6 +236,6 @@ export function Auth({ onLogin, embedded = false }: { onLogin: (user: User) => v
           <LockKeyhole size={13} /> Entorno privado · ORYX K9 Unidad Canina
         </footer>
       </section>
-    </Container>
+    </main>
   );
 }

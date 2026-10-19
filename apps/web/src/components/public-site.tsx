@@ -9,10 +9,9 @@ import {
   Share2,
   UserPlus,
 } from 'lucide-react';
-import { API, formatDate, type PageData, type User } from '@/lib/api';
+import { API, formatDate, type PageData } from '@/lib/api';
 import { useResource } from '@/lib/use-resource';
 import { BrandMark } from './brand';
-import { Auth } from './auth';
 import { Badge, Button, Empty, ErrorBox, Loading, Success } from './ui';
 import { money, Pager } from './business-ui';
 import {
@@ -402,7 +401,7 @@ export function PublicCatalog({
     </>
   );
 }
-export function PublicLanding({ onLogin }: { onLogin?: (user: User) => void }) {
+export function PublicLanding() {
   const settings = useResource<PublicSettings>('/public/settings');
   const [dialog, setDialog] = useState<{ kind: InquiryKind; interest?: InquiryInterest } | null>(null);
   return (
@@ -420,9 +419,6 @@ export function PublicLanding({ onLogin }: { onLogin?: (user: User) => void }) {
         <nav aria-label="Navegación pública">
           <a href="#catalogo">Disponibles</a>
           <a href="#contacto">Contacto</a>
-          <a className="button button-secondary" href="#acceso">
-            Ingresar
-          </a>
         </nav>
       </header>
       <main>
@@ -494,17 +490,6 @@ export function PublicLanding({ onLogin }: { onLogin?: (user: User) => void }) {
                 ))}
             </div>
           </div>
-        </section>
-        <section id="acceso" className="public-access">
-          <Auth
-            embedded
-            onLogin={
-              onLogin ||
-              (() => {
-                window.location.href = '/';
-              })
-            }
-          />
         </section>
       </main>
       <footer className="public-footer">
