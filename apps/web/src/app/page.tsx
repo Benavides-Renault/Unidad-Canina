@@ -26,8 +26,14 @@ import {
 } from 'lucide-react';
 import { api, errorMessage, labels, type User } from '@/lib/api';
 import { useResource } from '@/lib/use-resource';
-import { Auth } from '@/components/auth';
 import { ErrorBox, Loading } from '@/components/ui';
+const PublicLanding = dynamic(() => import('@/components/public-site').then((m) => m.PublicLanding), {
+  loading: () => <Loading />,
+});
+const InquiriesPage = dynamic(() => import('@/components/inquiries').then((m) => m.InquiriesPage), {
+  loading: () => <Loading />,
+});
+const InquirySummary = dynamic(() => import('@/components/inquiries').then((m) => m.InquirySummary));
 const Dashboard = dynamic(() => import('@/components/dashboard').then((module) => module.Dashboard), {
   loading: () => <Loading />,
 });
@@ -118,6 +124,7 @@ const pageNames: Record<string, string> = {
   inventory: 'Inventario',
   notifications: 'Notificaciones',
   users: 'Usuarios',
+  inquiries: 'Solicitudes',
   settings: 'Configuración',
   parties: 'Personas y entidades',
   catalog: 'Publicaciones y categorías',
@@ -141,6 +148,11 @@ export default function Home() {
     user?.role === 'ADMIN' && (!user.mfaRequired || user.mfaEnabled) ? '/notifications/summary' : null,
   );
   const unread = notifications.data?.unread || 0;
+  useEffect(() => {
+    if (user?.role !== 'ADMIN') return;
+    const timer = window.setInterval(notifications.reload, 30000);
+    return () => window.clearInterval(timer);
+  }, [user?.role, notifications.reload]);
   const authenticate = () => {
     setChecking(true);
     setConnectionError('');
@@ -206,7 +218,7 @@ export default function Home() {
             <ErrorBox message={connectionError} retry={authenticate} />
           </div>
         )}
-        <Auth
+        <PublicLanding
           onLogin={(next) => {
             setUser(next);
             setConnectionError('');
@@ -255,6 +267,13 @@ export default function Home() {
         <div className="sidebar-scroll">
           <div className="nav-group-label">GESTIÓN DE LA UNIDAD</div>
           <nav>
+            <button
+              className={`nav-item ${page === 'inquiries' ? 'active' : ''}`}
+              onClick={() => navigate('inquiries')}
+            >
+              <ClipboardList size={19} />
+              <span>Solicitudes</span>
+            </button>
             {!financeOnly &&
               navigation.map(({ id, label, icon: Icon }) => (
                 <button
@@ -451,6 +470,7 @@ export default function Home() {
             <FinancePage />
           ) : (
             <>
+              {page === 'home' && <InquirySummary onOpen={() => navigate('inquiries')} />}
               {page === 'home' && (
                 <Dashboard user={user} navigate={navigate} createDog={() => setCreateDog(true)} />
               )}
@@ -489,6 +509,7 @@ export default function Home() {
               )}
               {page === 'notifications' && <NotificationsPage onRead={notifications.reload} />}
               {page === 'users' && <UsersPage current={user} />}
+              {page === 'inquiries' && <InquiriesPage user={user} />}
               {page === 'parties' && <PartiesPage />}
               {page === 'catalog' && <CatalogManager />}
               {page === 'care' && <TrainerWorkspace user={user} />}

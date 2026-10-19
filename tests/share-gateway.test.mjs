@@ -34,10 +34,7 @@ test('temporary sharing requires a private link and preserves origin, cookies an
     .createServer(async (req, res) => {
       let body = '';
       for await (const c of req) body += c;
-      res.setHeader('Set-Cookie', [
-        'oryx_session=example; HttpOnly; Path=/',
-        'oryx_csrf=example; Path=/',
-      ]);
+      res.setHeader('Set-Cookie', ['oryx_session=example; HttpOnly; Path=/', 'oryx_csrf=example; Path=/']);
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.end(
         JSON.stringify({
@@ -66,6 +63,41 @@ test('temporary sharing requires a private link and preserves origin, cookies an
     assert.equal(landing.status, 200);
     assert.match(await landing.text(), /enlace completo/);
     assert.equal((await call('/api/v1/dogs')).status, 403);
+    for (const path of [
+      '/catalogo?tipo=crosses&id=00000000-0000-4000-a000-000000000001',
+      '/api/v1/public/settings',
+      '/api/v1/public/dogs?page=1',
+      '/api/v1/public/crosses/00000000-0000-4000-a000-000000000001',
+      '/api/v1/public/photos/00000000-0000-4000-a000-000000000001',
+      '/_next/static/chunks/public-site.js',
+      '/oryx-logo.png',
+    ])
+      assert.equal((await call(path)).status, 200, path);
+    for (const path of [
+      '/api/v1/inquiries',
+      '/api/v1/public/../dogs',
+      '/api/v1/public/settings/private',
+      '/_next/server/app.js',
+    ])
+      assert.equal((await call(path)).status, 403, path);
+    assert.equal(
+      (await call('/api/v1/public/settings', { method: 'PATCH', headers: { origin } })).status,
+      403,
+    );
+    assert.equal((await call('/api/v1/public/inquiries', { method: 'POST' })).status, 403);
+    assert.equal(
+      (
+        await call('/api/v1/public/inquiries', {
+          method: 'POST',
+          headers: { origin: 'https://evil.example' },
+        })
+      ).status,
+      403,
+    );
+    assert.equal(
+      (await call('/api/v1/public/inquiries', { method: 'POST', headers: { origin } })).status,
+      200,
+    );
     assert.equal((await call('/', { headers: { host: 'evil.example' } })).status, 421);
     const unlock = (key, suppliedOrigin = origin) =>
       call('/__share/unlock', {

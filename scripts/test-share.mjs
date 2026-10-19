@@ -8,6 +8,37 @@ assert.ok(!shared.stoppedAt && new Date(shared.expiresAt) > new Date());
 const browser = await chromium.launch({ headless: true });
 const errors = [];
 try {
+  const publicContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const publicPage = await publicContext.newPage();
+  publicPage.on('pageerror', (e) => errors.push(e.message));
+  await publicPage.goto(shared.publicUrl || `${shared.origin}/catalogo`);
+  await expect(publicPage.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
+  await expect(publicPage.locator('.public-catalog .portal-card').first()).toBeVisible();
+  await expect(publicPage.locator('.public-catalog [role="alert"]')).not.toBeAttached();
+  const contact = await publicContext.request.get(`${shared.origin}/api/v1/public/settings`);
+  assert.equal(contact.status(), 200);
+  const settings = await contact.json();
+  assert.ok(settings.whatsappNumber);
+  await expect(publicPage.getByRole('link', { name: 'Consultar por WhatsApp' }).first()).toHaveAttribute(
+    'href',
+    new RegExp(`^https://wa\\.me/${settings.whatsappNumber.replace(/\D/g, '')}\\?text=`),
+  );
+  assert.equal((await publicContext.request.get(`${shared.origin}/api/v1/inquiries`)).status(), 403);
+  assert.equal(
+    (await publicContext.cookies()).some((cookie) => cookie.name === '__Host-oryx_share'),
+    false,
+  );
+  await publicPage.screenshot({ path: '.local/share-public-desktop.png' });
+  await publicPage.getByRole('tab', { name: 'Camadas y preventa', exact: true }).click();
+  await publicPage.locator('.public-catalog .portal-card').first().click();
+  await expect(publicPage.getByRole('button', { name: 'Volver al catálogo' })).toBeVisible();
+  await publicPage.reload();
+  await expect(publicPage.locator('.public-catalog .public-dates')).toBeVisible();
+  await publicPage.setViewportSize({ width: 390, height: 844 });
+  await publicPage.locator('.public-catalog').scrollIntoViewIfNeeded();
+  assert.ok(await publicPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+  await publicPage.screenshot({ path: '.local/share-public-mobile.png' });
+  await publicContext.close();
   const adminContext = await browser.newContext();
   assert.equal((await adminContext.request.get(shared.origin + '/api/v1/dogs')).status(), 403);
   const page = await adminContext.newPage();
@@ -75,6 +106,9 @@ try {
     passed: true,
     origin: shared.origin,
     anonymousApiDenied: true,
+    publicCatalogWithoutAccount: true,
+    publicDeepLinks: true,
+    whatsappPreparedMessage: true,
     adminLogin: true,
     clientLogin: true,
     secureCookies: true,

@@ -5,7 +5,8 @@ import { ArrowRight, Eye, EyeOff, LockKeyhole, ShieldCheck, LoaderCircle, PawPri
 import { api, errorMessage, type User } from '@/lib/api';
 import { Button, ErrorBox, Success } from './ui';
 
-export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
+export function Auth({ onLogin, embedded = false }: { onLogin: (user: User) => void; embedded?: boolean }) {
+  const Container = embedded ? 'div' : 'main';
   const [mode, setMode] = useState<'login' | 'forgot' | 'reset'>(() =>
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('token')
       ? 'reset'
@@ -60,7 +61,7 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
     }
   }
   return (
-    <main className="auth-page">
+    <Container className="auth-page">
       <section className="auth-brand">
         <div className="auth-brand-top">
           <BrandMark />
@@ -236,6 +237,6 @@ export function Auth({ onLogin }: { onLogin: (user: User) => void }) {
           <LockKeyhole size={13} /> Entorno privado · ORYX K9 Unidad Canina
         </footer>
       </section>
-    </main>
+    </Container>
   );
 }

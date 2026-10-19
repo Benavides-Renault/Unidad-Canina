@@ -51,7 +51,7 @@ tunnel = spawn(
     '--url',
     'http://127.0.0.1:3002',
     '--protocol',
-    'http2',
+    'auto',
     '--metrics',
     '127.0.0.1:0',
   ],
@@ -69,13 +69,21 @@ async function acceptOutput(chunk) {
   await writeFile(
     '.local/share-runtime.json',
     JSON.stringify(
-      { pid: process.pid, tunnelPid: tunnel.pid, origin, shareUrl, startedAt, expiresAt },
+      {
+        pid: process.pid,
+        tunnelPid: tunnel.pid,
+        origin,
+        shareUrl,
+        publicUrl: `${origin}/catalogo`,
+        startedAt,
+        expiresAt,
+      },
       null,
       2,
     ),
   );
   console.log(
-    'El enlace privado está listo en .local/share-runtime.json. Caduca en 24 horas o al detenerlo.',
+    'Los enlaces público y privado están listos en .local/share-runtime.json. Caducan en 24 horas o al detenerlos.',
   );
 }
 tunnel.stdout.on('data', (chunk) => void acceptOutput(chunk).catch(() => void stop(1)));

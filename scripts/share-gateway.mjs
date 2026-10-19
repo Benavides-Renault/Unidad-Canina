@@ -14,6 +14,18 @@ const hopHeaders = [
   'upgrade',
 ];
 
+function isPublicRequest(pathname, method) {
+  if (method === 'POST') return pathname === '/api/v1/public/inquiries';
+  if (!['GET', 'HEAD'].includes(method)) return false;
+  return (
+    pathname === '/catalogo' ||
+    ['/oryx-logo.png', '/favicon.ico', '/manifest.webmanifest', '/sw.js'].includes(pathname) ||
+    /^\/_next\/static\/[A-Za-z0-9_./-]+$/.test(pathname) ||
+    /^\/api\/v1\/public\/(?:settings|dogs|crosses)$/.test(pathname) ||
+    /^\/api\/v1\/public\/(?:dogs|crosses|photos)\/[0-9a-f-]{36}$/i.test(pathname)
+  );
+}
+
 export function createShareGateway({
   token,
   publicOrigin,
@@ -76,7 +88,7 @@ export function createShareGateway({
     }
     const cookies = (req.headers.cookie || '').split(';').map((part) => part.trim());
     const key = cookies.find((part) => part.startsWith(`${cookieName}=`))?.slice(cookieName.length + 1);
-    if (!allowed(key)) {
+    if (!allowed(key) && !isPublicRequest(pathname, req.method)) {
       if (req.method !== 'GET' || pathname !== '/')
         return fail(403, 'Abre el enlace completo de acceso compartido.');
       const nonce = randomBytes(18).toString('base64');

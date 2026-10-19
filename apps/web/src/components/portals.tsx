@@ -38,6 +38,7 @@ import {
 import { BusinessForm, money, Pager, SimpleTable } from './business-ui';
 import { trainingFields, vaccinationFields } from './dogs';
 import { FollowUp } from './follow-up';
+import { ContactLinks, InquiryDialog, type PublicSettings } from './public-contact';
 
 type Party = { id: string; name: string; kind: string; phone?: string; email?: string };
 type Medical = {
@@ -70,6 +71,7 @@ type Cross = {
   contact: string;
   dam: PortalDog;
   sire: PortalDog;
+  litter?: { birthDate: string; puppies: PortalDog[] } | null;
 };
 
 export function RestrictedWorkspace({ user, logout }: { user: User; logout: () => Promise<void> }) {
@@ -281,6 +283,8 @@ function PublicProfile({
   );
 }
 export function Gallery() {
+  const contact = useResource<PublicSettings>('/public/settings');
+  const [inquiring, setInquiring] = useState(false);
   const [kind, setKind] = useState('dogs'),
     [page, setPage] = useState(1),
     [selected, setSelected] = useState<PortalDog | Cross | null>(null),
@@ -304,12 +308,15 @@ export function Gallery() {
         {'dam' in selected ? (
           <>
             <PageHeading
-              eyebrow="PREVENTA · CRUCE PROGRAMADO"
+              eyebrow={selected.litter ? 'CAMADA DISPONIBLE' : 'PREVENTA · CRUCE PROGRAMADO'}
               title={selected.publicTitle}
               description={selected.publicDescription || 'Conoce a los padres de esta futura camada.'}
             />
             <p>Fecha prevista del cruce: {formatDate(selected.plannedDate)}</p>
-            <p>Nacimiento previsto: {formatDate(selected.expectedBirthDate)}</p>
+            <p>
+              {selected.litter ? 'Nacimiento' : 'Nacimiento previsto'}:{' '}
+              {formatDate(selected.litter?.birthDate || selected.expectedBirthDate)}
+            </p>
             <p>Entrega prevista: {formatDate(selected.expectedDeliveryDate)}</p>
             <p className="portal-price">{money(selected.puppyPrice, selected.currency)} por cachorro</p>
             <div className="portal-parents">
@@ -327,6 +334,34 @@ export function Gallery() {
           </>
         ) : (
           <PublicProfile dog={selected} />
+        )}
+        <ContactLinks
+          settings={contact.data}
+          interest={{
+            kind: 'dam' in selected ? 'CROSS' : 'DOG',
+            id: selected.id,
+            label: 'dam' in selected ? selected.publicTitle : selected.name,
+          }}
+        />
+        <Button onClick={() => setInquiring(true)}>Enviar consulta de compra</Button>
+        <a
+          className="button button-secondary"
+          href={`/catalogo?tipo=${'dam' in selected ? 'crosses' : 'dogs'}&id=${selected.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Abrir enlace público
+        </a>
+        {inquiring && (
+          <InquiryDialog
+            kind="PURCHASE"
+            interest={{
+              kind: 'dam' in selected ? 'CROSS' : 'DOG',
+              id: selected.id,
+              label: 'dam' in selected ? selected.publicTitle : selected.name,
+            }}
+            onClose={() => setInquiring(false)}
+          />
         )}
       </>
     );

@@ -4,7 +4,7 @@ const runtime = JSON.parse(readFileSync('.local/test-runtime.json', 'utf8'));
 const fixture = JSON.parse(readFileSync('.local/oryx-fixtures.json', 'utf8'));
 async function login(page: Page) {
   await page.goto('/');
-  await expect(page.getByAltText('ORYX K9 · Unidad Canina')).toBeVisible();
+  await expect(page.locator('.public-header').getByAltText('ORYX K9 · Unidad Canina')).toBeVisible();
   await page.getByLabel('Usuario', { exact: true }).fill(runtime.username);
   await page.getByLabel('Contraseña', { exact: true }).fill(runtime.password);
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();

@@ -43,6 +43,8 @@ const counts = {};
 try {
   for (const table of [
     'User',
+    'PublicSiteSettings',
+    'CustomerInquiry',
     'Party',
     'MedicalEntry',
     'TrainingPlan',

@@ -215,6 +215,7 @@ export class NotificationsController {
   constructor(@Inject(Db) private readonly db: Db) {}
   private scope(req: AuthRequest): Prisma.NotificationWhereInput {
     const types: string[] = [];
+    if (req.user.role === 'ADMIN') types.push('INQUIRY');
     if (READ_DOGS.includes(req.user.role)) types.push('APPOINTMENT', 'CERTIFICATION');
     if (CLINICAL.includes(req.user.role)) types.push('VACCINATION');
     if (BUSINESS.includes(req.user.role)) types.push('CONTRACT', 'ACCOUNT', 'RESERVATION', 'BREEDING');

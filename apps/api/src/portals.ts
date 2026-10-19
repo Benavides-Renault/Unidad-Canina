@@ -40,6 +40,8 @@ import {
 } from './security';
 import { currencySchema, lock, notFuture, positiveMoney, snapshot } from './business-common';
 import { trainingSchema, vaccinationSchema } from './schemas';
+import { CatalogReader, identity, catalogPhotoWhere } from './catalog';
+export { saleWhere, breedingParentWhere } from './catalog';
 
 export const UNIT_PARTY = '00000000-0000-4000-8000-000000000001';
 export const partySchema = z
@@ -198,29 +200,6 @@ export class CatalogAdminController {
   }
 }
 
-const identity = {
-  id: true,
-  code: true,
-  name: true,
-  registeredName: true,
-  birthDate: true,
-  sex: true,
-  breed: true,
-  coat: true,
-  photoId: true,
-  workStatus: true,
-  reproductiveStatus: true,
-  availability: true,
-  specialties: true,
-  availableForSale: true,
-  availableForBreeding: true,
-  publicDescription: true,
-  achievements: true,
-  trainingSummary: true,
-  functionalities: true,
-  healthSummary: true,
-  pedigreeSummary: true,
-} as const;
 const fileSelect = {
   id: true,
   name: true,
@@ -241,27 +220,6 @@ const history = {
     select: fileSelect,
     orderBy: { createdAt: 'desc' as const },
   },
-};
-export const saleWhere: Prisma.DogWhereInput = {
-  archivedAt: null,
-  salePublished: true,
-  availableForSale: true,
-  availability: 'AVAILABLE',
-  administrativeStatus: { notIn: ['SOLD', 'DECEASED', 'RETIRED'] },
-};
-export const breedingParentWhere: Prisma.DogWhereInput = {
-  archivedAt: null,
-  isPuppy: false,
-  availableForBreeding: true,
-  availability: 'AVAILABLE',
-  reproductiveStatus: { not: 'RETIRED' },
-  administrativeStatus: { notIn: ['SOLD', 'DECEASED', 'RETIRED'] },
-};
-const crossWhere: Prisma.BreedingPlanWhereInput = {
-  published: true,
-  status: { in: ['PLANNED', 'MATED', 'CONFIRMED'] },
-  dam: breedingParentWhere,
-  sire: breedingParentWhere,
 };
 async function sendPrivateFile(
   db: Db,
@@ -305,6 +263,7 @@ async function sendPrivateFile(
 @Controller('portal')
 export class PortalController {
   constructor(
+    @Inject(CatalogReader) private readonly catalog: CatalogReader,
     @Inject(Db) private readonly db: Db,
     @Inject(Domain) private readonly domain: Domain,
     @Inject(Storage) private readonly storage: Storage,
@@ -370,88 +329,17 @@ export class PortalController {
       recordAttachment: null,
     });
   }
-  @Get('gallery/dogs') async gallery(@Query() query: Record<string, string>) {
-    const { page, pageSize, skip } = pagination(query);
-    const where: Prisma.DogWhereInput = {
-      ...saleWhere,
-      ...(query.search
-        ? {
-            OR: [
-              { name: { contains: query.search.slice(0, 200), mode: 'insensitive' } },
-              { breed: { contains: query.search.slice(0, 200), mode: 'insensitive' } },
-            ],
-          }
-        : {}),
-    };
-    const [items, total] = await Promise.all([
-      this.db.dog.findMany({
-        where,
-        select: { ...identity, salePrice: true, saleCurrency: true, saleContact: true },
-        orderBy: { name: 'asc' },
-        skip,
-        take: pageSize,
-      }),
-      this.db.dog.count({ where }),
-    ]);
-    return { items, total, page, pageSize };
+  @Get('gallery/dogs') gallery(@Query() query: Record<string, string>) {
+    return this.catalog.dogs(query);
   }
-  @Get('gallery/dogs/:id') async sale(@Param('id') id: string) {
-    parse(idSchema, id);
-    const dog = await this.db.dog.findFirst({
-      where: { id, ...saleWhere },
-      select: { ...identity, salePrice: true, saleCurrency: true, saleContact: true },
-    });
-    if (!dog) throw new NotFoundException('Publicación no disponible.');
-    return dog;
+  @Get('gallery/dogs/:id') sale(@Param('id') id: string) {
+    return this.catalog.dog(id);
   }
-  @Get('gallery/crosses') async crosses(@Query() query: Record<string, string>) {
-    const { page, pageSize, skip } = pagination(query);
-    const [items, total] = await Promise.all([
-      this.db.breedingPlan.findMany({
-        where: crossWhere,
-        select: {
-          id: true,
-          publicTitle: true,
-          publicDescription: true,
-          plannedDate: true,
-          expectedBirthDate: true,
-          expectedDeliveryDate: true,
-          windowStart: true,
-          windowEnd: true,
-          status: true,
-          puppyPrice: true,
-          currency: true,
-          contact: true,
-          dam: { select: identity },
-          sire: { select: identity },
-        },
-        orderBy: { plannedDate: 'asc' },
-        skip,
-        take: pageSize,
-      }),
-      this.db.breedingPlan.count({ where: crossWhere }),
-    ]);
-    return { items, total, page, pageSize };
+  @Get('gallery/crosses') crosses(@Query() query: Record<string, string>) {
+    return this.catalog.crosses(query);
   }
-  @Get('gallery/photos/:id') async photo(
-    @Param('id') id: string,
-    @Req() req: AuthRequest,
-    @Res() res: Response,
-  ) {
-    return sendPrivateFile(this.db, this.domain, this.storage, id, req, res, {
-      category: 'PHOTO',
-      mainPhotoFor: {
-        some: {
-          OR: [
-            saleWhere,
-            {
-              ...breedingParentWhere,
-              OR: [{ damPlans: { some: crossWhere } }, { sirePlans: { some: crossWhere } }],
-            },
-          ],
-        },
-      },
-    });
+  @Get('gallery/photos/:id') photo(@Param('id') id: string, @Req() req: AuthRequest, @Res() res: Response) {
+    return sendPrivateFile(this.db, this.domain, this.storage, id, req, res, catalogPhotoWhere);
   }
 }
 

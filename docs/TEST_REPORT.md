@@ -31,6 +31,16 @@ La comprobación de la instalación activa confirmó 30 perros, 10 cuentas, 39 r
 
 El enlace temporal actualizado pasó la prueba de acceso con administración y cliente: tres cookies ORYX presentes y seguras, API anónima bloqueada, fotografías cargadas, preventas accesibles y pantalla móvil sin desbordamiento.
 
-## Límites
+## Portada pública y solicitudes · 18 de octubre de 2026
+
+Tipos, análisis estático y compilación de producción completados. Pasaron 16 pruebas unitarias y de integridad, 82 comprobaciones de API y los 23 escenarios de navegador. Se ajustaron dos selectores antiguos de logo y el selector de campos obligatorios de la nueva prueba de aprobación; los cinco recorridos afectados pasaron al repetirse.
+
+La cobertura nueva verifica catálogo anónimo y enlaces individuales, padres de camadas, camadas nacidas con cachorros publicados, retiro inmediato de fotos/publicaciones, ausencia de chips y notas privadas, validación de contacto/redes, consentimiento, límite de solicitudes, reintentos sin duplicados, avisos administrativos y aprobación exclusiva de cuentas CLIENT. El recorrido móvil envía consultas por correo sin WhatsApp, solicita una cuenta y completa su aprobación desde administración. El proxy temporal permite únicamente las rutas públicas autorizadas y sigue rechazando expedientes privados sin invitación.
+
+El respaldo de la base aislada restauró 15 archivos y conservó solicitudes, configuración pública, auditoría e historiales financieros/inventario; rechazó contenido corrupto antes de modificar el destino. Antes de actualizar la instalación se creó otro respaldo cifrado, con 43 archivos verificados.
+
+La instalación actualizada conservó sus 30 perros, 10 cuentas y 39 registros documentales, con 12 perros y 2 camadas/preventas publicados. Los siete controles internos devolvieron cero incidencias; administración y entrenador pudieron ingresar. El respaldo cifrado posterior restauró 42 tablas idénticas, 43 archivos y las 14 migraciones, manteniendo credenciales e historiales inmutables.
+
+## Límites de la verificación
 
 Las pruebas ejercitan los escenarios enumerados, no garantizan ausencia de errores en todos los escenarios posibles. Esta PC utiliza almacenamiento local y un enlace temporal. El despliegue permanente, Docker en el destino final, SMTP externo, dispositivos físicos, motor antivirus y servicios externos se validan al configurar esos entornos, según [ROADMAP](ROADMAP.md).

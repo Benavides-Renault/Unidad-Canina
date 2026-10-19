@@ -151,6 +151,7 @@ try {
     'tests/operations-completion.test.ts',
     'tests/oryx.test.ts',
     'tests/performance.test.ts',
+    'tests/public-site.test.ts',
   ]);
   if (!process.argv.includes('--api-only')) {
     // A new isolated browser phase must not inherit intentional login-abuse tests.

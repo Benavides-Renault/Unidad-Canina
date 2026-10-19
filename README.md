@@ -4,7 +4,7 @@ Identidad renovada, catálogo de razas, disponibilidad independiente para venta 
 
 Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. El [alcance del producto](docs/PRODUCT_SPEC.md), la [hoja de ruta](docs/ROADMAP.md) y los [resultados de verificación](docs/TEST_REPORT.md) describen la instalación vigente.
 
-El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. No hay registro público, integración fiscal ni datos reales precargados. El acceso utiliza nombres de usuario; el correo es opcional para recuperación y avisos.
+El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. La portada pública muestra perros en venta y camadas, permite consultas sin cuenta y recibe solicitudes de cuenta que administración debe aprobar. El acceso privado utiliza nombres de usuario; el correo es opcional para recuperación y avisos. No hay integración fiscal ni datos reales precargados.
 
 Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada entrenador trabaja sólo con los perros asignados; cada cliente consulta sus perros y la galería de venta/preventa autorizada. Administración define propietario, custodio, entrenador y publicaciones. Consulta la [guía de uso](docs/USER_GUIDE.md).
 
@@ -18,7 +18,7 @@ También puedes usar `npm run local` con Node 24 LTS. El iniciador aplica migrac
 
 ## Compartir una visita desde esta PC
 
-`COMPARTIR_ORYX_K9.cmd` genera un enlace HTTPS privado que funciona mientras esta PC y ORYX K9 estén encendidos. `DETENER_ENLACE_ORYX_K9.cmd` revoca el acceso sin detener la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); la invitación y los archivos locales no forman parte del repositorio.
+`COMPARTIR_ORYX_K9.cmd` genera un enlace HTTPS público al catálogo y una invitación separada al espacio privado. Ambos funcionan mientras esta PC y ORYX K9 estén encendidos. `DETENER_ENLACE_ORYX_K9.cmd` revoca el acceso sin detener la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); la invitación y los archivos locales no forman parte del repositorio.
 
 ## Inicio con Docker
 

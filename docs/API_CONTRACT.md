@@ -82,6 +82,16 @@ Listados paginados nuevos: instituciones, contratos, asignaciones, servicios, pe
 - Plan de cruce admite published, publicTitle, publicDescription, puppyPrice, currency, contact. Sólo ADMIN entre padres disponibles en FOR_BREEDING.
 - Apartado admite customerPartyId; cerrar con DELIVERED exige propietario cliente válido y cuenta pagada. La entrega asigna propiedad/custodia y retira publicación/entrenador.
 
+## Catálogo público y solicitudes
+
+- `GET /public/settings`: contacto comercial y redes configurados por administración.
+- `GET /public/dogs[/:id]`, `GET /public/crosses[/:id]`: publicaciones vigentes, paginadas hasta 100 elementos. Comparten las reglas de la galería de clientes. Las camadas nacidas requieren cachorros publicados disponibles. Nunca incluyen propietario, custodio, chip, notas privadas ni historia clínica completa.
+- `GET /public/photos/:id`: sólo una foto principal vigente de un perro publicado o de un progenitor de camada elegible; valida contenido y no almacena en caché.
+- `POST /public/inquiries`: `requestKey` UUID, `kind` CONTACT/PURCHASE/ACCOUNT, `name`, `email?`, `phone?`, `preferredContact` EMAIL/PHONE/WHATSAPP, `message`, `consent: true`; opcionales `partyKind`, `organization`, `interestKind` DOG/CROSS y `interestId`. Exige el medio de contacto elegido y limita frecuencia; reintentar la misma solicitud no la duplica. Genera un aviso interno por administrador activo. No crea usuarios ni reservas.
+- `GET /inquiries`, `GET /inquiries/summary`, `GET/PATCH /inquiries/settings`: exclusivos de ADMIN. Listado paginado filtrable por `kind` y `status`; configuración valida números y perfiles HTTPS de Instagram, Facebook y TikTok.
+- `PATCH /inquiries/:id`: seguimiento, notas internas y estado NEW/IN_PROGRESS/CLOSED/REJECTED. Una aprobación ya completada no se revierte desde esta ruta.
+- `POST /inquiries/:id/approve`: `username`, `password`, `partyId?`; sólo ADMIN y solicitudes ACCOUNT pendientes. Crea una cuenta CLIENT y enlaza o crea el propietario en una transacción. Repeticiones y nombres de usuario existentes producen conflicto; no permite elevar privilegios ni vincular la unidad interna.
+
 # Ampliaciones 009–010
 
 - `GET/PATCH /preferences`: preferencias propias de calendario, correo y push.

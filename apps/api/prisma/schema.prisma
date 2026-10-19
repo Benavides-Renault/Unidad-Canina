@@ -308,6 +308,7 @@ enum ReminderStatus {
 }
 
 model User {
+  approvedInquiries CustomerInquiry[]
   pushSubscriptions PushSubscription[]
   recoveryHashes String[] @default([])
   preferences UserPreference?
@@ -348,6 +349,59 @@ model User {
   payments          Payment[]
   accountFiles      AccountFile[]
   stockMovements    StockMovement[]
+}
+
+enum InquiryKind {
+  CONTACT
+  PURCHASE
+  ACCOUNT
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  CLOSED
+  APPROVED
+  REJECTED
+}
+
+model PublicSiteSettings {
+  id String @id @default("main")
+  contactName String @default("ORYX K9")
+  phone String?
+  email String?
+  whatsappNumber String?
+  instagramUrl String?
+  facebookUrl String?
+  tiktokUrl String?
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+}
+
+model CustomerInquiry {
+  id String @id @default(uuid()) @db.Uuid
+  requestKey String @unique @db.Uuid
+  payloadHash String
+  kind InquiryKind
+  status InquiryStatus @default(NEW)
+  name String
+  email String?
+  phone String?
+  preferredContact String
+  partyKind String @default("PERSON")
+  organization String?
+  message String
+  interestKind String?
+  interestId String? @db.Uuid
+  interestLabel String?
+  consentAt DateTime @default(now()) @db.Timestamptz(3)
+  adminNotes String?
+  approvedUserId String? @db.Uuid
+  approvedUser User? @relation(fields: [approvedUserId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([status, createdAt])
+  @@index([kind, createdAt])
 }
 
 model Session {

@@ -8,10 +8,14 @@ La aplicación sigue alojada en esta PC. Cloudflare Quick Tunnel ofrece una dire
 4. La persona abre el enlace y usa una cuenta de la aplicación. Las cuentas de ejemplo están en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Para mostrar toda la administración: usuario `admin`, contraseña `1234`; para mostrar la vista de cliente: `sofia.cliente`, contraseña `1234`.
 5. Al terminar, abrir `DETENER_ENLACE_ORYX_K9.cmd`. La aplicación local continúa funcionando.
 
-El enlace actúa como invitación: cualquiera que lo reciba completo puede abrir el inicio de sesión. Su clave aleatoria tiene 256 bits, se intercambia por una cookie segura y se retira de la barra de dirección. El dominio sin esa clave no permite consultar la API. No guardar la invitación en GitHub. Para revocarla, detener el enlace y generar otro.
+Para compartir perros, camadas y preventas sin una cuenta, usar el campo `publicUrl` de `.local/share-runtime.json`. Abre `/catalogo` y permite consultar exclusivamente publicaciones comerciales, enviar consultas y solicitar una cuenta. Cada ficha tiene un enlace que se puede copiar y enviar a otra persona. Administración recibe las solicitudes y decide si aprueba las cuentas. Las redes y WhatsApp se configuran en **Solicitudes → Contacto y redes de la portada**.
+
+El campo `shareUrl` actúa como invitación al espacio privado: cualquiera que lo reciba completo puede abrir el inicio de sesión. Su clave aleatoria tiene 256 bits, se intercambia por una cookie segura y se retira de la barra de dirección. Sin esa invitación sólo se permiten la portada del catálogo, sus recursos estáticos y las rutas públicas expresamente autorizadas; expedientes y solicitudes administrativas permanecen bloqueados. No guardar la invitación en GitHub. Para revocarla, detener el enlace y generar otro.
 
 La sesión compartida usa los mismos datos de prueba que la aplicación local. Los cambios realizados desde una cuenta administradora se reflejan aquí. El iniciador rechaza instalaciones sin `DEMO_MODE=true`; las contraseñas de cuatro caracteres siguen siendo únicamente para este entorno de prueba.
 
 El proxy escucha exclusivamente en `127.0.0.1:3002`, valida dominio y origen antes de reenviar, conserva la protección CSRF, marca las cookies como Secure y evita almacenar respuestas. No expone PostgreSQL ni directorios de archivos. El ejecutable de Cloudflare se descarga de su repositorio oficial y se comprueba contra el SHA-256 de la versión fijada.
+
+El túnel usa selección automática de protocolo: prueba QUIC y puede recurrir a HTTP/2 si UDP no está disponible, según los [parámetros oficiales de Cloudflare](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/run-parameters/#protocol). La disponibilidad del enlace depende también de la conexión a Internet y del servicio temporal.
 
 Para alojamiento permanente, usar el procedimiento de [DEPLOY_SERVER.md](DEPLOY_SERVER.md) con un proveedor, dominio y credenciales definitivas.

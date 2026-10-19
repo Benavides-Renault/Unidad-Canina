@@ -39,6 +39,8 @@ await restored.connect();
 try {
   const tables = [
     'User',
+    'PublicSiteSettings',
+    'CustomerInquiry',
     'Party',
     'Dog',
     'MedicalEntry',

@@ -52,6 +52,8 @@ import { TemplatesController } from './templates';
 import { FinanceControlController } from './finance-control';
 import { PushController } from './push';
 import { PartiesController, CatalogAdminController, PortalController, TrainerController } from './portals';
+import { CatalogReader } from './catalog';
+import { PublicSiteController, InquiriesController } from './public-site';
 
 @Catch()
 class SafeErrors implements ExceptionFilter {
@@ -117,6 +119,8 @@ class HealthController {
 }
 @Module({
   controllers: [
+    PublicSiteController,
+    InquiriesController,
     BreedsController,
     PartiesController,
     CatalogAdminController,
@@ -149,7 +153,7 @@ class HealthController {
     FinanceControlController,
     PushController,
   ],
-  providers: [Db, Domain, Storage, { provide: APP_GUARD, useClass: AccessGuard }],
+  providers: [Db, Domain, Storage, CatalogReader, { provide: APP_GUARD, useClass: AccessGuard }],
 })
 class AppModule {}
 async function main() {

@@ -12,7 +12,17 @@ En el expediente del perro → Entrenamiento, o en Seguimiento médico, **Nuevo 
 
 ## Primer acceso
 
-En esta PC, abrir **INICIAR_ORYX_K9.cmd**, entrar en `http://localhost:3000` e iniciar sesión con **admin / 1234**. En una instalación nueva, bootstrap solicita el usuario y contraseña propios. El correo es opcional y no hay registro público. En Configuración, los administradores pueden activar TOTP y guardar los ocho códigos de recuperación mostrados una sola vez. Usar uno revoca las otras sesiones; renovar los códigos invalida los anteriores.
+En esta PC, abrir **INICIAR_ORYX_K9.cmd**, entrar en `http://localhost:3000` y pulsar **Ingresar** para iniciar sesión con **admin / 1234**. En una instalación nueva, bootstrap solicita el usuario y contraseña propios. El correo es opcional y las solicitudes públicas de cuenta requieren aprobación administrativa. En Configuración, los administradores pueden activar TOTP y guardar los ocho códigos de recuperación mostrados una sola vez. Usar uno revoca las otras sesiones; renovar los códigos invalida los anteriores.
+
+## Portada pública y solicitudes
+
+La portada y `/catalogo` permiten explorar **Perros en venta** y **Camadas y preventa** sin iniciar sesión. Abre una ficha para consultar la información autorizada y los padres. **Copiar enlace** comparte esa publicación directamente. Las camadas nacidas incluyen enlaces a sus cachorros publicados disponibles.
+
+**Consultar por WhatsApp** abre un chat con un mensaje preparado. **Enviar solicitud de contacto** y **Enviar consulta de compra** funcionan también sin WhatsApp: la persona elige correo o llamada y deja sus datos. **Solicitar una cuenta** envía una petición para revisión; no crea acceso ni reserva un perro automáticamente.
+
+Administración recibe un aviso interno y puede abrir **Solicitudes**, filtrar pendientes, añadir notas y marcar su seguimiento. En una solicitud de cuenta pendiente, **Aprobar y crear cuenta** permite elegir usuario, contraseña y propietario. Vincular una persona o municipalidad existente concede acceso a sus perros, por lo que debe comprobarse la identidad antes de aprobar. Comunica las credenciales por el medio acordado.
+
+En **Solicitudes → Contacto y redes de la portada** configura el nombre, teléfono, correo, número internacional de WhatsApp y perfiles sociales. Los campos vacíos no aparecen en la portada. Los avisos de solicitudes se consultan dentro de la aplicación; el botón de WhatsApp no envía mensajes automáticamente.
 
 Para añadir socios, abrir **Administración → Usuarios → Crear usuario**. Completar nombre, usuario, contraseña y rol. Esta instalación de prueba permite `1234`; fuera del modo de prueba se exigen doce caracteres. El correo es opcional. Elige **Administrador**, **Entrenador** o **Cliente**. Al crear un cliente, vincula su persona/municipalidad existente o crea una. Varias cuentas pueden compartir municipalidad. El buscador localiza cualquier cuenta; después del alta se muestra la cuenta creada.
 

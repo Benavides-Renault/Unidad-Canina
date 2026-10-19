@@ -4,6 +4,8 @@ Esta instalación contiene datos privados. Los controles descritos corresponden 
 
 ## Controles de aplicación
 
+- El catálogo anónimo usa selectores explícitos de campos comerciales. La publicación debe permanecer vigente tanto para la ficha como para su foto principal. No expone expedientes, titulares, chips ni archivos clínicos. Las consultas públicas requieren consentimiento y un medio de contacto, tienen límite persistente de frecuencia, señuelo antiautomatización e idempotencia. Sólo administración consulta solicitudes o aprueba cuentas; la aprobación crea exclusivamente CLIENT y se audita en una transacción. Las solicitudes no disparan mensajes externos automáticos.
+
 - Cuentas internas creadas por superadministrador, con nombre de usuario único independiente del correo opcional. Bootstrap solicita una credencial propia; no instala contraseñas predeterminadas. Por petición expresa del propietario se provisionó una cuenta `admin` de pruebas solo en la base local de esta PC; su clave de prueba debe cambiarse antes de uso real. El iniciador no crea ni restablece esta cuenta automáticamente.
 - Contraseñas Argon2id; nuevas contraseñas de 12 a 128 caracteres. La cuenta local de prueba solicitada tiene una excepción únicamente en su aprovisionamiento, sin rebajar la validación de la API ni del bootstrap. Preferir una frase larga y única. Limitación persistente por cuenta e IP para login/recuperación y ventanas temporales. No hay comprobación de contraseñas filtradas.
 - Sesión aleatoria guardada como SHA-256 en PostgreSQL, caducidad, revocación al cerrar sesión/restablecer contraseña y rechazo de usuario inactivo. Cookie `HttpOnly`, `SameSite=Strict`; `Secure` requiere `COOKIE_SECURE=true` detrás de HTTPS.
