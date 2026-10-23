@@ -1,6 +1,6 @@
 # Compartir ORYX K9 desde esta PC
 
-La página principal es pública: muestra perros disponibles, camadas, contacto y el botón **Iniciar sesión**. Cualquier visitante puede explorarla sin cuenta. Para entrar al panel usa su usuario y contraseña; no se necesitan invitaciones ni enlaces con claves.
+La página principal es pública y presenta ORYX K9. El encabezado lleva a **Perros disponibles**, **Quiénes somos**, **Contacto** e **Iniciar sesión**. El catálogo `/disponibles` reúne **Perros en venta** y **Camadas y reservas**; sus fichas se abren sin repetir la presentación de la portada. Para entrar al panel se utiliza usuario y contraseña, sin invitaciones ni enlaces con claves.
 
 1. Abrir `INICIAR_ORYX_K9.cmd` si la aplicación está detenida.
 2. Abrir `COMPARTIR_ORYX_K9.cmd` y mantener su ventana abierta.
@@ -9,7 +9,7 @@ La página principal es pública: muestra perros disponibles, camadas, contacto 
 5. **Iniciar sesión** abre `/acceso`; después de autenticarse, la cuenta entra a `/panel` según su rol.
 6. Al terminar, abrir `DETENER_ENLACE_ORYX_K9.cmd`. La aplicación local continúa funcionando.
 
-El pie de página reúne navegación, teléfono, WhatsApp, solicitudes de contacto y cuenta, y las redes configuradas en **Solicitudes → Contacto y redes de la portada**. No se muestran redes sin configurar. `/catalogo` conserva los enlaces compartidos anteriormente.
+El pie de página reúne navegación y acceso a la cuenta. `/contacto` centraliza teléfono, correo, redes y solicitudes; WhatsApp está disponible en el botón flotante del sitio y utiliza el número configurado en **Solicitudes → Contacto y redes de la portada**. Los campos sin configurar se ocultan. `/quienes-somos` presenta el proyecto y la atención en todo el país sin publicar una ubicación. Los enlaces antiguos `/catalogo` y `/?tipo=…&id=…` redirigen al catálogo y conservan la ficha seleccionada.
 
 Los campos `publicUrl` y `shareUrl` contienen la misma portada; `loginUrl` apunta a `/acceso`. Las cuentas de prueba se consultan en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Los datos de la instalación y los archivos `.local` no se publican en GitHub.
 

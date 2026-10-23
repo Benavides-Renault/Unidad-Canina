@@ -134,9 +134,9 @@ function planFields(dogs: Animal[], plan?: Plan): FieldDef[] {
       hint: 'Fecha acordada para la entrega de los cachorros; debe ser posterior al nacimiento previsto.',
     },
     { name: 'notes', label: 'Observaciones del plan', type: 'textarea' },
-    { name: 'published', label: 'Publicar preventa en la galería de clientes', type: 'checkbox' },
-    { name: 'publicTitle', label: 'Título de la preventa' },
-    { name: 'publicDescription', label: 'Información de preventa para clientes', type: 'textarea' },
+    { name: 'published', label: 'Publicar camada y reservas en la galería de clientes', type: 'checkbox' },
+    { name: 'publicTitle', label: 'Título público de la camada' },
+    { name: 'publicDescription', label: 'Información de la camada para clientes', type: 'textarea' },
     {
       name: 'puppyPrice',
       label: 'Precio del cachorro',
@@ -145,7 +145,7 @@ function planFields(dogs: Animal[], plan?: Plan): FieldDef[] {
     },
     {
       name: 'currency',
-      label: 'Moneda de la preventa',
+      label: 'Moneda de reserva',
       type: 'select',
       options: ['CRC', 'USD'],
       defaultValue: 'CRC',

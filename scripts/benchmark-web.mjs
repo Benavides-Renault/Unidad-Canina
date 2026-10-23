@@ -47,7 +47,7 @@ try {
   await client.getByLabel('Usuario', { exact: true }).fill(process.env.BENCHMARK_CLIENT || 'sofia.cliente');
   await client.getByLabel('Contraseña', { exact: true }).fill(password);
   await client.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
-  await client.getByRole('tab', { name: 'Galería de venta y preventa' }).click();
+  await client.getByRole('tab', { name: 'Galería de venta y reservas' }).click();
   await expect(client.locator('.portal-card').first()).toBeVisible();
   await client.waitForLoadState('networkidle');
   const gallery = await client.evaluate(() => {

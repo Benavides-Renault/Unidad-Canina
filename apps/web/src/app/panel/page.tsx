@@ -303,7 +303,7 @@ export default function Workspace() {
               onClick={() => navigate('catalog')}
             >
               <Dog size={19} />
-              <span>Venta y preventa</span>
+              <span>Venta y reservas</span>
             </button>
             <button
               className={`nav-item ${page === 'care' ? 'active' : ''}`}

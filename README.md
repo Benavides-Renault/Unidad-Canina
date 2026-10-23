@@ -4,9 +4,9 @@ Identidad renovada, catálogo de razas, disponibilidad independiente para venta 
 
 Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. El [alcance del producto](docs/PRODUCT_SPEC.md), la [hoja de ruta](docs/ROADMAP.md) y los [resultados de verificación](docs/TEST_REPORT.md) describen la instalación vigente.
 
-El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. La portada pública muestra perros en venta y camadas, permite consultas sin cuenta y recibe solicitudes de cuenta que administración debe aprobar. El acceso privado utiliza nombres de usuario; el correo es opcional para recuperación y avisos. No hay integración fiscal ni datos reales precargados.
+El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. La portada presenta ORYX K9 y enlaza al catálogo unificado de perros y camadas, a Quiénes somos y a Contacto. Las fichas tienen página propia, sin repetir la presentación. WhatsApp está disponible mediante un botón flotante y los formularios reciben consultas y solicitudes de cuenta sin iniciar sesión. Administración aprueba las cuentas. El acceso privado utiliza nombres de usuario; el correo es opcional para recuperación y avisos. No hay integración fiscal ni datos reales precargados.
 
-Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada entrenador trabaja sólo con los perros asignados; cada cliente consulta sus perros y la galería de venta/preventa autorizada. Administración define propietario, custodio, entrenador y publicaciones. Consulta la [guía de uso](docs/USER_GUIDE.md).
+Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada entrenador trabaja sólo con los perros asignados; cada cliente consulta sus perros y la galería de venta y reservas autorizada. Administración define propietario, custodio, entrenador y publicaciones. Consulta la [guía de uso](docs/USER_GUIDE.md).
 
 ## Abrir en esta PC
 

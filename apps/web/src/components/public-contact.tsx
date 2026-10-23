@@ -20,9 +20,11 @@ export function whatsappLink(number: string, message: string) {
 export function ContactLinks({
   settings,
   interest,
+  showWhatsApp = true,
 }: {
   settings?: PublicSettings | null;
   interest?: InquiryInterest;
+  showWhatsApp?: boolean;
 }) {
   if (!settings) return null;
   const message = interest
@@ -30,7 +32,7 @@ export function ContactLinks({
     : 'Hola, quisiera información sobre los perros y camadas de ORYX K9.';
   return (
     <div className="public-contact-links">
-      {settings.whatsappNumber && (
+      {showWhatsApp && settings.whatsappNumber && (
         <a
           className="button button-primary whatsapp-link"
           href={whatsappLink(settings.whatsappNumber, message)}

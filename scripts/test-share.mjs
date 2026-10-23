@@ -13,13 +13,13 @@ try {
   publicPage.on('pageerror', (e) => errors.push(e.message));
   await publicPage.goto(`${shared.origin}/`);
   await expect(publicPage.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
-  await expect(publicPage.locator('.public-catalog .portal-card').first()).toBeVisible();
-  await expect(publicPage.locator('.public-catalog [role="alert"]')).not.toBeAttached();
+  await expect(publicPage.locator('.public-catalog')).not.toBeAttached();
   const contact = await publicContext.request.get(`${shared.origin}/api/v1/public/settings`);
   assert.equal(contact.status(), 200);
   const settings = await contact.json();
   assert.ok(settings.whatsappNumber);
-  await expect(publicPage.getByRole('link', { name: 'Consultar por WhatsApp' }).first()).toHaveAttribute(
+  const whatsapp = publicPage.getByRole('link', { name: 'Contactar por WhatsApp', exact: true });
+  await expect(whatsapp).toHaveAttribute(
     'href',
     new RegExp(`^https://wa\\.me/${settings.whatsappNumber.replace(/\D/g, '')}\\?text=`),
   );
@@ -28,19 +28,64 @@ try {
     (await publicContext.cookies()).some((cookie) => cookie.name === '__Host-oryx_share'),
     false,
   );
-  await publicPage.screenshot({ path: '.local/share-public-desktop.png' });
+  await expect(publicPage.locator('a[href^="https://wa.me/"]')).toHaveCount(1);
+  await publicPage.screenshot({ path: '.local/share-public-home.png' });
+  for (const width of [320, 390, 1440]) {
+    await publicPage.setViewportSize({ width, height: 900 });
+    for (const route of ['/', '/disponibles', '/quienes-somos', '/contacto', '/acceso']) {
+      await publicPage.goto(`${shared.origin}${route}`);
+      await expect(whatsapp).toBeInViewport();
+      await expect(publicPage.locator('a[href^="https://wa.me/"]')).toHaveCount(1);
+      assert.ok(await publicPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (route !== '/') await expect(publicPage.locator('.public-hero')).not.toBeAttached();
+      if (route !== '/acceso') {
+        const nav = publicPage.getByRole('navigation', { name: 'Navegación pública' });
+        for (const name of ['Perros disponibles', 'Quiénes somos', 'Contacto', 'Iniciar sesión'])
+          await expect(nav.getByRole('link', { name, exact: true })).toBeVisible();
+      }
+    }
+  }
+  await publicPage.goto(`${shared.origin}/`);
   await publicPage
     .getByRole('navigation', { name: 'Navegación pública' })
-    .getByRole('link', { name: 'Camadas', exact: true })
+    .getByRole('link', { name: 'Perros disponibles', exact: true })
     .click();
-  await expect(publicPage.getByRole('tab', { name: 'Camadas y preventa' })).toHaveAttribute(
+  await expect(publicPage).toHaveURL((url) => url.pathname === '/disponibles');
+  await expect(publicPage.locator('.public-catalog .portal-card').first()).toBeVisible();
+  await expect(publicPage.locator('.public-catalog [role="alert"]')).not.toBeAttached();
+  await publicPage.getByRole('tab', { name: 'Camadas y reservas' }).click();
+  await expect(publicPage.getByRole('tab', { name: 'Camadas y reservas' })).toHaveAttribute(
     'aria-selected',
     'true',
   );
   await publicPage.locator('.public-catalog .portal-card').first().click();
-  await expect(publicPage.getByRole('button', { name: 'Volver al catálogo' })).toBeVisible();
+  await expect(publicPage.getByRole('link', { name: 'Volver al catálogo' })).toBeVisible();
+  const detail = new URL(publicPage.url());
+  assert.equal(detail.pathname, '/disponibles');
+  assert.equal(detail.searchParams.get('tipo'), 'crosses');
+  assert.ok(detail.searchParams.get('id'));
+  assert.doesNotMatch(
+    await (await publicContext.request.get(detail.href)).text(),
+    /<section[^>]*class="[^"]*\bpublic-hero\b/,
+  );
+  await publicPage.goBack();
+  await expect(publicPage.getByRole('tab', { name: 'Camadas y reservas' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await publicPage.goForward();
   await publicPage.reload();
   await expect(publicPage.locator('.public-catalog .public-dates')).toBeVisible();
+  await expect(publicPage.locator('.public-hero')).not.toBeAttached();
+  await publicPage.screenshot({ path: '.local/share-public-desktop.png' });
+  for (const legacy of ['/catalogo', '/']) {
+    await publicPage.goto(`${shared.origin}${legacy}${detail.search}`);
+    await expect(publicPage).toHaveURL(
+      (url) =>
+        url.pathname === '/disponibles' && url.searchParams.get('id') === detail.searchParams.get('id'),
+    );
+    await expect(publicPage.locator('.public-catalog .public-dates')).toBeVisible();
+  }
   await publicPage.setViewportSize({ width: 390, height: 844 });
   await publicPage.locator('.public-catalog').scrollIntoViewIfNeeded();
   assert.ok(await publicPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
@@ -62,6 +107,7 @@ try {
   await page.getByLabel('Contraseña', { exact: true }).fill('1234');
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
   await expect(page.getByRole('heading', { name: /Buenas|Buenos/ })).toBeVisible({ timeout: 30000 });
+  await expect(page.getByRole('link', { name: 'Contactar por WhatsApp', exact: true })).toBeInViewport();
   assert.equal(new URL(page.url()).hash, '');
   assert.equal(new URL(page.url()).pathname, '/panel');
   const cookies = await adminContext.cookies();
@@ -105,7 +151,8 @@ try {
   await expect(client.getByRole('heading', { name: 'Mis perros', exact: true })).toBeVisible({
     timeout: 30000,
   });
-  await client.getByRole('tab', { name: 'Galería de venta y preventa', exact: true }).click();
+  await expect(client.getByRole('link', { name: 'Contactar por WhatsApp', exact: true })).toBeInViewport();
+  await client.getByRole('tab', { name: 'Galería de venta y reservas', exact: true }).click();
   await expect.poll(() => client.locator('main img').count()).toBeGreaterThan(0);
   for (const photo of await client.locator('main img').all()) {
     await photo.scrollIntoViewIfNeeded();
@@ -122,7 +169,7 @@ try {
       { timeout: 30000 },
     )
     .toBe(true);
-  await client.getByRole('tab', { name: 'Preventa · Cruces', exact: true }).click();
+  await client.getByRole('tab', { name: 'Reservas · Cruces', exact: true }).click();
   await client
     .getByRole('button')
     .filter({ has: client.getByRole('heading', { name: 'Próxima camada Maya × Thor', exact: true }) })
@@ -141,6 +188,11 @@ try {
     publicHomepage: true,
     loginFromPublicHeader: true,
     publicDeepLinks: true,
+    publicRouteHistory: true,
+    publicLegacyRedirects: true,
+    publicHeroOnlyOnHome: true,
+    publicSharedNavigation: true,
+    globalWhatsapp: true,
     publicCatalogWithoutPrivateAccess: true,
     publicCatalogStaysPublicAfterLogin: true,
     whatsappPreparedMessage: true,

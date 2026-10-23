@@ -44,6 +44,7 @@ test('public sharing opens the homepage and login while preserving application a
           cookie: req.headers.cookie,
           body,
           host: req.headers.host,
+          path: req.url,
         }),
       );
     })
@@ -67,6 +68,11 @@ test('public sharing opens the homepage and login while preserving application a
       '/panel',
       '/reset-password?token=example',
       '/catalogo?tipo=crosses&id=00000000-0000-4000-a000-000000000001',
+      '/?tipo=dogs&id=00000000-0000-4000-a000-000000000001',
+      '/disponibles',
+      '/disponibles?tipo=crosses&id=00000000-0000-4000-a000-000000000001&pagina=2&progenitor=dam',
+      '/contacto?solicitud=cuenta',
+      '/quienes-somos',
       '/api/v1/public/settings',
       '/api/v1/public/dogs?page=1',
       '/api/v1/public/crosses/00000000-0000-4000-a000-000000000001',
@@ -75,7 +81,21 @@ test('public sharing opens the homepage and login while preserving application a
       '/oryx-logo.png',
     ])
       assert.equal((await call(path)).status, 200, path);
-    for (const path of ['/.env', '/__share/unlock', '/private-files/example', '/_next/server/app.js'])
+    for (const path of ['/disponibles', '/contacto', '/quienes-somos']) {
+      assert.equal((await call(path, { method: 'HEAD' })).status, 200, `HEAD ${path}`);
+      assert.equal((await call(path, { method: 'POST', headers: { origin } })).status, 404, `POST ${path}`);
+    }
+    const detailPath =
+      '/disponibles?tipo=crosses&id=00000000-0000-4000-a000-000000000001&pagina=2&progenitor=sire';
+    assert.equal((await (await call(detailPath)).json()).path, detailPath);
+    for (const path of [
+      '/.env',
+      '/__share/unlock',
+      '/private-files/example',
+      '/_next/server/app.js',
+      '/disponibles/private',
+      '/contacto/admin',
+    ])
       assert.equal((await call(path)).status, 404, path);
     assert.equal((await call('/', { method: 'POST', headers: { origin } })).status, 404);
     assert.equal((await call('/api/v1/public/inquiries', { method: 'POST' })).status, 403);

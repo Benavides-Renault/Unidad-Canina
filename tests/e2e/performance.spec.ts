@@ -58,7 +58,7 @@ test('búsquedas: agrupa la escritura y descarta respuestas de la consulta anter
   }
 });
 
-test('galería: consulta únicamente la pestaña abierta y mantiene venta y preventa separadas', async ({
+test('galería: consulta únicamente la pestaña abierta y mantiene venta y reservas separadas', async ({
   page,
 }) => {
   const endpoints: string[] = [];
@@ -67,11 +67,11 @@ test('galería: consulta únicamente la pestaña abierta y mantiene venta y prev
       endpoints.push(new URL(request.url()).pathname);
   });
   await login(page, 'portal-cliente-a', fixture.password);
-  await page.getByRole('tab', { name: 'Galería de venta y preventa', exact: true }).click();
+  await page.getByRole('tab', { name: 'Galería de venta y reservas', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Ver Venta TEST', exact: true })).toBeVisible();
   // Development Strict Mode can start and cancel the first mount's request.
   expect([...new Set(endpoints)]).toEqual(['/api/v1/portal/gallery/dogs']);
-  await page.getByRole('tab', { name: 'Preventa · Cruces', exact: true }).click();
+  await page.getByRole('tab', { name: 'Reservas · Cruces', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Camada futura TEST', exact: true })).toBeVisible();
   expect([...new Set(endpoints)]).toEqual(['/api/v1/portal/gallery/dogs', '/api/v1/portal/gallery/crosses']);
   await expect(page.getByRole('button', { name: 'Ver Venta TEST', exact: true })).not.toBeAttached();

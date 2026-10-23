@@ -5,22 +5,147 @@ const fixture = JSON.parse(readFileSync('.local/public-test-fixtures.json', 'utf
 test('visitante: ficha compartida, padres y WhatsApp sin iniciar sesión', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto(`/catalogo?tipo=dogs&id=${fixture.dogId}`);
-  await expect(page.getByRole('heading', { name: 'PUBLIC · Atlas', exact: true })).toBeVisible();
-  const whatsapp = page.locator('.public-interest').getByRole('link', { name: 'Consultar por WhatsApp' });
+  const detailUrl = `/disponibles?tipo=dogs&id=${fixture.dogId}`;
+  const initial = await page.request.get(detailUrl);
+  expect(await initial.text()).not.toMatch(/<section[^>]*class="[^"]*\bpublic-hero\b/);
+  await page.goto(detailUrl);
+  await expect(page.getByRole('heading', { level: 1, name: 'PUBLIC · Atlas', exact: true })).toBeVisible();
+  await expect(page.locator('.public-hero')).toHaveCount(0);
+  const whatsapp = page.getByRole('link', { name: 'Contactar por WhatsApp', exact: true });
+  await expect(whatsapp).toBeVisible();
   const href = await whatsapp.getAttribute('href');
   expect(href).toContain('https://wa.me/50670327517?text=');
-  expect(decodeURIComponent(href!)).toContain('PUBLIC · Atlas');
+  expect(decodeURIComponent(href!)).not.toContain('PUBLIC · Atlas');
+  await expect(page.locator('a[href^="https://wa.me/"]')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Consultar disponibilidad', exact: true }).click();
+  const purchase = page.getByRole('dialog');
+  await expect(purchase).toContainText('PUBLIC · Atlas');
+  await expect(purchase.getByLabel('Cuéntanos qué necesitas')).toHaveValue(/PUBLIC · Atlas/);
+  page.once('dialog', (dialog) => dialog.accept());
+  await purchase.getByRole('button', { name: 'Cerrar formulario', exact: true }).click();
   await expect(page.locator('.public-catalog')).not.toContainText('PUBLIC-CHIP-PRIVATE');
-  await page.goto(`/catalogo?tipo=crosses&id=${fixture.crossId}`);
+  await page.goto(`/disponibles?tipo=crosses&id=${fixture.crossId}&pagina=2`);
   await expect(page.getByRole('heading', { name: 'PUBLIC · Próxima camada', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Ver PUBLIC · Madre', exact: true }).click();
+  await page.getByRole('link', { name: 'Ver PUBLIC · Madre', exact: true }).click();
+  await expect(page).toHaveURL(
+    (url) => url.searchParams.get('progenitor') === 'dam' && url.searchParams.get('pagina') === '2',
+  );
+  await expect(page.getByRole('heading', { level: 1, name: 'PUBLIC · Madre', exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1, name: 'PUBLIC · Madre', exact: true })).toBeVisible();
+  await page.goBack();
+  await expect(page.getByRole('heading', { name: 'PUBLIC · Próxima camada', exact: true })).toBeVisible();
+  await page.goForward();
   await expect(page.getByRole('heading', { name: 'PUBLIC · Madre', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Volver a la camada' }).click();
+  await page.getByRole('link', { name: 'Volver a la camada' }).click();
+  await expect(page).toHaveURL(
+    (url) => url.searchParams.get('id') === fixture.crossId && !url.searchParams.has('progenitor'),
+  );
+  await expect(page.getByRole('heading', { name: 'PUBLIC · Próxima camada', exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('heading', { name: 'PUBLIC · Próxima camada', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Volver al catálogo' }).click();
+  await expect(page).toHaveURL(
+    (url) =>
+      url.pathname === '/disponibles' &&
+      url.searchParams.get('tipo') === 'crosses' &&
+      url.searchParams.get('pagina') === '2' &&
+      !url.searchParams.has('id') &&
+      !url.searchParams.has('progenitor'),
+  );
   expect(errors).toEqual([]);
 });
+test('pestañas y fichas conservan el historial del catálogo al volver, avanzar y recargar', async ({
+  page,
+}) => {
+  await page.goto('/disponibles?tipo=dogs');
+  await page.getByRole('tab', { name: 'Camadas y reservas', exact: true }).click();
+  await expect(page).toHaveURL(
+    (url) => url.pathname === '/disponibles' && url.searchParams.get('tipo') === 'crosses',
+  );
+  await page.getByRole('link', { name: 'Ver PUBLIC · Próxima camada', exact: true }).click();
+  await expect(page).toHaveURL((url) => url.searchParams.get('id') === fixture.crossId);
+  await expect(page.locator('.public-hero')).toHaveCount(0);
+  await page.goBack();
+  await expect(page.getByRole('tab', { name: 'Camadas y reservas', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await page.goBack();
+  await expect(page.getByRole('tab', { name: 'Perros en venta', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await page.goForward();
+  await expect(page.getByRole('tab', { name: 'Camadas y reservas', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await page.goForward();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'PUBLIC · Próxima camada', exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'PUBLIC · Próxima camada', exact: true }),
+  ).toBeVisible();
+});
+
+test('enlaces anteriores conservan publicación, página y progenitor al abrir el catálogo nuevo', async ({
+  page,
+}) => {
+  for (const path of ['/catalogo', '/']) {
+    await page.goto(`${path}?tipo=crosses&id=${fixture.crossId}&pagina=2&progenitor=sire`);
+    await expect(page).toHaveURL(
+      (url) =>
+        url.pathname === '/disponibles' &&
+        url.searchParams.get('tipo') === 'crosses' &&
+        url.searchParams.get('id') === fixture.crossId &&
+        url.searchParams.get('pagina') === '2' &&
+        url.searchParams.get('progenitor') === 'sire',
+    );
+    await expect(page.getByRole('heading', { level: 1, name: 'PUBLIC · Padre', exact: true })).toBeVisible();
+    await expect(page.locator('.public-hero')).toHaveCount(0);
+    await page.reload();
+    await expect(page.getByRole('heading', { level: 1, name: 'PUBLIC · Padre', exact: true })).toBeVisible();
+  }
+  await page.goto('/catalogo?tipo=dogs');
+  await expect(page).toHaveURL(
+    (url) => url.pathname === '/disponibles' && url.searchParams.get('tipo') === 'dogs',
+  );
+  await expect(page.getByRole('tab', { name: 'Perros en venta', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+});
+
+for (const unavailable of ['empty', 'error'] as const) {
+  test(`contacto mantiene el formulario sin enlaces ficticios cuando settings está ${unavailable}`, async ({
+    page,
+  }) => {
+    await page.route('**/api/v1/public/settings', (route) =>
+      route.fulfill({
+        status: unavailable === 'error' ? 503 : 200,
+        contentType: 'application/json',
+        body: JSON.stringify(
+          unavailable === 'error'
+            ? { message: 'Contacto temporalmente no disponible.' }
+            : { contactName: 'ORYX K9', phone: null, email: null, whatsappNumber: null },
+        ),
+      }),
+    );
+    await page.goto('/contacto');
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Hablemos de lo que buscas.', exact: true }),
+    ).toBeVisible();
+    await expect(page.locator('a[href^="https://wa.me/"], a[href^="tel:"], a[href^="mailto:"]')).toHaveCount(
+      0,
+    );
+    await page.getByRole('button', { name: 'Enviar solicitud de contacto', exact: true }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+  });
+}
+
 test('visitante móvil: contacto por correo y solicitud de cuenta llegan a administración', async ({
   page,
 }) => {
@@ -29,8 +154,11 @@ test('visitante móvil: contacto por correo y solicitud de cuenta llegan a admin
   const accountName = `Cuenta móvil ${suffix}`;
   const username = `public-mobile-${suffix}`;
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/catalogo');
-  await expect(page.getByRole('heading', { name: /Cada gran vínculo/ })).toBeVisible();
+  await page.goto('/contacto');
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Hablemos de lo que buscas.', exact: true }),
+  ).toBeVisible();
+  await expect(page.locator('.public-hero')).toHaveCount(0);
   await page.getByRole('button', { name: 'Enviar solicitud de contacto', exact: true }).click();
   await page.getByLabel('Nombre completo', { exact: true }).fill(contactName);
   await page
@@ -43,7 +171,7 @@ test('visitante móvil: contacto por correo y solicitud de cuenta llegan a admin
     page.getByText('Recibimos tu solicitud. Te contactaremos por el medio indicado.', { exact: true }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Entendido' }).click();
-  await page.getByRole('button', { name: 'Solicitar cuenta', exact: true }).click();
+  await page.getByRole('button', { name: 'Solicitar una cuenta', exact: true }).click();
   await page.getByLabel('Nombre completo', { exact: true }).fill(accountName);
   await page
     .getByLabel('Correo electrónico', { exact: true })
@@ -73,7 +201,7 @@ test('visitante móvil: contacto por correo y solicitud de cuenta llegan a admin
   ).toBeVisible();
 });
 test('enlace retirado y expediente privado no son accesibles desde el catálogo', async ({ page }) => {
-  await page.goto(`/catalogo?tipo=dogs&id=${fixture.privateDogId}`);
+  await page.goto(`/disponibles?tipo=dogs&id=${fixture.privateDogId}`);
   await expect(page.locator('.public-catalog').getByRole('alert')).toContainText('Publicación no disponible');
   expect((await page.request.get(`/api/v1/dogs/${fixture.privateDogId}`)).status()).toBe(401);
   expect((await page.request.get('/api/v1/inquiries')).status()).toBe(401);

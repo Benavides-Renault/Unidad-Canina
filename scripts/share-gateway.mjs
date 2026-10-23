@@ -19,6 +19,9 @@ function isApplicationRequest(pathname, method) {
     [
       '/',
       '/catalogo',
+      '/disponibles',
+      '/contacto',
+      '/quienes-somos',
       '/acceso',
       '/panel',
       '/reset-password',

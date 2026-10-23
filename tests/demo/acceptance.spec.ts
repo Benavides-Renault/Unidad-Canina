@@ -52,7 +52,7 @@ test('demo: entrenador ve sus perros y progreso; cliente ve propiedad, venta y p
   await expect(
     client.getByRole('button', { name: 'Añadir registro médico', exact: true }),
   ).not.toBeAttached();
-  await client.getByRole('tab', { name: 'Galería de venta y preventa', exact: true }).click();
+  await client.getByRole('tab', { name: 'Galería de venta y reservas', exact: true }).click();
   await expect
     .poll(() =>
       client
@@ -65,7 +65,7 @@ test('demo: entrenador ve sus perros y progreso; cliente ve propiedad, venta y p
     )
     .toBe(true);
   await expect(client.getByRole('button', { name: 'Ver Astra', exact: true })).not.toBeAttached();
-  await client.getByRole('tab', { name: 'Preventa · Cruces', exact: true }).click();
+  await client.getByRole('tab', { name: 'Reservas · Cruces', exact: true }).click();
   await client
     .getByRole('button')
     .filter({ has: client.getByRole('heading', { name: 'Próxima camada Maya × Thor', exact: true }) })

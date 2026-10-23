@@ -105,7 +105,7 @@ export function RestrictedWorkspace({ user, logout }: { user: User; logout: () =
             <div className="tabs" role="tablist" aria-label="Portal de clientes">
               {[
                 ['dogs', 'Mis perros'],
-                ['gallery', 'Galería de venta y preventa'],
+                ['gallery', 'Galería de venta y reservas'],
               ].map(([id, name]) => (
                 <button
                   role="tab"
@@ -308,7 +308,7 @@ export function Gallery() {
         {'dam' in selected ? (
           <>
             <PageHeading
-              eyebrow={selected.litter ? 'CAMADA DISPONIBLE' : 'PREVENTA · CRUCE PROGRAMADO'}
+              eyebrow={selected.litter ? 'CAMADA DISPONIBLE' : 'RESERVA · CRUCE PROGRAMADO'}
               title={selected.publicTitle}
               description={selected.publicDescription || 'Conoce a los padres de esta futura camada.'}
             />
@@ -346,7 +346,7 @@ export function Gallery() {
         <Button onClick={() => setInquiring(true)}>Enviar consulta de compra</Button>
         <a
           className="button button-secondary"
-          href={`/catalogo?tipo=${'dam' in selected ? 'crosses' : 'dogs'}&id=${selected.id}`}
+          href={`/disponibles?tipo=${'dam' in selected ? 'crosses' : 'dogs'}&id=${selected.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -375,7 +375,7 @@ export function Gallery() {
       <div className="tabs" role="tablist" aria-label="Tipo de publicación">
         {[
           ['dogs', 'Perros en venta'],
-          ['crosses', 'Preventa · Cruces'],
+          ['crosses', 'Reservas · Cruces'],
         ].map(([key, label]) => (
           <button
             role="tab"
@@ -1045,7 +1045,7 @@ export function CatalogManager() {
   return (
     <>
       <PageHeading
-        eyebrow="VENTA Y PREVENTA"
+        eyebrow="VENTA Y RESERVAS"
         title="Publicaciones y categorías"
         description="Decide qué perros están disponibles para venta o cruza y qué información ven los interesados."
       >
@@ -1064,7 +1064,7 @@ export function CatalogManager() {
           ) : (
             <Panel
               title="Perros registrados"
-              subtitle="Las preventas se publican desde el plan de cruce en Crianza."
+              subtitle="Las reservas se publican desde el plan de cruce en Crianza."
             >
               <SimpleTable headers={['Perro', 'Categoría', 'Publicación', 'Acción']}>
                 {r.data?.items.map((d) => (

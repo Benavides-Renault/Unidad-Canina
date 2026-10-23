@@ -124,6 +124,7 @@ function PublicContactSettings() {
             submitLabel="Guardar contacto público"
             onSubmit={async (values) => {
               await api('/inquiries/settings', 'PATCH', values);
+              window.dispatchEvent(new Event('oryx:public-contact-updated'));
               setSaved(true);
               r.reload();
             }}
@@ -155,7 +156,7 @@ export function InquiriesPage({ user }: { user: User }) {
         title="Solicitudes"
         description="Consultas de compra, contactos y cuentas pendientes de revisión."
       >
-        <a className="button button-secondary" href="/catalogo" target="_blank" rel="noopener noreferrer">
+        <a className="button button-secondary" href="/" target="_blank" rel="noopener noreferrer">
           <ExternalLink size={16} />
           Ver portada pública
         </a>
@@ -262,7 +263,7 @@ export function InquiriesPage({ user }: { user: User }) {
               <p>
                 <strong>Interés:</strong> {selected.interestLabel}{' '}
                 <a
-                  href={`/catalogo?tipo=${selected.interestKind === 'DOG' ? 'dogs' : 'crosses'}&id=${selected.interestId}`}
+                  href={`/disponibles?tipo=${selected.interestKind === 'DOG' ? 'dogs' : 'crosses'}&id=${selected.interestId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

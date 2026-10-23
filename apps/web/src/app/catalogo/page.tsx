@@ -1,4 +1,6 @@
-import { PublicLanding } from '@/components/public-site';
-export default function CatalogPage() {
-  return <PublicLanding />;
+import { redirect } from 'next/navigation';
+import { catalogHref, readCatalogRoute, type PublicQuery } from '@/lib/public-routes';
+
+export default async function CatalogAlias({ searchParams }: { searchParams: Promise<PublicQuery> }) {
+  redirect(catalogHref(readCatalogRoute(await searchParams)));
 }
