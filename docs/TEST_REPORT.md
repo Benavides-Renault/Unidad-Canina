@@ -4,9 +4,9 @@ La aplicación utiliza tres tipos de cuenta: administración, entrenador y clien
 
 ## Última verificación completa publicada
 
-El commit `8742b94ede2264b0ba0d21a60dc8ff3535796796` completó [la verificación automática de GitHub](https://github.com/Benavides-Renault/Unidad-Canina/actions/runs/39003831250): tipos, análisis estático, pruebas unitarias, compilación e integración con navegador. Localmente se comprobaron 13 pruebas unitarias, 74 comprobaciones de API y 20 escenarios de navegador.
+El commit `0f6b5b5bfd041fe7a0e0800692a3249b557c02c1` completó [la verificación automática de GitHub](https://github.com/Benavides-Renault/Unidad-Canina/actions/runs/39899988812) el 22 de octubre de 2026 (Costa Rica): tipos, análisis estático, compilación de producción, 16 pruebas unitarias y de integridad, 82 comprobaciones de API y 39 escenarios de navegador. Las 137 pruebas pasaron en una misma ejecución sobre Node 24 y una base aislada.
 
-La restauración aislada verificó 12 archivos, preservó la auditoría y los historiales financieros y rechazó respaldos corruptos. La instalación de uso conservó sus 30 perros, 10 cuentas y 39 registros documentales. Los siete controles internos no encontraron incidencias.
+En una verificación anterior, la restauración aislada comprobó 12 archivos, preservó la auditoría y los historiales financieros y rechazó respaldos corruptos. En ese momento la instalación de uso conservaba 30 perros, 10 cuentas y 39 registros documentales, y sus siete controles internos no encontraron incidencias. La revisión del 22 de octubre no vuelve a certificar esos recuentos de la instalación activa.
 
 ## Cómo repetir las comprobaciones
 
@@ -40,6 +40,14 @@ La cobertura nueva verifica catálogo anónimo y enlaces individuales, padres de
 El respaldo de la base aislada restauró 15 archivos y conservó solicitudes, configuración pública, auditoría e historiales financieros/inventario; rechazó contenido corrupto antes de modificar el destino. Antes de actualizar la instalación se creó otro respaldo cifrado, con 43 archivos verificados.
 
 La instalación actualizada conservó sus 30 perros, 10 cuentas y 39 registros documentales, con 12 perros y 2 camadas/preventas publicados. Los siete controles internos devolvieron cero incidencias; administración y entrenador pudieron ingresar. El respaldo cifrado posterior restauró 42 tablas idénticas, 43 archivos y las 14 migraciones, manteniendo credenciales e historiales inmutables.
+
+## Navegación pública y revisión · 22 de octubre de 2026
+
+La portada aparece exclusivamente en `/`. `/disponibles` reúne perros y camadas con reservas; las fichas, progenitores, paginación y enlaces compartidos conservan su destino al recargar o navegar hacia atrás y adelante. Los enlaces antiguos redirigen a la ficha correspondiente antes de mostrar contenido. `/contacto` centraliza las consultas y solicitudes de cuenta; `/quienes-somos` describe la unidad y la atención en todo el país, sin atribuirle una dirección ni certificaciones.
+
+Se retiraron los bloques repetidos de contacto y los contactos ficticios de las fichas públicas. Un botón flotante utiliza el número configurado por administración, actualiza sus datos al cambiar la configuración y se oculta mientras hay un formulario modal. El encabezado y el pie permiten recorrer las páginas y acceder a la cuenta. Las pestañas admiten teclado y las solicitudes conservan el contexto del perro o camada sin reaparecer en otra ficha.
+
+Se comprobó la presentación en anchos de 320, 390 y 1440 píxeles. Las pruebas incluyen formularios públicos, reapertura de solicitudes, navegación directa, historial del navegador, estados de error, permisos de las tres cuentas, campos privados y controles del enlace compartido. La compilación y toda la batería de pruebas pasaron en GitHub Actions. Localmente también pasaron tipos y análisis estático; el intento de generar una nueva versión de producción se detuvo por un error de permisos de Windows (`EPERM`). La versión activa y los datos de uso no se reemplazaron. La activación local y la comprobación de un nuevo enlace temporal quedan pendientes de resolver el permiso de ejecución.
 
 ## Límites de la verificación
 
