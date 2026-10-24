@@ -61,6 +61,10 @@ Se añadió `setup:company` para preparar otra instalación desde el repositorio
 
 Pasaron tipos, análisis estático y 20 pruebas unitarias/de integridad e instalación. La prueba PostgreSQL crea y elimina únicamente su base aislada, reaplica migraciones sin duplicar referencias, conserva un registro que provoca rechazo, verifica reversión ante fallo, enfrenta dos inicializaciones simultáneas y comprueba un solo administrador con hash Argon2id y todas las tablas de negocio vacías. GitHub Actions incluye esta prueba y la batería de API/navegador. Docker, DNS, TLS y correo del servidor externo se comprueban en el destino de la empresa; no se ejecutaron en esta PC.
 
+## Contacto institucional conservado · 23 de octubre de 2026
+
+Por indicación del propietario se conserva +506 7032 7517 como teléfono y WhatsApp de ORYX K9. Se guardó mediante la administración interna y se verificaron la lectura pública, el enlace de llamada, un único botón flotante de WhatsApp y el destino `wa.me/50670327517` en móvil. Las listas de perros, contratos, finanzas e inventario continuaron vacías. Esta configuración institucional se distribuye en `assets/catalogs/company-contact.json` para la instalación del servidor; el inicializador la carga en su transacción sólo si el operador no guardó ya otro contacto.
+
 ## Límites de la verificación
 
 Las pruebas ejercitan los escenarios enumerados, no garantizan ausencia de errores en todos los escenarios posibles. Esta PC utiliza almacenamiento local y un enlace temporal. El despliegue permanente, Docker en el destino final, SMTP externo, dispositivos físicos, motor antivirus y servicios externos se validan al configurar esos entornos, según [ROADMAP](ROADMAP.md).

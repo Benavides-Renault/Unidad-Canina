@@ -57,6 +57,71 @@ export function companyDatabaseUrl(env) {
   return selected;
 }
 
+export function companyContact(value) {
+  const fields = [
+    'contactName',
+    'phone',
+    'email',
+    'whatsappNumber',
+    'instagramUrl',
+    'facebookUrl',
+    'tiktokUrl',
+  ];
+  if (
+    !value ||
+    typeof value !== 'object' ||
+    Array.isArray(value) ||
+    Object.keys(value).some((key) => !fields.includes(key))
+  )
+    throw new Error('El contacto institucional debe contener únicamente campos de contacto públicos.');
+  const invalid = (field) => {
+    throw new Error(`El campo ${field} del contacto institucional no es válido.`);
+  };
+  const text = (field) => {
+    if (value[field] == null) return null;
+    if (typeof value[field] !== 'string') return invalid(field);
+    return value[field].trim();
+  };
+  const result = Object.fromEntries(fields.map((field) => [field, text(field)]));
+  if (!result.contactName || result.contactName.length < 2 || result.contactName.length > 120)
+    invalid('contactName');
+  if (
+    result.phone != null &&
+    (!/^\+?[0-9 ()-]{7,24}$/.test(result.phone) || !/^\d{7,15}$/.test(result.phone.replace(/\D/g, '')))
+  )
+    invalid('phone');
+  if (result.email != null) {
+    if (result.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(result.email)) invalid('email');
+    result.email = result.email.toLowerCase();
+  }
+  if (result.whatsappNumber != null && !/^\+?[1-9]\d{6,14}$/.test(result.whatsappNumber))
+    invalid('whatsappNumber');
+  const socialHosts = {
+    instagramUrl: ['instagram.com', 'www.instagram.com'],
+    facebookUrl: ['facebook.com', 'www.facebook.com', 'm.facebook.com'],
+    tiktokUrl: ['tiktok.com', 'www.tiktok.com'],
+  };
+  for (const [field, hosts] of Object.entries(socialHosts)) {
+    if (result[field] == null) continue;
+    let url;
+    try {
+      url = new URL(result[field]);
+    } catch {
+      invalid(field);
+    }
+    if (
+      result[field].length > 300 ||
+      url.protocol !== 'https:' ||
+      url.username ||
+      url.password ||
+      url.port ||
+      !hosts.includes(url.hostname.toLowerCase())
+    )
+      invalid(field);
+  }
+  return result;
+}
+
 export async function companyCatalogs() {
   const directory = path.join(root, 'apps/api/prisma/migrations');
   const migrations = (await readdir(directory, { withFileTypes: true }))
@@ -66,6 +131,9 @@ export async function companyCatalogs() {
   const { breeds } = JSON.parse(await readFile(path.join(root, 'assets/catalogs/breeds.json'), 'utf8'));
   const { templates } = JSON.parse(
     await readFile(path.join(root, 'assets/catalogs/company-templates.json'), 'utf8'),
+  );
+  const contact = companyContact(
+    JSON.parse(await readFile(path.join(root, 'assets/catalogs/company-contact.json'), 'utf8')),
   );
   if (!migrations.length || !Array.isArray(breeds) || !breeds.length)
     throw new Error('No se encontraron las migraciones y el catálogo de razas de la instalación.');
@@ -98,12 +166,13 @@ export async function companyCatalogs() {
     if (seen.has(key)) throw new Error('El catálogo contiene plantillas repetidas.');
     seen.add(key);
   }
-  return { migrations, breeds, templates };
+  return { migrations, breeds, templates, contact };
 }
 
 const identifier = (value) => `"${value.replaceAll('"', '""')}"`;
 
 export async function initializeCompany(client, options, catalogs) {
+  const contact = companyContact(catalogs.contact);
   const passwordHash = await argon2.hash(options.password, {
     type: argon2.argon2id,
     memoryCost: 19456,
@@ -119,7 +188,15 @@ export async function initializeCompany(client, options, catalogs) {
         "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public' ORDER BY tablename",
       )
     ).rows.map((row) => row.tablename);
-    const required = ['_prisma_migrations', 'User', 'Breed', 'CertificateTemplate', 'Party', 'AuditLog'];
+    const required = [
+      '_prisma_migrations',
+      'User',
+      'Breed',
+      'CertificateTemplate',
+      'Party',
+      'AuditLog',
+      'PublicSiteSettings',
+    ];
     if (required.some((table) => !tables.includes(table)))
       throw new Error('La base no está preparada. Ejecuta npm run db:migrate antes de setup:company.');
     await client.query(
@@ -201,6 +278,18 @@ export async function initializeCompany(client, options, catalogs) {
           [...values, randomUUID()],
         );
     }
+    await client.query(
+      'INSERT INTO public."PublicSiteSettings" (id,"contactName",phone,email,"whatsappNumber","instagramUrl","facebookUrl","tiktokUrl","updatedAt") VALUES (\'main\',$1,$2,$3,$4,$5,$6,$7,NOW()) ON CONFLICT (id) DO NOTHING',
+      [
+        contact.contactName,
+        contact.phone,
+        contact.email,
+        contact.whatsappNumber,
+        contact.instagramUrl,
+        contact.facebookUrl,
+        contact.tiktokUrl,
+      ],
+    );
     const id = randomUUID();
     await client.query(
       'INSERT INTO public."User" (id,name,username,"passwordHash",role,"partyId","updatedAt") VALUES ($1,$2,$3,$4,\'ADMIN\',$5,NOW())',

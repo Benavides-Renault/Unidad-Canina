@@ -1,6 +1,6 @@
 # Uso de ORYX K9 Manager
 
-La entrega para la empresa empieza con los módulos de negocio vacíos. Conserva **admin / 1234**, **369 razas**, **18 plantillas** y la entidad técnica ORYX K9. Los perros, personas, cuentas de clientes y entrenadores, contratos, camadas, salud, entrenamientos, finanzas e inventario se registran desde el sistema interno. Las solicitudes que lleguen desde la página pública se reciben en **Solicitudes** para revisión administrativa.
+La entrega para la empresa empieza con los módulos de negocio vacíos. Conserva **admin / 1234**, **369 razas**, **18 plantillas**, la entidad técnica ORYX K9 y el teléfono/WhatsApp institucional **+506 7032 7517**. Los perros, personas, cuentas de clientes y entrenadores, contratos, camadas, salud, entrenamientos, finanzas e inventario se registran desde el sistema interno. Las solicitudes que lleguen desde la página pública se reciben en **Solicitudes** para revisión administrativa.
 
 ## Planes, certificaciones y calendario
 
@@ -22,7 +22,7 @@ El correo es opcional y las solicitudes públicas de cuenta requieren aprobació
 2. Registrar propietarios y custodios en **Personas y entidades**, y crear las cuentas autorizadas en **Usuarios**.
 3. Dar de alta cada perro, seleccionar propietario, custodio y entrenador, y añadir su documentación verificable.
 4. Registrar entrenamientos, atención médica, cruces, contratos, servicios, finanzas e inventario conforme ocurran.
-5. Configurar el contacto público en **Solicitudes** y publicar únicamente los perros o camadas que la empresa autorice.
+5. Revisar el contacto público inicial en **Solicitudes**, añadir correo o redes si corresponde y publicar únicamente los perros o camadas que la empresa autorice.
 
 Las pantallas vacías son el estado inicial esperado. El sistema conserva los registros en PostgreSQL y los archivos en el almacenamiento privado; no es necesario editar el código ni cargar archivos de ejemplo para comenzar.
 

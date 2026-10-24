@@ -1,6 +1,6 @@
 # Servidor propio y operación
 
-Entrega preparada para una instalación nueva de la empresa: un administrador, 369 razas y 18 plantillas. Los perros, entrenamientos, camadas, clientes, contratos, finanzas, inventario y documentos comienzan vacíos. El repositorio no transporta la base ni los archivos privados de esta PC. El servidor, el dominio y los secretos se configuran en el destino.
+Entrega preparada para una instalación nueva de la empresa: un administrador, 369 razas, 18 plantillas y el teléfono/WhatsApp institucional +506 7032 7517. Los perros, entrenamientos, camadas, clientes, contratos, finanzas, inventario y documentos comienzan vacíos. El repositorio no transporta la base ni los archivos privados de esta PC. El servidor, el dominio y los secretos se configuran en el destino.
 
 ## Preparación
 
@@ -32,7 +32,7 @@ La contraseña inicial acordada con el propietario es **1234**, con usuario **ad
 
 Para instalación nativa, configurar PostgreSQL y `.env`, ejecutar `npm ci`, `npm run db:generate`, `npm run db:migrate` y `npm run setup:company` con `BOOTSTRAP_PASSWORD` suministrada por entorno temporal. Si se separan roles, `MIGRATION_DATABASE_URL` debe apuntar a la misma base con el propietario del esquema. El instalador no conecta a otra base si las conexiones no coinciden. Para un administrador con contraseña propia de 12 o más caracteres puede usarse alternativamente el asistente `npm run bootstrap`; no ejecutar ambos métodos.
 
-Comprobación tras instalar: `GET /api/v1/health` devuelve `demoMode: false`; Usuarios muestra sólo `admin`; Configuración conserva 369 razas y 18 plantillas; expedientes, contratos, operaciones, finanzas e inventario están vacíos; el control interno no presenta incidencias. El catálogo público muestra sus estados vacíos hasta que administración publique perros o camadas. La unidad ORYX, las migraciones y la auditoría técnica de instalación no son registros comerciales de ejemplo.
+Comprobación tras instalar: `GET /api/v1/health` devuelve `demoMode: false`; Usuarios muestra sólo `admin`; Configuración conserva 369 razas y 18 plantillas; Contacto muestra +506 7032 7517 y el botón de WhatsApp abre `wa.me/50670327517`; expedientes, contratos, operaciones, finanzas e inventario están vacíos; el control interno no presenta incidencias. El instalador toma el contacto de `assets/catalogs/company-contact.json` sólo si aún no hay una configuración, y conserva la que haya guardado el operador. El catálogo público muestra sus estados vacíos hasta que administración publique perros o camadas. La unidad ORYX, el contacto institucional, las migraciones y la auditoría técnica de instalación no son registros comerciales de ejemplo.
 
 Las imágenes usan versiones mayores mantenidas para facilitar actualizaciones de parche; antes de una entrega de producción, registrar digest de imágenes verificadas y congelarlo según la política del operador. No reemplazar una imagen PostgreSQL 17 por 18 apuntando al mismo volumen: la actualización mayor requiere pg_upgrade o exportación/restauración comprobada.
 

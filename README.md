@@ -4,13 +4,13 @@ Identidad renovada, catálogo de razas, disponibilidad independiente para venta 
 
 Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. Consulta el [alcance del producto](docs/PRODUCT_SPEC.md), la [hoja de ruta](docs/ROADMAP.md) y los [resultados de verificación](docs/TEST_REPORT.md). Los reportes históricos conservan el estado y los datos de la fecha en que se ejecutaron.
 
-El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. La portada presenta ORYX K9 y enlaza al catálogo unificado de perros y camadas, a Quiénes somos y a Contacto. Las fichas tienen página propia, sin repetir la presentación. WhatsApp está disponible mediante un botón flotante y los formularios reciben consultas y solicitudes de cuenta sin iniciar sesión. Administración aprueba las cuentas. El acceso privado utiliza nombres de usuario; el correo es opcional para recuperación y avisos. No hay integración fiscal ni datos reales precargados.
+El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. La portada presenta ORYX K9 y enlaza al catálogo unificado de perros y camadas, a Quiénes somos y a Contacto. Las fichas tienen página propia, sin repetir la presentación. WhatsApp está disponible mediante un botón flotante y los formularios reciben consultas y solicitudes de cuenta sin iniciar sesión. Administración aprueba las cuentas. El acceso privado utiliza nombres de usuario; el correo es opcional para recuperación y avisos. No hay integración fiscal ni datos operativos precargados.
 
 Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada entrenador trabaja sólo con los perros asignados; cada cliente consulta sus perros y la galería de venta y reservas autorizada. Administración define propietario, custodio, entrenador y publicaciones. Consulta la [guía de uso](docs/USER_GUIDE.md).
 
 ## Estado de entrega
 
-La base operativa comienza sin datos de negocio. Conserva únicamente el acceso **admin / 1234**, las **369 razas**, las **18 plantillas** y la entidad técnica de ORYX K9 utilizada por el sistema. No hay otras cuentas, perros, camadas, entrenamientos, registros clínicos, contratos, solicitudes, movimientos financieros ni inventario precargados. La configuración usa `DEMO_MODE=false`; las altas y los cambios de contraseña requieren al menos doce caracteres. La contraseña inicial del administrador se conserva por solicitud del propietario.
+La base operativa comienza sin datos de negocio. Conserva el acceso **admin / 1234**, las **369 razas**, las **18 plantillas**, la entidad técnica de ORYX K9 y el contacto institucional **+506 7032 7517** para teléfono y WhatsApp. No hay otras cuentas, perros, camadas, entrenamientos, registros clínicos, contratos, solicitudes, movimientos financieros ni inventario precargados. La configuración usa `DEMO_MODE=false`; las altas y los cambios de contraseña requieren al menos doce caracteres. La contraseña inicial del administrador se conserva por solicitud del propietario.
 
 La empresa registra sus datos desde la administración interna. En **Administración → Usuarios → Crear usuario** crea los accesos con nombre, usuario, contraseña y rol; el correo es opcional. Los visitantes pueden enviar solicitudes públicas de contacto o de cuenta; éstas se revisan en **Solicitudes** y no crean usuarios automáticamente. En ese mismo módulo se configuran teléfono, WhatsApp y redes de la web.
 
@@ -26,7 +26,7 @@ En Docker, después de migrar y con esa variable temporal definida en la termina
 docker compose -f compose.production.yaml exec -e BOOTSTRAP_PASSWORD api node /app/scripts/setup-company.mjs
 ```
 
-Este paso es manual: prepara el primer administrador y las referencias de la empresa, sin cargar datos ficticios. No hay contraseña predeterminada en el código ni aprovisionamiento automático en cada arranque. Eliminar `BOOTSTRAP_PASSWORD` del entorno al terminar; no guardarla en `.env`, Git, imágenes o logs. Compartir la credencial inicial por un canal privado. Los ejemplos Docker son instrucciones de instalación; su presencia no acredita ejecución en esta PC.
+Este paso es manual: prepara el primer administrador, las referencias y el contacto institucional de la empresa, sin cargar datos ficticios. El contacto inicial se distribuye en `assets/catalogs/company-contact.json`; si el operador ya configuró otro contacto, se conserva. No hay contraseña predeterminada en el código ni aprovisionamiento automático en cada arranque. Eliminar `BOOTSTRAP_PASSWORD` del entorno al terminar; no guardarla en `.env`, Git, imágenes o logs. Compartir la credencial inicial por un canal privado. Los ejemplos Docker son instrucciones de instalación; su presencia no acredita ejecución en esta PC.
 
 ## Abrir en esta PC
 

@@ -9,9 +9,42 @@ import { root } from '../scripts/env.mjs';
 import {
   companyOptions,
   companyDatabaseUrl,
+  companyContact,
   companyCatalogs,
   initializeCompany,
 } from '../scripts/setup-company.mjs';
+
+test('el contacto institucional valida números, redes sociales y campos públicos', () => {
+  const contact = { contactName: 'ORYX K9', phone: '+506 7032 7517', whatsappNumber: '+50670327517' };
+  const parsed = companyContact(contact);
+  assert.equal(parsed.whatsappNumber, '+50670327517');
+  assert.equal(parsed.phone, '+506 7032 7517');
+  assert.equal(parsed.email, null);
+  assert.equal(companyContact({ ...contact, email: 'CONTACTO@example.com' }).email, 'contacto@example.com');
+  assert.equal(
+    companyContact({ ...contact, instagramUrl: 'https://www.instagram.com/oryx.k9/' }).instagramUrl,
+    'https://www.instagram.com/oryx.k9/',
+  );
+  for (const changed of [
+    { contactName: '' },
+    { phone: '123' },
+    { whatsappNumber: '+506 7032 7517' },
+    { email: 'sin-correo' },
+    { instagramUrl: 'https://instagram.com.attacker.invalid/oryx' },
+    { facebookUrl: 'http://facebook.com/oryx' },
+    { tiktokUrl: 'https://private-user:private-password@tiktok.com/oryx' },
+    { tiktokUrl: 'https://tiktok.com:444/oryx' },
+    { tiktokUrl: 'not-a-url' },
+    { password: 'private-password' },
+  ])
+    assert.throws(
+      () => companyContact({ ...contact, ...changed }),
+      (error) => {
+        assert.doesNotMatch(error.message, /private-user|private-password|attacker/);
+        return /contacto|campo/i.test(error.message);
+      },
+    );
+});
 
 test('el instalador usa el propietario de la misma base y rechaza destinos distintos sin revelar secretos', () => {
   const runtime = 'postgresql://runtime:private-runtime@localhost:5432/oryx?schema=public';
@@ -61,6 +94,9 @@ test('el paquete de instalación contiene las razas y plantillas sin duplicados'
   assert.equal(new Set(catalogs.templates.map((item) => `${item.kind}:${item.name.toLowerCase()}`)).size, 18);
   assert.ok(catalogs.templates.some((item) => item.kind === 'MEDICAL'));
   assert.ok(catalogs.templates.some((item) => item.kind === 'CONTRACT'));
+  assert.equal(catalogs.contact.contactName, 'ORYX K9');
+  assert.equal(catalogs.contact.phone, '+506 7032 7517');
+  assert.equal(catalogs.contact.whatsappNumber, '+50670327517');
 });
 
 function migrate(url) {
@@ -105,13 +141,16 @@ test(
     const control = new pg.Client({ connectionString: base.toString() });
     await control.connect();
     await control.query(`CREATE DATABASE "${database}"`);
+    const databases = [database];
     base.pathname = `/${database}`;
     const url = base.toString();
     const clients = [];
     t.after(async () => {
       for (const client of clients) await client.end();
-      assert.match(database, /^oryx_test_company_\d+_[a-f0-9]{8}$/);
-      await control.query(`DROP DATABASE "${database}" WITH (FORCE)`);
+      for (const name of databases) {
+        assert.match(name, /^oryx_test_company_\d+_[a-f0-9]{8}$/);
+        await control.query(`DROP DATABASE "${name}" WITH (FORCE)`);
+      }
       await control.end();
     });
     await migrate(url);
@@ -153,6 +192,11 @@ test(
     await assert.rejects(initializeCompany(client, options, catalogs), /Fallo aislado de auditoría/);
     assert.equal(await count('User'), 0);
     assert.equal(await count('CertificateTemplate'), initialTemplates);
+    assert.equal(
+      await count('PublicSiteSettings'),
+      0,
+      'El contacto también se revierte si falla la instalación.',
+    );
     await client.query('DROP TRIGGER oryx_test_company_failure ON public."AuditLog"');
     await client.query('DROP FUNCTION oryx_test_company_failure()');
 
@@ -178,6 +222,17 @@ test(
     assert.match(users[0].passwordHash, /^\$argon2id\$/);
     assert.equal(await count('Breed'), 369);
     assert.equal(await count('CertificateTemplate'), 18);
+    assert.equal(await count('PublicSiteSettings'), 1);
+    const publicContact = (
+      await client.query(
+        'SELECT "contactName",phone,"whatsappNumber" FROM public."PublicSiteSettings" WHERE id=\'main\'',
+      )
+    ).rows[0];
+    assert.deepEqual(publicContact, {
+      contactName: 'ORYX K9',
+      phone: '+506 7032 7517',
+      whatsappNumber: '+50670327517',
+    });
     assert.equal(
       await count('AuditLog'),
       3,
@@ -195,6 +250,7 @@ test(
       'CertificateTemplate',
       'Party',
       'AuditLog',
+      'PublicSiteSettings',
     ]);
     for (const { tablename } of remaining)
       if (!retained.has(tablename))
@@ -202,5 +258,25 @@ test(
     await assert.rejects(initializeCompany(client, options, catalogs), /User ya contiene registros/);
     assert.equal(await count('User'), 1);
     assert.equal(await count('CertificateTemplate'), 18);
+
+    const operatorDatabase = `oryx_test_company_${Date.now()}_${randomUUID().slice(0, 8)}`;
+    await control.query(`CREATE DATABASE "${operatorDatabase}"`);
+    databases.push(operatorDatabase);
+    const operatorUrl = new URL(url);
+    operatorUrl.pathname = `/${operatorDatabase}`;
+    await migrate(operatorUrl.toString());
+    const operator = new pg.Client({ connectionString: operatorUrl.toString() });
+    await operator.connect();
+    clients.push(operator);
+    await operator.query(
+      'INSERT INTO public."PublicSiteSettings" (id,"contactName",phone,"whatsappNumber","updatedAt") VALUES (\'main\',\'Contacto configurado por la empresa\',\'+506 8000 0000\',\'+50680000000\',NOW())',
+    );
+    const originalContact = (await operator.query('SELECT * FROM public."PublicSiteSettings"')).rows;
+    await initializeCompany(operator, options, catalogs);
+    assert.deepEqual(
+      (await operator.query('SELECT * FROM public."PublicSiteSettings"')).rows,
+      originalContact,
+      'Se respeta el contacto configurado por un operador, incluida su fecha de actualización.',
+    );
   },
 );

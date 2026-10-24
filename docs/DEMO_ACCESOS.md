@@ -1,6 +1,6 @@
 # Datos sintéticos de verificación
 
-La instalación operativa de la empresa ya no contiene el conjunto de demostración ni sus cuentas. Conserva sólo el administrador inicial, 369 razas, 18 plantillas y la entidad técnica ORYX K9. Los accesos y el alta de datos se describen en [USER_GUIDE.md](USER_GUIDE.md); el montaje de una base nueva, en [DEPLOY_SERVER.md](DEPLOY_SERVER.md).
+La instalación operativa de la empresa ya no contiene el conjunto de demostración ni sus cuentas. Conserva el administrador inicial, 369 razas, 18 plantillas, la entidad técnica ORYX K9 y el contacto institucional +506 7032 7517 para teléfono y WhatsApp. Los accesos y el alta de datos se describen en [USER_GUIDE.md](USER_GUIDE.md); el montaje de una base nueva, en [DEPLOY_SERVER.md](DEPLOY_SERVER.md).
 
 Los scripts `demo-*`, fotografías de `assets/demo` y fixtures de pruebas se conservan para verificación aislada. No forman parte de la carga inicial normal, no deben ejecutarse sobre la instalación de empresa y no acreditan propiedad, raza, pedigrí ni disponibilidad de perros reales. Las fuentes y licencias de las fotografías se conservan en [el registro de recursos](../assets/demo/README.md).
 
