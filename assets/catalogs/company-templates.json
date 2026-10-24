@@ -1,0 +1,166 @@
+{
+  "templates": [
+    {
+      "name": "Acuerdo de servicio extraordinario",
+      "kind": "CONTRACT",
+      "title": "Condiciones del servicio extraordinario",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Describe actividad autorizada, lugar, duración, personal, recursos, precio y condiciones de cancelación acordadas.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Acuerdo de servicio municipal",
+      "kind": "CONTRACT",
+      "title": "Condiciones del servicio municipal",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Describe alcance, horarios, responsabilidades, equipo asignado, vigencia, precio, forma de pago y condiciones de renovación acordadas.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Búsqueda y rescate",
+      "kind": "TRAINING",
+      "title": "Evaluación de búsqueda y rescate",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra escenario, condiciones ambientales, duración, localizaciones, guía responsable y observaciones de seguridad.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Charla educativa",
+      "kind": "TALK",
+      "title": "Registro de charla y educación canina",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra institución, tema, lugar, fecha, público, número de participantes, responsable y acuerdos de seguimiento.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Control de inventario",
+      "kind": "SERVICE",
+      "title": "Registro de entrega de equipo",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra artículo, lote o serie, cantidad, estado, responsable, destino, fecha de entrega y devolución prevista. Vincula el movimiento del inventario.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Detección de drogas",
+      "kind": "TRAINING",
+      "title": "Seguimiento de detección de drogas",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra objetivo autorizado de la sesión, escenarios, búsquedas, aciertos, falsas alertas, omisiones y valoración del entrenador.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Embajador canino",
+      "kind": "TRAINING",
+      "title": "Formación de embajador canino",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra convivencia, manejo en público, tolerancia a estímulos y participación en actividades educativas. Describe condiciones y apoyos para futuras presentaciones.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Entrega y custodia",
+      "kind": "SERVICE",
+      "title": "Acta de entrega y custodia",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra propietario, custodio que entrega, custodio que recibe, identificación del perro, documentos, pertenencias, estado observado y compromisos de seguimiento.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Obediencia avanzada",
+      "kind": "TRAINING",
+      "title": "Evaluación de obediencia avanzada",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Evalúa distancia, duración, distractores y respuesta a señales. Registra criterios de logro y objetivos de la siguiente sesión.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Obediencia básica",
+      "kind": "TRAINING",
+      "title": "Registro de obediencia básica",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Ejercicios: atención al guía, sentado, tumbado, permanencia y llamada. Anota nivel de ayuda, tiempo de permanencia y respuesta en cada ejercicio.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Obediencia y socialización",
+      "kind": "TRAINING",
+      "title": "Evaluación de obediencia y socialización",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "{{nombre}}, código {{codigo}}, completó la evaluación de obediencia y socialización el {{fecha}}. Referencia: {{referencia}}. Responsable: {{emisor}}.",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Registro de crianza",
+      "kind": "BREEDING",
+      "title": "Ficha de seguimiento de crianza",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Seguimiento de {{nombre}}, código {{codigo}}, registrado el {{fecha}}. La filiación, los controles y la camada se consultan en su expediente. Referencia {{referencia}}.",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Registro de crianza y camada",
+      "kind": "BREEDING",
+      "title": "Ficha de crianza y nacimiento",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra progenitores, fecha del cruce, nacimiento previsto, nacimiento real, nacidos vivos, incidencias y fecha prevista de entrega.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Servicio de entrenamiento",
+      "kind": "CONTRACT",
+      "title": "Acuerdo de seguimiento canino",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Servicio para {{nombre}}, contrato {{referencia}}, a partir del {{fecha}}. Incluye sesiones de entrenamiento, bitácora de avances y coordinación con el responsable designado. Emisor: {{emisor}}.",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Servicio extraordinario",
+      "kind": "EXTRAORDINARY",
+      "title": "Parte de servicio extraordinario",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra solicitante, motivo, autorización, ubicación, personal y perros participantes, duración, recursos utilizados e incidencias.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Servicio municipal",
+      "kind": "MUNICIPAL",
+      "title": "Parte de servicio municipal",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra municipalidad, contrato o solicitud, equipo asignado, horario, actividad realizada, resultados e incidencias. Incluye la persona que recibe el servicio.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Servicios médicos",
+      "kind": "MEDICAL",
+      "title": "Registro de atención médica",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Anota motivo de consulta, profesional responsable, hallazgos, indicaciones documentadas y próxima revisión. Adjunta los documentos emitidos por el profesional.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    },
+    {
+      "name": "Socialización",
+      "kind": "TRAINING",
+      "title": "Seguimiento de socialización",
+      "issuer": "ORYX K9 · Unidad Canina",
+      "body": "Registra el entorno, estímulos, distancia de trabajo, respuesta del perro y apoyos utilizados. Describe avances y situaciones que requieren seguimiento.\n\nNombre o entidad: {{nombre}}\nCódigo: {{codigo}}\nFecha: {{fecha}}\nReferencia: {{referencia}}\nResponsable / emisor: {{emisor}}\n\nObservaciones y firmas: ____________________________________",
+      "revision": 1,
+      "archivedAt": null
+    }
+  ]
+}

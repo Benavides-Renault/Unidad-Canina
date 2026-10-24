@@ -1,41 +1,9 @@
-# Accesos y recorrido de prueba
+# Datos sintéticos de verificación
 
-Abrir [ORYX K9 local](http://localhost:3000). **Todas las contraseñas son `1234`.**
+La instalación operativa de la empresa ya no contiene el conjunto de demostración ni sus cuentas. Conserva sólo el administrador inicial, 369 razas, 18 plantillas y la entidad técnica ORYX K9. Los accesos y el alta de datos se describen en [USER_GUIDE.md](USER_GUIDE.md); el montaje de una base nueva, en [DEPLOY_SERVER.md](DEPLOY_SERVER.md).
 
-| Usuario             | Acceso                                   |
-| ------------------- | ---------------------------------------- |
-| `admin`             | Administración completa                  |
-| `coordinacion`      | Administración completa                  |
-| `ana.entrenadora`   | Perros asignados a Ana                   |
-| `diego.entrenador`  | Perros asignados a Diego                 |
-| `lucia.entrenadora` | Perros asignados a Lucía                 |
-| `sofia.cliente`     | Perros de Sofía, incluido Astra          |
-| `carlos.cliente`    | Perros de Carlos                         |
-| `muni.valleverde`   | Perros de Municipalidad Valle Verde      |
-| `muni.valleverde2`  | Segundo acceso de la misma municipalidad |
-| `muni.montelago`    | Perros de Municipalidad Monte Lago       |
+Los scripts `demo-*`, fotografías de `assets/demo` y fixtures de pruebas se conservan para verificación aislada. No forman parte de la carga inicial normal, no deben ejecutarse sobre la instalación de empresa y no acreditan propiedad, raza, pedigrí ni disponibilidad de perros reales. Las fuentes y licencias de las fotografías se conservan en [el registro de recursos](../assets/demo/README.md).
 
-El contacto de todas las ventas y preventas es **María Vargas · +123456789**. Es un ejemplo, no un destinatario verificado; no se envían mensajes automáticamente. Los datos son ficticios y las 30 fotos son ilustrativas de Pexels. Los autores, fuentes y licencia están en `assets/demo/sources.json` y `assets/demo/README.md`. Los carteles de demostración se omitieron de la interfaz a petición del usuario.
+`demo-prepare.mjs --create-demo` crea deliberadamente una base local nueva. Los demás scripts de demostración tienen sus propias opciones y comprobaciones de destino. Ninguno debe añadirse al arranque, a las migraciones ni al despliegue del servidor. `DEMO_MODE=true` corresponde exclusivamente a estos entornos sintéticos; la configuración de empresa usa `DEMO_MODE=false`.
 
-`DEMO_MODE=true` permite cuatro caracteres. Fuera de ese modo se exigen doce y el administrador se crea mediante el asistente privado; no existe acceso universal de arranque.
-
-## Recorrido
-
-Hay 18 adultos y 12 cachorros en tres camadas, 12 publicaciones de venta y dos cruces en preventa. Incluye 72 sesiones, 12 planes con 24 objetivos y 72 evaluaciones, vacunas, pesajes, citas, apartados, contratos/servicios, cuentas/pagos e inventario con seis productos.
-
-La ampliación incorpora tres plantillas, tres proveedores, controles clínicos con revisiones y comprobantes en Thor, Rex y Maya, certificados desde plantilla y un cierre de septiembre de 2026 conciliado.
-
-1. `admin`: recorrer Inicio, Nuestra unidad, Crianza, Apartados, Finanzas e Inventario.
-2. Thor → Salud/Entrenamiento: consultar comprobantes, correcciones, objetivos y certificados.
-3. Configuración: plantillas, MFA, avisos y estado del respaldo cifrado.
-4. Finanzas → Proveedores, caja y cierres: consultar septiembre de 2026.
-5. Calendario: elegir vista/filtro; persisten para esa cuenta.
-6. `ana.entrenadora`: sólo asignados y opciones de alta.
-7. `sofia.cliente`: historial de Rex/Astra, galería, padres, precio y contacto.
-8. Comparar los dos accesos de Valle Verde: comparten sus perros.
-
-## Conservación
-
-La instalación anterior y sus respaldos se conservan fuera del repositorio. La normalización inicial de los datos sintéticos ya se completó; no es una operación necesaria para iniciar ni actualizar la aplicación.
-
-`INICIAR_ORYX_K9.cmd` inicia la versión activa. Los respaldos diarios funcionan mientras ORYX K9 permanece abierto. Las restauraciones de comprobación se hacen en otra base.
+Los reportes de ejecuciones anteriores conservan sus fechas, conteos y resultados. Son evidencia histórica de pruebas realizadas con datos ficticios y no describen los registros actuales de la empresa. Las nuevas pruebas de sistema también deben utilizar una base aislada.

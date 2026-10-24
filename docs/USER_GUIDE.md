@@ -1,6 +1,6 @@
 # Uso de ORYX K9 Manager
 
-Los datos de ejemplo y sus diez cuentas están en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). Todas las contraseñas actuales son `1234`.
+La entrega para la empresa empieza con los módulos de negocio vacíos. Conserva **admin / 1234**, **369 razas**, **18 plantillas** y la entidad técnica ORYX K9. Los perros, personas, cuentas de clientes y entrenadores, contratos, camadas, salud, entrenamientos, finanzas e inventario se registran desde el sistema interno. Las solicitudes que lleguen desde la página pública se reciben en **Solicitudes** para revisión administrativa.
 
 ## Planes, certificaciones y calendario
 
@@ -12,25 +12,35 @@ En el expediente del perro → Entrenamiento, o en Seguimiento médico, **Nuevo 
 
 ## Primer acceso
 
-En esta PC, abrir **INICIAR_ORYX_K9.cmd**, entrar en `http://localhost:3000` y pulsar **Ingresar** para iniciar sesión con **admin / 1234**. En una instalación nueva, bootstrap solicita el usuario y contraseña propios. El correo es opcional y las solicitudes públicas de cuenta requieren aprobación administrativa. En Configuración, los administradores pueden activar TOTP y guardar los ocho códigos de recuperación mostrados una sola vez. Usar uno revoca las otras sesiones; renovar los códigos invalida los anteriores.
+En esta PC, abrir **INICIAR_ORYX_K9.cmd**, entrar en `http://localhost:3000` y pulsar **Iniciar sesión** para entrar con **admin / 1234**. En el servidor, usar el origen HTTPS que comunique el operador. Una instalación nueva requiere migraciones y la ejecución manual de `npm run setup:company` con la contraseña inicial suministrada mediante una variable temporal; consultar [la guía del servidor](DEPLOY_SERVER.md). El código no crea ni restablece cuentas al iniciar la aplicación.
+
+El correo es opcional y las solicitudes públicas de cuenta requieren aprobación administrativa. En Configuración, los administradores pueden activar TOTP y guardar los ocho códigos de recuperación mostrados una sola vez. Usar uno revoca las otras sesiones; renovar los códigos invalida los anteriores.
+
+## Cargar la información de la empresa
+
+1. Revisar **Configuración → Plantillas** y **Configuración → Registro de razas**; las referencias iniciales ya están disponibles y se pueden ampliar desde administración.
+2. Registrar propietarios y custodios en **Personas y entidades**, y crear las cuentas autorizadas en **Usuarios**.
+3. Dar de alta cada perro, seleccionar propietario, custodio y entrenador, y añadir su documentación verificable.
+4. Registrar entrenamientos, atención médica, cruces, contratos, servicios, finanzas e inventario conforme ocurran.
+5. Configurar el contacto público en **Solicitudes** y publicar únicamente los perros o camadas que la empresa autorice.
+
+Las pantallas vacías son el estado inicial esperado. El sistema conserva los registros en PostgreSQL y los archivos en el almacenamiento privado; no es necesario editar el código ni cargar archivos de ejemplo para comenzar.
 
 ## Portada pública y solicitudes
 
-La portada y `/catalogo` permiten explorar **Perros en venta** y **Camadas y preventa** sin iniciar sesión. Abre una ficha para consultar la información autorizada y los padres. **Copiar enlace** comparte esa publicación directamente. Las camadas nacidas incluyen enlaces a sus cachorros publicados disponibles.
+La portada `/` presenta ORYX K9. En **Perros disponibles** (`/disponibles`) se reúnen **Perros en venta** y **Camadas y reservas**; se pueden consultar sin iniciar sesión. Cada ficha muestra la información autorizada y los padres, sin repetir la presentación de la portada. **Copiar enlace** comparte esa publicación directamente. Las camadas nacidas incluyen enlaces a sus cachorros publicados disponibles. **Quiénes somos** (`/quienes-somos`) describe el proyecto y su cobertura nacional; **Contacto** (`/contacto`) reúne los medios y formularios de contacto.
 
-**Consultar por WhatsApp** abre un chat con un mensaje preparado. **Enviar solicitud de contacto** y **Enviar consulta de compra** funcionan también sin WhatsApp: la persona elige correo o llamada y deja sus datos. **Solicitar una cuenta** envía una petición para revisión; no crea acceso ni reserva un perro automáticamente.
+El botón flotante de **WhatsApp** abre un chat con un mensaje preparado cuando la empresa ha configurado su número. Los formularios de contacto y **Consultar disponibilidad** funcionan también sin WhatsApp: la persona elige correo o llamada y deja sus datos. **Solicitar una cuenta** envía una petición para revisión; no crea acceso ni reserva un perro automáticamente.
 
 Administración recibe un aviso interno y puede abrir **Solicitudes**, filtrar pendientes, añadir notas y marcar su seguimiento. En una solicitud de cuenta pendiente, **Aprobar y crear cuenta** permite elegir usuario, contraseña y propietario. Vincular una persona o municipalidad existente concede acceso a sus perros, por lo que debe comprobarse la identidad antes de aprobar. Comunica las credenciales por el medio acordado.
 
 En **Solicitudes → Contacto y redes de la portada** configura el nombre, teléfono, correo, número internacional de WhatsApp y perfiles sociales. Los campos vacíos no aparecen en la portada. Los avisos de solicitudes se consultan dentro de la aplicación; el botón de WhatsApp no envía mensajes automáticamente.
 
-Para añadir socios, abrir **Administración → Usuarios → Crear usuario**. Completar nombre, usuario, contraseña y rol. Esta instalación de prueba permite `1234`; fuera del modo de prueba se exigen doce caracteres. El correo es opcional. Elige **Administrador**, **Entrenador** o **Cliente**. Al crear un cliente, vincula su persona/municipalidad existente o crea una. Varias cuentas pueden compartir municipalidad. El buscador localiza cualquier cuenta; después del alta se muestra la cuenta creada.
+Para añadir socios, abrir **Administración → Usuarios → Crear usuario**. Completar nombre, usuario, contraseña y rol. Con `DEMO_MODE=false`, las nuevas contraseñas deben tener al menos doce caracteres; la clave inicial de `admin` se conserva por solicitud del propietario. El correo es opcional. Elige **Administrador**, **Entrenador** o **Cliente**. Al crear un cliente, vincula su persona/municipalidad existente o crea una. Varias cuentas pueden compartir municipalidad. El buscador localiza cualquier cuenta; después del alta se muestra la cuenta creada.
 
-En el lápiz **Editar usuario**, se pueden cambiar nombre, usuario, correo, rol y estado. **Nueva contraseña (opcional)** permite recuperar el acceso de un socio sin correo; vacía conserva la clave actual. Cambiarla cierra sus sesiones y anula los enlaces de recuperación anteriores. Si modificas tu propia contraseña, volverás al inicio de sesión. Cambia la clave de prueba de `admin` desde aquí antes de usar datos reales.
+En el lápiz **Editar usuario**, se pueden cambiar nombre, usuario, correo, rol y estado. **Nueva contraseña (opcional)** permite recuperar el acceso de un socio sin correo; vacía conserva la clave actual. Cambiarla exige al menos doce caracteres, cierra sus sesiones y anula los enlaces de recuperación anteriores. Si modificas tu propia contraseña, volverás al inicio de sesión.
 
 La recuperación automática pide el usuario y envía un enlace temporal si la cuenta tiene correo y SMTP está configurado; en desarrollo los mensajes se consultan en Mailpit. Sin correo asociado, solicitar una nueva contraseña al administrador.
-
-La migración conserva las cuentas anteriores y les asigna `usuario_` seguido de su UUID sin guiones. El administrador puede ver y modificar estos nombres desde Usuarios; no cambian las contraseñas ni las relaciones de los registros existentes.
 
 ## Expediente canino
 
@@ -72,7 +82,7 @@ Los contactos institucionales se pueden editar. **Renovar** crea un contrato enl
 
 En **Crianza**, registrar perfiles con progenitores y origen/calidad del pedigrí. Los antecedentes, celos y revisiones conservan fecha y profesional. La genealogía muestra relaciones conocidas hasta tres generaciones; información incompleta no equivale a ausencia de parentesco.
 
-Crear un plan de cruce y registrar la monta cuando ocurra. La ventana estimada de parto se introduce manualmente junto con método y profesional; no es un diagnóstico automático. Al nacer, registrar la camada, nacidos vivos y fallecidos. Identificar a cada cachorro en su camada. **Promover a expediente** lo incorpora al listado general conservando el mismo ID, vacunas y demás historia.
+Crear un plan de cruce y registrar la monta cuando ocurra. Completar la fecha del cruce, la fecha prevista de nacimiento y la fecha prevista de entrega; son previsiones registradas manualmente. Al nacer, actualizar la fecha real y registrar la camada, nacidos vivos y fallecidos. Identificar a cada cachorro en su camada. **Promover a expediente** lo incorpora al listado general conservando el mismo ID, vacunas y demás historia.
 
 ## Apartados, cuentas y pagos
 
@@ -104,12 +114,12 @@ En **Personas y entidades** registra propietarios y responsables que aún no ten
 
 ## Espacios de cliente y entrenador
 
-El cliente entra directamente a **Mis perros**. Puede abrir cada perro propio, leer todo su historial médico, vacunas, pesos y entrenamientos, y descargar sus documentos. La segunda pestaña contiene la galería de venta y preventa. El entrenador entra a **Mis perros asignados** y puede añadir entrenamientos, registros médicos, vacunas, pesos y comprobantes clínicos; no puede editar ni retirar entradas. Administración dispone también de **Seguimiento médico** para añadir, corregir o archivar registros médicos.
+El cliente entra directamente a **Mis perros**. Puede abrir cada perro propio, leer todo su historial médico, vacunas, pesos y entrenamientos, y descargar sus documentos. La segunda pestaña contiene la galería de venta y reservas. El entrenador entra a **Mis perros asignados** y puede añadir entrenamientos, registros médicos, vacunas, pesos y comprobantes clínicos; no puede editar ni retirar entradas. Administración dispone también de **Seguimiento médico** para añadir, corregir o archivar registros médicos.
 
-## Publicar venta y preventa
+## Publicar venta y reservas
 
-En **Venta y preventa → Configurar publicación**, el administrador elige **En venta**, precio, moneda, contacto y los textos que podrán ver interesados. Activa **Publicar este perro en venta**. Dejar la publicación desactivada mantiene el perro fuera de la galería. **Vista de clientes** permite comprobar el resultado. El historial médico completo no se publica: usa **Salud que pueden ver interesados** para elegir el resumen.
+En **Venta y reservas → Configurar publicación**, el administrador define disponibilidad de venta, precio, moneda, contacto y los textos que podrán ver interesados. Activa **Publicar este perro en venta**. Dejar la publicación desactivada mantiene el perro fuera de la galería. **Vista de clientes** permite comprobar el resultado. El historial médico completo no se publica: usa **Salud que pueden ver interesados** para elegir el resumen. La disponibilidad de venta y de cruza son independientes del estado de entrenamiento.
 
-Para una futura camada, clasifica primero a ambos progenitores como **Disponible para cruza**, conservando su disponibilidad. Después crea el plan desde **Crianza**, completa título público, precio por cachorro y contacto, y activa la publicación de preventa. Los clientes podrán abrir el cruce y consultar cada padre. Al cerrar el plan, retirar la publicación o dejar de estar disponibles sus padres, deja de mostrarse.
+Para una futura camada, activa primero **Disponible para cruza** en ambos progenitores. Después crea el plan desde **Crianza**, completa título público, precio por cachorro y contacto, y activa su publicación en **Camadas y reservas**. Los visitantes y clientes podrán abrir el cruce y consultar cada padre. Al cerrar el plan, retirar la publicación o dejar de estar disponibles sus padres, deja de mostrarse.
 
 Los apartados se administran en **Apartados**. Al entregar un cachorro pagado, selecciona el propietario cliente; la entrega lo registra como propietario y custodio, retira la asignación del entrenador y la publicación, y muestra el perro con su historial en el portal de ese cliente. El contacto de la galería permite consultar a ORYX K9; no confirma reservas automáticamente.

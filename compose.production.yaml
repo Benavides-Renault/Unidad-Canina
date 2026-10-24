@@ -8,6 +8,7 @@ x-api: &api
   env_file: .env
   environment:
     NODE_ENV: production
+    DEMO_MODE: 'false'
     DATABASE_URL: postgresql://${POSTGRES_USER:-oryx}:${POSTGRES_PASSWORD:?Configurar POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-oryx}?schema=public
     APP_ORIGIN: https://${ORYX_HOST:?Configurar ORYX_HOST}
     API_PORT: 4000
@@ -48,7 +49,13 @@ services:
       migrate:
         condition: service_completed_successfully
     healthcheck:
-      test: [CMD, node, -e, "fetch('http://127.0.0.1:4000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://127.0.0.1:4000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
       interval: 15s
       timeout: 5s
       retries: 10

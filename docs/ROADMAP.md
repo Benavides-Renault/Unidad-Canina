@@ -1,6 +1,6 @@
-# Alcance de la instalación en esta PC
+# Alcance de la aplicación
 
-El destino elegido sigue siendo Windows local. Los resultados ejecutados se registran en [TEST_REPORT.md](TEST_REPORT.md).
+La entrega está preparada para instalarse vacía en el servidor de la empresa. Esta PC conserva una instalación limpia para comprobarla. Las instrucciones del destino están en [DEPLOY_SERVER.md](DEPLOY_SERVER.md) y los resultados ejecutados en [TEST_REPORT.md](TEST_REPORT.md).
 
 | Fase                         | Funciones disponibles                                                                                                                                                                                                                                                                               |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -20,4 +20,4 @@ Los entrenadores sólo agregan salud y entrenamiento a sus asignados. Los client
 - ClamAV: integración y fallo cerrado probados; no se instaló un motor antivirus. Sin él se validan formato, tamaño e integridad y se rechaza la firma de prueba EICAR.
 - Servidor, HTTPS/LAN, Docker/WSL2, teléfonos físicos, copia fuera de esta PC y evaluaciones profesionales independientes se realizarán al elegir ese entorno. No se presentan como verificados.
 
-Los datos y las fotos de ejemplo están documentados en [DEMO_ACCESOS.md](DEMO_ACCESOS.md). La interfaz omite carteles de demo por solicitud del usuario; la configuración de prueba sigue separada. No hay prescripción automática, cálculo clínico genético, conversión automática de monedas ni factura fiscal.
+La instalación empresarial comienza con un administrador, las razas y las plantillas. Los escenarios sintéticos de [DEMO_ACCESOS.md](DEMO_ACCESOS.md) se utilizan sólo en pruebas separadas. Los datos comerciales se registran en el sistema interno. No hay prescripción automática, cálculo clínico genético, conversión automática de monedas ni factura fiscal.

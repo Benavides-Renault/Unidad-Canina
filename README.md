@@ -2,23 +2,37 @@
 
 Identidad renovada, catálogo de razas, disponibilidad independiente para venta y cruza, fechas de crianza simplificadas y control interno. Consulta [la actualización y su verificación](docs/ORYX_CONTROL.md).
 
-Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. El [alcance del producto](docs/PRODUCT_SPEC.md), la [hoja de ruta](docs/ROADMAP.md) y los [resultados de verificación](docs/TEST_REPORT.md) describen la instalación vigente.
+Gestión privada de ORYX K9 UNIDAD CANINA. Next.js/React + NestJS + PostgreSQL/Prisma, con acceso por usuario, expedientes caninos, contratos, operaciones, crianza, apartados, cuentas e inventario persistentes. Consulta el [alcance del producto](docs/PRODUCT_SPEC.md), la [hoja de ruta](docs/ROADMAP.md) y los [resultados de verificación](docs/TEST_REPORT.md). Los reportes históricos conservan el estado y los datos de la fecha en que se ejecutaron.
 
 El logo maestro en `assets/branding/oryx-logo.png` conserva el archivo entregado. La portada presenta ORYX K9 y enlaza al catálogo unificado de perros y camadas, a Quiénes somos y a Contacto. Las fichas tienen página propia, sin repetir la presentación. WhatsApp está disponible mediante un botón flotante y los formularios reciben consultas y solicitudes de cuenta sin iniciar sesión. Administración aprueba las cuentas. El acceso privado utiliza nombres de usuario; el correo es opcional para recuperación y avisos. No hay integración fiscal ni datos reales precargados.
 
 Los accesos vigentes son **Administrador**, **Entrenador** y **Cliente**. Cada entrenador trabaja sólo con los perros asignados; cada cliente consulta sus perros y la galería de venta y reservas autorizada. Administración define propietario, custodio, entrenador y publicaciones. Consulta la [guía de uso](docs/USER_GUIDE.md).
 
+## Estado de entrega
+
+La base operativa comienza sin datos de negocio. Conserva únicamente el acceso **admin / 1234**, las **369 razas**, las **18 plantillas** y la entidad técnica de ORYX K9 utilizada por el sistema. No hay otras cuentas, perros, camadas, entrenamientos, registros clínicos, contratos, solicitudes, movimientos financieros ni inventario precargados. La configuración usa `DEMO_MODE=false`; las altas y los cambios de contraseña requieren al menos doce caracteres. La contraseña inicial del administrador se conserva por solicitud del propietario.
+
+La empresa registra sus datos desde la administración interna. En **Administración → Usuarios → Crear usuario** crea los accesos con nombre, usuario, contraseña y rol; el correo es opcional. Los visitantes pueden enviar solicitudes públicas de contacto o de cuenta; éstas se revisan en **Solicitudes** y no crean usuarios automáticamente. En ese mismo módulo se configuran teléfono, WhatsApp y redes de la web.
+
+El repositorio contiene código y referencias de instalación; la base de esta PC, sus documentos, secretos de infraestructura y respaldos permanecen fuera de Git. Para que la empresa monte el servidor, seguir [DEPLOY_SERVER](docs/DEPLOY_SERVER.md). Después de aplicar las migraciones, definir `BOOTSTRAP_PASSWORD` como variable temporal de la terminal y ejecutar desde la raíz:
+
+```sh
+npm run setup:company
+```
+
+En Docker, después de migrar y con esa variable temporal definida en la terminal del operador:
+
+```sh
+docker compose -f compose.production.yaml exec -e BOOTSTRAP_PASSWORD api node /app/scripts/setup-company.mjs
+```
+
+Este paso es manual: prepara el primer administrador y las referencias de la empresa, sin cargar datos ficticios. No hay contraseña predeterminada en el código ni aprovisionamiento automático en cada arranque. Eliminar `BOOTSTRAP_PASSWORD` del entorno al terminar; no guardarla en `.env`, Git, imágenes o logs. Compartir la credencial inicial por un canal privado. Los ejemplos Docker son instrucciones de instalación; su presencia no acredita ejecución en esta PC.
+
 ## Abrir en esta PC
 
-La instalación activa contiene 10 cuentas, 30 perros con fotos, camadas, entrenamiento, salud, contratos, cuentas e inventario. Acceso principal: **admin / 1234**; todas las cuentas de prueba usan **1234**. Consulta [los usuarios y el recorrido](docs/DEMO_ACCESOS.md). La entrega incorpora clínica versionada, comprobantes, plantillas, renovaciones, proveedores, conciliación/cierres, preferencias de avisos y [respaldo cifrado y controles locales](docs/PHASE_4_LOCAL.md). Los datos anteriores permanecen conservados aparte.
+Abre **INICIAR_ORYX_K9.cmd** y después [ORYX K9 local](http://localhost:3000). También puedes usar `npm run local` con Node 24 LTS. El iniciador aplica migraciones y usa la compilación de producción; requiere dependencias y compilación previamente preparadas. Mantén la consola abierta mientras uses la aplicación; Ctrl+C detiene sus servicios conservando los datos. Utiliza el Node compatible incluido en esta PC cuando está disponible, sin cambiar la instalación global. Consulta [los resultados y límites verificados](docs/TEST_REPORT.md).
 
-La instalación local ya está preparada, con el usuario **admin** creado para las pruebas solicitadas por el propietario. Abre **INICIAR_ORYX_K9.cmd** y después [ORYX K9 local](http://localhost:3000). Dentro de **Administración → Usuarios → Crear usuario**, crea los accesos de los socios con nombre, usuario, contraseña y rol; no requieren correo. **Editar usuario** permite cambiar contraseñas, roles y estado. Mantén la consola abierta mientras uses la aplicación; Ctrl+C detiene los servicios iniciados por ella conservando los datos. El iniciador utiliza el Node compatible incluido en esta PC cuando está disponible, sin cambiar la instalación global.
-
-También puedes usar `npm run local` con Node 24 LTS. El iniciador aplica migraciones y usa la compilación de producción; requiere dependencias y compilación previamente preparadas. La base local conserva la cuenta de prueba y está separada de las bases sintéticas de verificación. La clave de prueba se configuró solo en esta PC: no se crea automáticamente al instalar, iniciar o migrar. Antes de uso real, cambia esa clave desde Usuarios. En una instalación nueva sin cuentas, el asistente solicita nombre, usuario y contraseña propia del administrador. Consulta [los resultados y límites verificados](docs/TEST_REPORT.md).
-
-## Compartir una visita desde esta PC
-
-`COMPARTIR_ORYX_K9.cmd` genera un enlace HTTPS a la página principal pública, con perros disponibles, camadas e inicio de sesión mediante usuario y contraseña. Funciona mientras esta PC y ORYX K9 estén encendidos. `DETENER_ENLACE_ORYX_K9.cmd` detiene el enlace sin cerrar la aplicación local. Consulta [la guía para compartir](docs/SHARING.md); los archivos locales no forman parte del repositorio.
+El enlace temporal mediante `COMPARTIR_ORYX_K9.cmd` pertenece al entorno de demostración y requiere `DEMO_MODE=true`. La entrega para empresa mantiene `DEMO_MODE=false`; para compartirla usa el origen HTTPS configurado en el servidor. No reactives el modo de prueba para publicar la instalación real.
 
 ## Inicio con Docker
 
@@ -30,10 +44,10 @@ Requiere Docker Desktop con WSL2 en Windows, o Docker Engine + Compose v2 en Lin
 
 ```sh
 docker compose up -d --build
-docker compose exec api npm run bootstrap
+docker compose exec -e BOOTSTRAP_PASSWORD api node /app/scripts/setup-company.mjs
 ```
 
-El asistente solicita nombre, usuario y contraseña del primer administrador. No crea cuentas de demostración. Abrir [ORYX K9 local](http://localhost:3000); [Mailpit](http://localhost:8025) muestra los correos de prueba. La interfaz y los correos de prueba están ligados a loopback. PostgreSQL se liga a `127.0.0.1:5433` para desarrollo; no se publica a la LAN.
+Antes del segundo comando, definir `BOOTSTRAP_PASSWORD` temporalmente como se indica arriba. El inicializador deja el administrador y los catálogos de la empresa; no carga cuentas ni expedientes de ejemplo. Abrir [ORYX K9 local](http://localhost:3000); [Mailpit](http://localhost:8025) muestra los correos de prueba de esta composición de desarrollo. La interfaz y los correos de prueba están ligados a loopback. PostgreSQL se liga a `127.0.0.1:5433` para desarrollo; no se publica a la LAN. Para el servidor HTTPS, usar `compose.production.yaml` y la guía correspondiente.
 
 ```sh
 docker compose logs --tail=100 api worker
@@ -57,10 +71,12 @@ Mantén esa primera terminal abierta. En **otra terminal** dentro del mismo dire
 ```sh
 npm run db:generate
 npm run db:migrate
-npm run bootstrap
+npm run setup:company
 npm run build
 npm run dev
 ```
+
+Definir `BOOTSTRAP_PASSWORD` temporalmente antes de `setup:company` y retirarla al terminar. `npm run bootstrap` sigue disponible como alternativa técnica para crear un primer administrador con credencial propia de al menos doce caracteres; no sustituye la preparación de referencias de `setup:company`.
 
 `db:local` inicia PostgreSQL portátil en loopback:55432, genera credenciales aleatorias y escribe configuración privada en `.local/local.env`. El wrapper portátil usa PostgreSQL 18.x mediante `embedded-postgres` (distribución beta); Compose usa PostgreSQL 17. No reutilizar un directorio de datos entre versiones mayores. Los scripts de raíz cargan `.env` y después `.local/local.env`; `dev` inicia API compilada, worker y Next. Recompilar backend después de editarlo. Para usar PostgreSQL propio, configurar `.env` y no iniciar `db:local`; ver [DEPLOY_LOCAL](docs/DEPLOY_LOCAL.md). Usar `APP_ORIGIN=http://localhost:3000` y abrir exactamente esa URL.
 
@@ -84,4 +100,4 @@ Las pruebas que requieran servicios usan una base de datos de prueba aislada; nu
 - [Windows/Linux local y LAN](docs/DEPLOY_LOCAL.md), [servidor HTTPS](docs/DEPLOY_SERVER.md), [respaldos y recuperación](docs/BACKUP_RESTORE.md).
 - [Manual de uso](docs/USER_GUIDE.md), [hoja de ruta](docs/ROADMAP.md), [Repositorio y publicación](docs/GITHUB.md).
 
-Los documentos clínicos son registros internos, no certificaciones oficiales. La PWA requiere contexto seguro para su instalación en dispositivos remotos y no ofrece edición ni sincronización offline. El código está publicado en [GitHub](https://github.com/Benavides-Renault/Unidad-Canina) y la visita remota utiliza un enlace temporal desde esta PC. No hay un alojamiento permanente contratado.
+Los documentos clínicos son registros internos, no certificaciones oficiales. La PWA requiere contexto seguro para su instalación en dispositivos remotos y no ofrece edición ni sincronización offline. El código está publicado en [GitHub](https://github.com/Benavides-Renault/Unidad-Canina). El operador debe configurar y verificar el alojamiento, dominio, TLS, correo y respaldos del servidor de destino.

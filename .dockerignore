@@ -1,6 +1,7 @@
 node_modules
 **/node_modules
 **/.next
+**/.next-*
 **/dist
 .git
 .env
@@ -18,3 +19,4 @@ playwright-report
 *.dump
 *.tar
 *.age
+assets/demo
